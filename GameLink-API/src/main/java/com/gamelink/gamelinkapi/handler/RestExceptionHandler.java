@@ -1,33 +1,34 @@
 package com.gamelink.gamelinkapi.handler;
 
+import com.gamelink.gamelinkapi.exceptions.BadRequestExceptionDetails;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, List<String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
+    public ResponseEntity<BadRequestExceptionDetails> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .map(value -> value.getField() + " " + value.getDefaultMessage())
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
-    }
+        var exceptionDetails = BadRequestExceptionDetails.builder()
+                .message("Invalid Arguments Exception")
+                .details("")
+                .timestamp(LocalDateTime.now())
+                .errors(errors)
+                .status(HttpStatus.BAD_REQUEST.value())
+                .build();
 
-    private Map<String, List<String>> getErrorsMap(List<String> errors) {
-        Map<String, List<String>> errorResponse = new HashMap<>();
-        errorResponse.put("errors", errors);
-        return errorResponse;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDetails);
     }
 }

@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapi.models;
 import com.gamelink.gamelinkapi.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Email
+    @Email @NotBlank
     private String email;
 
     @Enumerated(EnumType.STRING)
