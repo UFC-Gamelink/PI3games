@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapi.handler;
 
 import com.gamelink.gamelinkapi.exceptions.BadRequestExceptionDetails;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,5 +31,18 @@ public class RestExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<BadRequestExceptionDetails> handleIntegrityViolation(DataIntegrityViolationException ex) {
+        var exceptionDetails = BadRequestExceptionDetails.builder()
+                .message("Invalid Arguments Exception")
+                .details("")
+                .timestamp(LocalDateTime.now())
+                .errors(List.of(ex.getRootCause().getLocalizedMessage()))
+                .status(HttpStatus.CONFLICT.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDetails);
     }
 }

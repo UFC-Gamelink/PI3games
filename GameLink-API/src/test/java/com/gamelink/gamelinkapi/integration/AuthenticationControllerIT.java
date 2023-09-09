@@ -3,6 +3,8 @@ package com.gamelink.gamelinkapi.integration;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
 import com.gamelink.gamelinkapi.exceptions.BadRequestExceptionDetails;
+import com.gamelink.gamelinkapi.models.User;
+import com.gamelink.gamelinkapi.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,16 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
 public class AuthenticationControllerIT {
     @Autowired
     private TestRestTemplate testRestTemplate;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("Register method should return created status when is successful executed")
@@ -90,5 +95,26 @@ public class AuthenticationControllerIT {
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+    }
+
+    @Test
+    @DisplayName("Register method should return bad request when email is already registered")
+    void registerShouldReturnBadRequestWhenEmailIsAlreadyRegistered() {
+        final RegisterRequest validRegisterRequest = new RegisterRequest("valid@email.com", "Ae1!vlçz");
+
+        userRepository.save(User.builder()
+                .email("valid@email.com")
+                .password("Ae1!vlçz")
+                .build()
+        );
+
+        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().getErrors().size());
+        assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
+        assertEquals(HttpStatus.CONFLICT.value(), response.getBody().getStatus());
     }
 }

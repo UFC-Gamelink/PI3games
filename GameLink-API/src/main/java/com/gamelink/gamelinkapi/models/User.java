@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private UUID id;
 
     @Email @NotBlank
+    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
