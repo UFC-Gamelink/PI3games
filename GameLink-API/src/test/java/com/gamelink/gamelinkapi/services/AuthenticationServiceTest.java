@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.services;
 
+import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
 import com.gamelink.gamelinkapi.models.User;
@@ -48,7 +49,7 @@ public class AuthenticationServiceTest {
     @DisplayName("Authenticate should execute authenticate from AuthenticationManager in user repository and return a valid jwt token when find a user in database")
     void AuthenticateShouldFindAUserAndReturnAValidJwtWhenSuccess(){
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        var userRequest = new RegisterRequest("username", "valid@email.com", "@Aa1abcd");
+        var userRequest = new AuthenticationRequest("username", "@Aa1abcd");
         when(userRepository.findUserByUsername("valid@email.com"))
                 .thenReturn(
                         Optional.of(User.builder().email("valid@email.com").build())

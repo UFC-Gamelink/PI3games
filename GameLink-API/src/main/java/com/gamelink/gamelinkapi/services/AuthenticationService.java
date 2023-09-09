@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.config.JwtService;
+import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
 import com.gamelink.gamelinkapi.enums.Role;
@@ -31,7 +32,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtService.generateToken(user));
     }
 
-    public AuthenticationResponse authenticate(RegisterRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(),

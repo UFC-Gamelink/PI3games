@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.controllers;
 
+import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
 import com.gamelink.gamelinkapi.services.AuthenticationService;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(authenticationService.authenticate(request));
