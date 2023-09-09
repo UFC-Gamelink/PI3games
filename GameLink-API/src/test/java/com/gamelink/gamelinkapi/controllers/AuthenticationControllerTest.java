@@ -27,7 +27,7 @@ public class AuthenticationControllerTest {
     @Test
     @DisplayName("Register method should execute register from AuthenticationService and return created status when is successful executed")
     void registerShouldExecuteWithSuccessWhenRequestHasAValidFormat() {
-        final RegisterRequest validRegisterRequest = new RegisterRequest("valid@email.com", "@Aa1abcd");
+        final RegisterRequest validRegisterRequest = new RegisterRequest("username", "valid@email.com", "@Aa1abcd");
 
         final ResponseEntity<AuthenticationResponse> response = authenticationController.register(validRegisterRequest);
 

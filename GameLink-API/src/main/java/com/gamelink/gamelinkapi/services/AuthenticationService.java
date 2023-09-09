@@ -18,6 +18,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
+                .username(request.username())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .role(Role.USER)

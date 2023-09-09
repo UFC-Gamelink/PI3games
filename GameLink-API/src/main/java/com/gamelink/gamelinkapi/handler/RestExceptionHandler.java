@@ -39,10 +39,15 @@ public class RestExceptionHandler {
                 .message("Invalid Arguments Exception")
                 .details("")
                 .timestamp(LocalDateTime.now())
-                .errors(List.of(ex.getRootCause().getLocalizedMessage()))
+                .errors(List.of(getDetailsDataIntegrityViolationExceptionMessage(ex)))
                 .status(HttpStatus.CONFLICT.value())
                 .build();
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDetails);
+    }
+
+    private String getDetailsDataIntegrityViolationExceptionMessage(DataIntegrityViolationException exception) {
+        String message = exception.getRootCause().getLocalizedMessage();
+        return message.substring(message.indexOf('\n') + 3);
     }
 }

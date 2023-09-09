@@ -28,6 +28,9 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank @Column(unique = true)
+    private String username;
+
     @Email @NotBlank
     @Column(unique = true)
     private String email;
