@@ -35,4 +35,16 @@ public class AuthenticationControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(authenticationService, times(1)).register(validRegisterRequest);
     }
+
+    @Test
+    @DisplayName("Authenticate should execute autenticate from AuthenticationService and return a success status when is successful executed")
+    void authenticateShouldExecuteWithSuccessWhenRequestHasAValidFormat() {
+        final RegisterRequest validRegisterRequest = new RegisterRequest("username", "valid@email.com", "@Aa1abcd");
+
+        final ResponseEntity<AuthenticationResponse> response = authenticationController.authenticate(validRegisterRequest);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(authenticationService, times(1)).authenticate(validRegisterRequest);
+    }
 }
