@@ -48,11 +48,10 @@ public class AuthenticationServiceTest {
     @Test
     @DisplayName("Authenticate should execute authenticate from AuthenticationManager in user repository and return a valid jwt token when find a user in database")
     void AuthenticateShouldFindAUserAndReturnAValidJwtWhenSuccess(){
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         var userRequest = new AuthenticationRequest("username", "@Aa1abcd");
-        when(userRepository.findUserByUsername("valid@email.com"))
+        when(userRepository.findUserByUsername("username"))
                 .thenReturn(
-                        Optional.of(User.builder().email("valid@email.com").build())
+                        Optional.of(User.builder().username("username").build())
                 );
 
         AuthenticationResponse register = authenticationService.authenticate(userRequest);
@@ -60,7 +59,7 @@ public class AuthenticationServiceTest {
         assertNotNull(register);
         assertNotNull(register.token());
         assertTrue(register.token().length() > 0);
-        verify(userRepository, times(1)).findUserByUsername("valid@email.com");
+        verify(userRepository, times(1)).findUserByUsername("username");
         verify(authenticationManager, times(1)).authenticate(ArgumentMatchers.any());
     }
 }

@@ -1,10 +1,10 @@
 package com.gamelink.gamelinkapi.handler;
 
-import com.gamelink.gamelinkapi.exceptions.BadRequestExceptionDetails;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<BadRequestExceptionDetails> handleValidationErrors(MethodArgumentNotValidException ex) {
+    public ResponseEntity<RequestExceptionDetails> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream()
                 .map(value -> value.getField() + " " + value.getDefaultMessage())
                 .collect(Collectors.toList());
 
-        var exceptionDetails = BadRequestExceptionDetails.builder()
+        var exceptionDetails = RequestExceptionDetails.builder()
                 .message("Invalid Arguments Exception")
                 .details("")
                 .timestamp(LocalDateTime.now())
@@ -34,8 +34,8 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<BadRequestExceptionDetails> handleIntegrityViolation(DataIntegrityViolationException ex) {
-        var exceptionDetails = BadRequestExceptionDetails.builder()
+    public ResponseEntity<RequestExceptionDetails> handleIntegrityViolation(DataIntegrityViolationException ex) {
+        var exceptionDetails = RequestExceptionDetails.builder()
                 .message("Invalid Arguments Exception")
                 .details("")
                 .timestamp(LocalDateTime.now())
@@ -44,6 +44,11 @@ public class RestExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<RequestExceptionDetails> handleBadCredentialsException(BadCredentialsException exception) {
+        return ResponseEntity.noContent().build();
     }
 
     private String getDetailsDataIntegrityViolationExceptionMessage(DataIntegrityViolationException exception) {

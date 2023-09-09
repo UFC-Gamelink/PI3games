@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class BadRequestExceptionDetails {
+public class RequestExceptionDetails {
     private String message;
     private int status;
     private String details;

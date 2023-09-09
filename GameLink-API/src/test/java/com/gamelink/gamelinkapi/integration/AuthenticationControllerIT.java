@@ -1,8 +1,9 @@
 package com.gamelink.gamelinkapi.integration;
 
+import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
-import com.gamelink.gamelinkapi.exceptions.BadRequestExceptionDetails;
+import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
 import com.gamelink.gamelinkapi.models.User;
 import com.gamelink.gamelinkapi.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +45,7 @@ public class AuthenticationControllerIT {
     void registerShouldReturnBadRequestWhenEmailHasAInvalidFormat() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("username", "validl.com", "Ae1!vlçz");
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -59,7 +60,7 @@ public class AuthenticationControllerIT {
     void registerShouldReturnBadRequestWhenPasswordHasAInvalidFormat() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("username", "valid@email.com", "12345678");
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -74,7 +75,7 @@ public class AuthenticationControllerIT {
     void registerShouldReturnBadRequestWhenPasswordIsBlank() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("username", "valid@email.com", "");
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -89,7 +90,7 @@ public class AuthenticationControllerIT {
     void registerShouldReturnBadRequestWhenEmailIsBlank() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("username", "", "Ae1!vlçz");
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -111,7 +112,7 @@ public class AuthenticationControllerIT {
                 .build()
         );
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
@@ -133,7 +134,7 @@ public class AuthenticationControllerIT {
                 .build()
         );
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
@@ -148,7 +149,7 @@ public class AuthenticationControllerIT {
     void registerShouldReturnBadRequestWhenUsernameIsBlank() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("", "valid@email.com", "Ae1!vlçz");
 
-        ResponseEntity<BadRequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, BadRequestExceptionDetails.class);
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -156,5 +157,60 @@ public class AuthenticationControllerIT {
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+    }
+
+    @Test
+    @DisplayName("Authenticate method should return bad request when username is blank")
+    void AuthenticationShouldReturnBadRequestWhenUsernameIsBlank() {
+        final AuthenticationRequest validAuthRequest = new AuthenticationRequest("", "Ae1!vlçz");
+
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().getErrors().size());
+        assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+    }
+
+    @Test
+    @DisplayName("Authenticate method should return bad request when password is blank")
+    void AuthenticationShouldReturnBadRequestWhenPasswordIsBlank() {
+        final AuthenticationRequest validAuthRequest = new AuthenticationRequest("sold", "");
+
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().getErrors().size());
+        assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus());
+    }
+
+    @Test
+    @DisplayName("Authenticate method should return no content status when username not exists in database")
+    void AuthenticationShouldReturnNoContentStatusWhenUsernameNotExistsInDatabase() {
+        final AuthenticationRequest validAuthRequest = new AuthenticationRequest("sold", "Ae1!vlçz");
+
+        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
+
+        assertNotNull(response);
+        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("Authenticate method should return success and a jwt token when is successful executed")
+    void authenticateShouldExecuteWithSuccessWhenRequestHasAValidFormat() {
+        final RegisterRequest validRegisterRequest = new RegisterRequest("username","valid@email.com", "Ae1!vlçz");
+        final AuthenticationRequest validAuthRequest = new AuthenticationRequest("username","Ae1!vlçz");
+        testRestTemplate.postForEntity("/auth/register", validRegisterRequest, AuthenticationResponse.class);
+
+        ResponseEntity<AuthenticationResponse> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, AuthenticationResponse.class);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody().token());
     }
 }
