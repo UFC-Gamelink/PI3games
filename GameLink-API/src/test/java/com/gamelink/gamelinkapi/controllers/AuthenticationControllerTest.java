@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.controllers;
 
 
+import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
 import com.gamelink.gamelinkapi.services.AuthenticationService;
@@ -34,5 +35,17 @@ public class AuthenticationControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(authenticationService, times(1)).register(validRegisterRequest);
+    }
+
+    @Test
+    @DisplayName("Authenticate should execute autenticate from AuthenticationService and return a success status when is successful executed")
+    void authenticateShouldExecuteWithSuccessWhenRequestHasAValidFormat() {
+        final AuthenticationRequest validRegisterRequest = new AuthenticationRequest("username", "@Aa1abcd");
+
+        final ResponseEntity<AuthenticationResponse> response = authenticationController.authenticate(validRegisterRequest);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(authenticationService, times(1)).authenticate(validRegisterRequest);
     }
 }
