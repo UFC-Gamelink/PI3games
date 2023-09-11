@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blackblue"
+
+    android:orientation="vertical"
+    tools:context=".RegisterUserActivity">
+
+    <ImageView
+        android:id="@+id/image_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/background_gradient" />
+
+    <TextView
+        android:id="@+id/text_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_background"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="E-mail"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_email"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:hint="@string/edittext_hint"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:textColorHint="@color/grayblue" />
+
+    <TextView
+        android:id="@+id/text_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_email"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="Senha"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/rounded_edit_text"
+        android:drawableEnd="@drawable/ic_visible_off"
+        android:drawableTint="@color/grayblue"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:hint="@string/editpassword_hint"
+        android:inputType="textPassword"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:textColorHint="@color/grayblue" />
+
+    <TextView
+        android:id="@+id/text_min_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="24dp"
+        android:drawableEnd="@drawable/ic_check"
+        android:drawableTint="@color/lightgray"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:text="&#8226; A senha deve ter no mínimo 8 caracteres"
+        android:textColor="@color/lightgray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_uppercase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_min_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:drawableEnd="@drawable/ic_check"
+        android:drawableTint="@color/lightgray"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:text="&#8226; 1 letra maiúscula"
+        android:textColor="@color/lightgray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_lowercase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_uppercase"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:drawableEnd="@drawable/ic_check"
+        android:drawableTint="@color/lightgray"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:text="&#8226; 1 letra minúscula"
+        android:textColor="@color/lightgray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_lowercase"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:drawableEnd="@drawable/ic_check"
+        android:drawableTint="@color/lightgray"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:text="&#8226; 1 número"
+        android:textColor="@color/lightgray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_special_character"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_number"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:drawableTint="@color/lightgray"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:gravity="center_vertical"
+        android:text="&#8226; 1 caractere especial"
+        android:textColor="@color/lightgray"
+        android:textSize="12sp"
+        app:drawableEndCompat="@drawable/ic_check" />
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_special_character"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_gradient"
+        android:drawableEnd="@drawable/ic_play"
+        android:drawablePadding="0dp"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:paddingHorizontal="90dp"
+        android:text="Realizar Cadastro"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:backgroundTint="@null" />
+
+    <TextView
+        android:id="@+id/text_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_register"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/already_have_an_account"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/image_below"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/group_16" />
+
+
+</RelativeLayout>
