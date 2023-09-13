@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
