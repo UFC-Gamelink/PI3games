@@ -34,6 +34,8 @@ public class UserProfile extends BaseEntity{
     private LocalDateTime entryDate = LocalDateTime.now();
     private LocalDate birthdayDate;
 
-    private List<GameTime> gameTimes;
-    private Gender gender = Gender.OTHER("aa");
+    private List<GameTime> gameTimes = List.of();
+
+    @NotNull
+    private Gender gender;
 }

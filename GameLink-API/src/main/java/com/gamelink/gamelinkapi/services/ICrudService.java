@@ -5,7 +5,7 @@ import com.gamelink.gamelinkapi.models.BaseEntity;
 
 import java.util.UUID;
 
-public interface ICrudService<E extends BaseEntity, D extends BaseDto> {
+public interface ICrudService<E extends BaseEntity, D> {
     public D save(D entityDto) ;
     void delete(E entity);
     D findById(UUID id);
