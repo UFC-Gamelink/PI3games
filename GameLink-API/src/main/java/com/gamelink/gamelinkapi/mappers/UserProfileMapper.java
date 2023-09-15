@@ -1,8 +1,8 @@
 package com.gamelink.gamelinkapi.mappers;
 
-import com.gamelink.gamelinkapi.dtos.requests.UserProfileRequest;
-import com.gamelink.gamelinkapi.dtos.responses.UserProfileResponse;
-import com.gamelink.gamelinkapi.models.UserProfile;
+import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
+import com.gamelink.gamelinkapi.models.users.UserProfile;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

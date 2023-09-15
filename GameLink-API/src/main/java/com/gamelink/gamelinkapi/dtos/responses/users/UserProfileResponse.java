@@ -1,8 +1,8 @@
-package com.gamelink.gamelinkapi.dtos.responses;
+package com.gamelink.gamelinkapi.dtos.responses.users;
 
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
-import com.gamelink.gamelinkapi.models.User;
+import com.gamelink.gamelinkapi.models.users.User;
 import lombok.Builder;
 
 import java.time.LocalDate;

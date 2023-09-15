@@ -1,7 +1,8 @@
-package com.gamelink.gamelinkapi.models;
+package com.gamelink.gamelinkapi.models.users;
 
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
+import com.gamelink.gamelinkapi.models.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;

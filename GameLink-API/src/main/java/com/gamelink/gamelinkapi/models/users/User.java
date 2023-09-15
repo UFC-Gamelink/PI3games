@@ -1,4 +1,4 @@
-package com.gamelink.gamelinkapi.models;
+package com.gamelink.gamelinkapi.models.users;
 
 import com.gamelink.gamelinkapi.enums.Role;
 import jakarta.persistence.*;

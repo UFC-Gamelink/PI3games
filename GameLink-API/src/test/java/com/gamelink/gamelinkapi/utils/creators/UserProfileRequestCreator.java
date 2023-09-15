@@ -1,9 +1,9 @@
 package com.gamelink.gamelinkapi.utils.creators;
 
-import com.gamelink.gamelinkapi.dtos.requests.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
-import com.gamelink.gamelinkapi.models.User;
+import com.gamelink.gamelinkapi.models.users.User;
 
 import java.time.LocalDate;
 import java.util.List;

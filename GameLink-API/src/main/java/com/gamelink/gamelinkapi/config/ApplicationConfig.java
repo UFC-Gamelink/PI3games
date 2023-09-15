@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.config;
 
-import com.gamelink.gamelinkapi.repositories.UserRepository;
+import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

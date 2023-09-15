@@ -1,10 +1,11 @@
 package com.gamelink.gamelinkapi.services;
 
-import com.gamelink.gamelinkapi.dtos.requests.UserProfileRequest;
-import com.gamelink.gamelinkapi.dtos.responses.UserProfileResponse;
+import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
-import com.gamelink.gamelinkapi.models.UserProfile;
-import com.gamelink.gamelinkapi.repositories.UserProfileRepository;
+import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
+import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
