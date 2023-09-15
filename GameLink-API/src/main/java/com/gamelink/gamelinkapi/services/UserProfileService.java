@@ -1,21 +1,24 @@
 package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.UserProfileResponse;
+import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.UserProfile;
 import com.gamelink.gamelinkapi.repositories.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class UserProfileService implements ICrudService<UserProfile, UserProfileRequest>{
+@Service
+public class UserProfileService implements ICrudService<UserProfile, UserProfileRequest, UserProfileResponse>{
     private final UserProfileRepository repository;
+    private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
-    public UserProfileRequest save(UserProfileRequest userProfileRequest) {
-        UserProfile userProfile = new UserProfile();
-        BeanUtils.copyProperties(userProfileRequest, userProfile);
-        return null;
+    public UserProfileResponse save(UserProfileRequest userProfileRequest) {
+        UserProfile userProfileSaved = repository.save(mapper.requestToModel(userProfileRequest));
+        return mapper.modelToResponseDto(userProfileSaved);
     }
 
     @Override
@@ -24,7 +27,7 @@ public class UserProfileService implements ICrudService<UserProfile, UserProfile
     }
 
     @Override
-    public UserProfileRequest findById(UUID id) {
+    public UserProfileResponse findById(UUID id) {
         return null;
     }
 }

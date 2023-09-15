@@ -6,17 +6,16 @@ import com.gamelink.gamelinkapi.enums.Gender;
 import com.gamelink.gamelinkapi.models.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserProfileRequestCreator implements Creator<UserProfileRequest>{
     private static UserProfileRequestCreator instance;
 
     private UserProfileRequestCreator() {
-        instance = new UserProfileRequestCreator();
     }
 
     public static UserProfileRequestCreator getInstance() {
+        if (instance == null) instance = new UserProfileRequestCreator();
         return instance;
     }
 

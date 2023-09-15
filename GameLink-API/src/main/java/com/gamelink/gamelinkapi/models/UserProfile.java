@@ -9,16 +9,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class UserProfile extends BaseEntity{
+public class UserProfile extends BaseModel {
     @NotBlank
     private String name;
 
@@ -31,7 +29,7 @@ public class UserProfile extends BaseEntity{
     private String bio;
 
     @NotNull
-    private LocalDateTime entryDate = LocalDateTime.now();
+    private LocalDate entryDate = LocalDate.now();
     private LocalDate birthdayDate;
 
     private List<GameTime> gameTimes = List.of();
