@@ -5,7 +5,11 @@
 ## 💻 Sobre o projeto
 O mercado de games é um dos mercados que mais vem crescendo nos últimos tempos, estima-se que 74,5% das pessoas no Brasil são adeptas a jogos. E com um mercado tão grande, existem várias necessidades a serem atendidas, dificuldade como encontrar pessoas pra jogarem jogos multiplayer, ou notícias sobre atualizações de forma rápida sobre seus jogos, promoções relâmpagos de jogos, entre outras, e isso que buscamos resolver.
 
+### Link do prototipo
+https://www.figma.com/file/6qzTasrYdUHo5nLbPQhX0C/Projeto-Gamelink---PI3?type=design&node-id=75%3A774&mode=design&t=OsRmitJtlb7bzGNm-1
+
 ## 🛠 Tecnologias & Ferramentas
+
 ### Mobile
 - [**Android Studio**](https://developer.android.com/studio)
 - [**Kotlin**](https://kotlinlang.org)
