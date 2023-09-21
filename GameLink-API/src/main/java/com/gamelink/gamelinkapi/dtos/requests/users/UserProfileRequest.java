@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 public record UserProfileRequest(
         @NotBlank String name,
-        User user,
         @NotBlank @Size(max = 160) String bio,
         @NotNull LocalDate birthdayDate,
         List<GameTime> gameTimes,

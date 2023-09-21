@@ -3,20 +3,20 @@ package com.gamelink.gamelinkapi.utils.creators;
 import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
-import com.gamelink.gamelinkapi.models.users.User;
 
 import java.time.LocalDate;
 import java.util.List;
 
+
 public class UserProfileRequestCreator implements Creator<UserProfileRequest>{
-    private static UserProfileRequestCreator instance;
+    private static UserProfileRequestCreator INSTANCE;
 
     private UserProfileRequestCreator() {
     }
 
     public static UserProfileRequestCreator getInstance() {
-        if (instance == null) instance = new UserProfileRequestCreator();
-        return instance;
+        if (INSTANCE == null) INSTANCE = new UserProfileRequestCreator();
+        return INSTANCE;
     }
 
     @Override
@@ -26,11 +26,6 @@ public class UserProfileRequestCreator implements Creator<UserProfileRequest>{
                 .bio("minha bio")
                 .birthdayDate(LocalDate.now())
                 .gender(Gender.MALE)
-                .user(User.builder()
-                        .email("valid@email.com")
-                        .password("1@aA1234")
-                        .username("user")
-                        .build())
                 .gameTimes(List.of(GameTime.NIGHT))
                 .build();
     }

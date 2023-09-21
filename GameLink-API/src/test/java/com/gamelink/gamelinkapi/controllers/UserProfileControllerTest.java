@@ -1,14 +1,11 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
-import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
