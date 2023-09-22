@@ -1,9 +1,10 @@
-package com.gamelink.gamelinkapp
+package com.gamelink.gamelinkapp.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
