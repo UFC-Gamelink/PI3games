@@ -19,16 +19,12 @@ import java.util.UUID;
 @Service
 public class UserProfileService implements ICrudService<UserProfile, UserProfileRequest, UserProfileResponse> {
     private final UserProfileRepository userProfileRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
     public UserProfileResponse save(UserProfileRequest userProfileRequest) {
         UserProfile userProfileToBeSaved = mapper.requestToModel(userProfileRequest);
-        User user = userRepository.findUserByUsername(SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName()
-        ).orElseThrow(() -> new BadCredentialsException("Invalid user"));
+        User user = userService.findUserAuthenticationContextOrThrowsBadRequestException();
 
         userProfileToBeSaved.setUser(user);
         UserProfile userProfileSaved = userProfileRepository.save(userProfileToBeSaved);
@@ -36,7 +32,7 @@ public class UserProfileService implements ICrudService<UserProfile, UserProfile
     }
 
     @Override
-    public void delete(UserProfile entity) {
+    public void delete(UUID id) {
 
     }
 

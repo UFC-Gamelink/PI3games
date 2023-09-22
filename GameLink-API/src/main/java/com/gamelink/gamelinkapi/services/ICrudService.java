@@ -6,6 +6,6 @@ import java.util.UUID;
 
 public interface ICrudService<E extends BaseModel, D, R> {
     public R save(D entityDto) ;
-    void delete(E entity);
+    void delete(UUID id);
     R findById(UUID id);
 }
