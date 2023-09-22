@@ -2,6 +2,8 @@ package com.gamelink.gamelinkapi.utils.creators;
 
 import com.gamelink.gamelinkapi.models.users.User;
 
+import java.util.UUID;
+
 public class UserCreator implements Creator<User>{
     private static UserCreator INSTANCE;
 
@@ -15,6 +17,7 @@ public class UserCreator implements Creator<User>{
     @Override
     public User createValid() {
         return User.builder()
+                .id(UUID.randomUUID())
                 .username("username")
                 .email("valid@email.com")
                 .password("@Aa1abcd")

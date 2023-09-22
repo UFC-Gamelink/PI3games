@@ -6,11 +6,10 @@ import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
-import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import com.gamelink.gamelinkapi.services.ICrudService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,7 +23,7 @@ public class UserProfileService implements ICrudService<UserProfile, UserProfile
     @Override
     public UserProfileResponse save(UserProfileRequest userProfileRequest) {
         UserProfile userProfileToBeSaved = mapper.requestToModel(userProfileRequest);
-        User user = userService.findUserAuthenticationContextOrThrowsBadRequestException();
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
 
         userProfileToBeSaved.setUser(user);
         UserProfile userProfileSaved = userProfileRepository.save(userProfileToBeSaved);
@@ -33,7 +32,15 @@ public class UserProfileService implements ICrudService<UserProfile, UserProfile
 
     @Override
     public void delete(UUID id) {
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        UserProfile userFounded = userProfileRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("This user doesn't exists"));
 
+        if (userFounded.getUser().getId().equals(user.getId())) {
+            userProfileRepository.deleteById(id);
+        } else {
+            throw new BadCredentialsException("Invalid user");
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User findUserAuthenticationContextOrThrowsBadRequestException() {
+    public User findUserAuthenticationContextOrThrowsBadCredentialException() {
         return userRepository.findUserByUsername(SecurityContextHolder
                 .getContext()
                 .getAuthentication()

@@ -8,18 +8,23 @@ import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.services.users.UserService;
+import com.gamelink.gamelinkapi.utils.creators.UserCreator;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
-import org.junit.jupiter.api.Assertions;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.BadCredentialsException;
+
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,6 +33,7 @@ public class UserProfileServiceTest {
     @Autowired
     private UserProfileService service;
     private final UserProfileRequestCreator userProfileRequestCreator = UserProfileRequestCreator.getInstance();
+    private final UserCreator userCreator = UserCreator.getInstance();
     private final UserProfileMapper userProfileMapper = UserProfileMapper.INSTANCE;
     @MockBean
     private UserProfileRepository userProfileRepository;
@@ -36,11 +42,6 @@ public class UserProfileServiceTest {
 
     @BeforeEach
     private void setup() {
-        when(userService.findUserAuthenticationContextOrThrowsBadRequestException())
-                .thenReturn(User.builder()
-                        .username("username")
-                        .email("valid@email.com")
-                        .build());
         when(userProfileRepository.save(any(UserProfile.class)))
                 .thenAnswer(invocation -> invocation.getArguments()[0]);
     }
@@ -54,8 +55,54 @@ public class UserProfileServiceTest {
         UserProfileResponse userProfileSaved = service.save(userProfileRequest);
 
         verify(userProfileRepository, times(1)).save(userProfileCaptor.capture());
-        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadRequestException();
+        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
         assertEquals(userProfileRequest, userProfileMapper.modelToRequestDto(userProfileCaptor.getValue()));
         assertEquals(userProfileRequest, userProfileMapper.responseToRequestDto(userProfileSaved));
+    }
+
+    @Test
+    @DisplayName("Delete should verify if the user authenticated is the owner of the profile and delete when success")
+    void deleteShouldVerifyAuthenticatedOwnerAndDeleteWhenSuccess(){
+        final User validUser = userCreator.createValid();
+        final UUID validId = validUser.getId();
+        final UserProfile userProfile = UserProfile.builder().user(validUser).build();
+
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenReturn(validUser);
+        when(userProfileRepository.findById(validId))
+                .thenReturn(Optional.of(userProfile));
+
+        service.delete(validId);
+        verify(userProfileRepository, times(1)).deleteById(validId);
+        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
+    }
+
+    @Test
+    @DisplayName("Delete should throws EntityNotFoundException If Theres not found the id")
+    void deleteShouldThrowsEntityNotFoundExceptionsWhenTheresNotFoundTheId(){
+        final User validUser = userCreator.createValid();
+        final UUID validId = validUser.getId();
+
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenReturn(validUser);
+        when(userProfileRepository.findById(validId))
+                .thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class, () -> service.delete(validId));
+        verify(userProfileRepository, times(1)).findById(validId);
+        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
+    }
+
+    @Test
+    @DisplayName("Delete should throws BadCredentialsExceptions If Theres No A  UserAuthenticated")
+    void deleteShouldThrowsBadCredentialExceptionsWhenTheresNoAUserAuthenticated(){
+        final User validUser = userCreator.createValid();
+        final UUID validId = validUser.getId();
+
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenThrow(BadCredentialsException.class);
+
+        assertThrows(BadCredentialsException.class, () -> service.delete(validId));
+        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
     }
 }
