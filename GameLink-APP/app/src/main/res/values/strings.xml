@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">GameLink-APP</string>
-    <string name="edittext_hint"><font size="12">Informe seu e-mail de cadastro</font></string>
-    <string name="editpassword_hint"><font size="12">Informe sua senha</font></string>
+    <string name="edittext_hint">Informe seu e-mail de cadastro</string>
+    <string name="editpassword_hint">Informe sua senha</string>
+    <string name="edittext_username">Informe seu nome de usuário</string>
     <string name="already_have_an_account">Já tem uma conta? <font color='#095CBF'>Logar-se</font></string>
+    <string name="required_field_error">Campo Obrigatório</string>
+    <string name="invalid_email_error">E-mail inválido</string>
+    <string name="invalid_password_error">Senha inválida. Preencha todos os requisitos</string>
+    <string name="username">Nome de usuário</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="UNEXPECTED_ERROR">Erro inesperado</string>
 </resources>

@@ -4,29 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blackblue"
-
+    android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".RegisterUserActivity">
+    tools:context=".view.RegisterUserActivity">
 
-    <ImageView
-        android:id="@+id/image_background"
+    <TextView
+        android:id="@+id/text_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="162dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/username"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/background_gradient" />
+        android:layout_below="@+id/text_username"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:autofillHints="name"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:hint="@string/edittext_username"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:textColorHint="@color/grayblue"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_username_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_username"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_background"
+        android:layout_below="@+id/text_username_helper"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/baloo_bhai_2"
-        android:text="E-mail"
+        android:text="@string/email"
         android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_email_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_email"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text=""
+        android:textColor="@color/red"
         android:textSize="12sp" />
 
     <EditText
@@ -43,17 +86,18 @@
         android:inputType="textEmailAddress"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
-        android:textColorHint="@color/grayblue" />
+        android:textColorHint="@color/grayblue"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_email"
+        android:layout_below="@+id/text_email_helper"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/baloo_bhai_2"
-        android:text="Senha"
+        android:text="@string/password"
         android:textColor="@color/gray"
         android:textSize="12sp" />
 
@@ -64,7 +108,7 @@
         android:layout_below="@id/text_password"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="12dp"
-        android:autofillHints="emailAddress"
+        android:autofillHints="password"
         android:background="@drawable/rounded_edit_text"
         android:drawableEnd="@drawable/ic_visible_off"
         android:drawableTint="@color/grayblue"
@@ -74,22 +118,36 @@
         android:inputType="textPassword"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
-        android:textColorHint="@color/grayblue" />
+        android:textColorHint="@color/grayblue"
+
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_password_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text_min_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_password"
+        android:layout_below="@id/text_password_helper"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="24dp"
-        android:drawableEnd="@drawable/ic_check"
+        android:layout_marginTop="12dp"
         android:drawableTint="@color/lightgray"
         android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:text="&#8226; A senha deve ter no mínimo 8 caracteres"
         android:textColor="@color/lightgray"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        app:drawableEndCompat="@drawable/ic_check" />
 
     <TextView
         android:id="@+id/text_uppercase"
@@ -167,7 +225,6 @@
         android:text="Realizar Cadastro"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="12sp"
         app:backgroundTint="@null" />
 
     <TextView
@@ -190,7 +247,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:scaleType="fitXY"
-        android:src="@drawable/group_16" />
+        android:src="@drawable/bottom_layout" />
 
 
 </RelativeLayout>
