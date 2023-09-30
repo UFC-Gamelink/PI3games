@@ -6,18 +6,61 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".view.RegisterUserActivity">
+    android:fontFamily="@font/baloo_bhai_2"
+    tools:context=".view.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/image_title_gamer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="156dp"
+        android:src="@drawable/gamer" />
+
+    <TextView
+        android:id="@+id/text_press_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_title_gamer"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Aperte o Play"
+        android:textColor="@color/white"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/text_description_gamelink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_press_play"
+        android:layout_marginHorizontal="30dp"
+        android:text="Encontre Duos, comunidades, jogos\n em promoção e muito mais"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:textColor="#97A5D5"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_description_gamelink"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo_gamelink" />
 
     <TextView
         android:id="@+id/text_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/image_logo"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="162dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/baloo_bhai_2"
         android:text="@string/username"
         android:textColor="@color/gray"
         android:textSize="12sp" />
+
 
     <EditText
         android:id="@+id/edit_username"
@@ -48,52 +91,12 @@
         android:textColor="@color/red"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/text_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_username_helper"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:text="@string/email"
-        android:textColor="@color/gray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/text_email_helper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_email"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:text=""
-        android:textColor="@color/red"
-        android:textSize="12sp" />
-
-    <EditText
-        android:id="@+id/edit_email"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@+id/text_email"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="12dp"
-        android:autofillHints="emailAddress"
-        android:background="@drawable/rounded_edit_text"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:hint="@string/edittext_hint"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
-        android:textColorHint="@color/grayblue"
-        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_email_helper"
+        android:layout_below="@+id/text_username_helper"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/baloo_bhai_2"
@@ -135,94 +138,34 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/text_min_password"
-        android:layout_width="match_parent"
+        android:id="@+id/text_forgot_password"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_password_helper"
+        android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="12dp"
-        android:drawableTint="@color/lightgray"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:gravity="center_vertical"
-        android:text="&#8226; A senha deve ter no mínimo 8 caracteres"
-        android:textColor="@color/lightgray"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="30dp"
         android:textSize="12sp"
-        app:drawableEndCompat="@drawable/ic_check" />
-
-    <TextView
-        android:id="@+id/text_uppercase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_min_password"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="4dp"
-        android:drawableEnd="@drawable/ic_check"
-        android:drawableTint="@color/lightgray"
         android:fontFamily="@font/baloo_bhai_2"
-        android:gravity="center_vertical"
-        android:text="&#8226; 1 letra maiúscula"
-        android:textColor="@color/lightgray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/text_lowercase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_uppercase"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="4dp"
-        android:drawableEnd="@drawable/ic_check"
-        android:drawableTint="@color/lightgray"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:gravity="center_vertical"
-        android:text="&#8226; 1 letra minúscula"
-        android:textColor="@color/lightgray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/text_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_lowercase"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="4dp"
-        android:drawableEnd="@drawable/ic_check"
-        android:drawableTint="@color/lightgray"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:gravity="center_vertical"
-        android:text="&#8226; 1 número"
-        android:textColor="@color/lightgray"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/text_special_character"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_number"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="4dp"
-        android:drawableTint="@color/lightgray"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:gravity="center_vertical"
-        android:text="&#8226; 1 caractere especial"
-        android:textColor="@color/lightgray"
-        android:textSize="12sp"
-        app:drawableEndCompat="@drawable/ic_check" />
+        android:text="@string/forgot_password"
+        android:textColor="#095CBF" />
 
     <Button
         android:id="@+id/button_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_special_character"
+        android:layout_below="@id/text_password_helper"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_gradient"
+
         android:drawableEnd="@drawable/ic_play"
         android:drawablePadding="0dp"
         android:drawableTint="@color/white"
         android:fontFamily="@font/baloo_bhai_2"
         android:paddingHorizontal="90dp"
-        android:text="Realizar Cadastro"
+        android:text="Realizar Login"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:backgroundTint="@null" />
@@ -237,7 +180,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/baloo_bhai_2"
-        android:text="@string/already_have_an_account"
+        android:text="@string/not_have_an_account"
         android:textColor="@color/gray"
         android:textSize="12sp" />
 

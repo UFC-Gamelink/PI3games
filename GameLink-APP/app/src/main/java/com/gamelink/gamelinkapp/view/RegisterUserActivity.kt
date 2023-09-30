@@ -24,6 +24,7 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityRegisterUserBinding.inflate(layoutInflater)
 
         binding.buttonRegister.setOnClickListener(this)
+        binding.textLogin.setOnClickListener(this)
 
         binding.editPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -43,6 +44,8 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (view.id == R.id.button_register) {
             handleRegister()
+        } else if(view.id == R.id.text_login) {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
