@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapp.service.repository.remote
 
+import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +17,7 @@ class RetrofitClient private constructor() {
             httpClient.addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
-                    .addHeader("token", "")
+                    .addHeader(GameLinkConstants.HEADER.TOKEN_KEY, "")
                     .build()
 
                 chain.proceed(request)

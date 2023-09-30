@@ -13,4 +13,5 @@
     <string name="password">Senha</string>
     <string name="UNEXPECTED_ERROR">Erro inesperado</string>
     <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="USER_NOT_FOUND">Usuário não encontrado</string>
 </resources>

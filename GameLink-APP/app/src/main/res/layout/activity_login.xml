@@ -152,14 +152,13 @@
         android:textColor="#095CBF" />
 
     <Button
-        android:id="@+id/button_register"
+        android:id="@+id/button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_password_helper"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_gradient"
-
         android:drawableEnd="@drawable/ic_play"
         android:drawablePadding="0dp"
         android:drawableTint="@color/white"
@@ -171,10 +170,10 @@
         app:backgroundTint="@null" />
 
     <TextView
-        android:id="@+id/text_login"
+        android:id="@+id/text_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_register"
+        android:layout_below="@id/button_login"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="30dp"
