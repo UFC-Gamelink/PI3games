@@ -9,4 +9,7 @@ import retrofit2.http.POST
 interface UserService {
     @POST("auth/register")
     fun create(@Body body: UserRequest): Call<UserModel>
+
+    @POST("auth/authenticate")
+    fun login(@Body body: UserRequest): Call<UserModel>
 }
