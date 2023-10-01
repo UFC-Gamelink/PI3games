@@ -43,8 +43,11 @@ public class UserProfileService implements ICrudService<UserProfile, UserProfile
         }
     }
 
-    @Override
-    public UserProfileResponse findById(UUID id) {
-        return null;
+    public UserProfileResponse findUserProfile() {
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        UserProfile userProfile = userProfileRepository.findUserProfileByUser(user)
+                .orElseThrow(() -> new EntityNotFoundException("This user doesn't exists"));
+
+        return mapper.modelToResponseDto(userProfile);
     }
 }

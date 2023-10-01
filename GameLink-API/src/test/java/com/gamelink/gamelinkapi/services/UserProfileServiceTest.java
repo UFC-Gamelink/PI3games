@@ -74,7 +74,8 @@ public class UserProfileServiceTest {
 
         service.delete(validId);
         verify(userProfileRepository, times(1)).deleteById(validId);
-        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
     }
 
     @Test
@@ -90,11 +91,12 @@ public class UserProfileServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> service.delete(validId));
         verify(userProfileRepository, times(1)).findById(validId);
-        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
     }
 
     @Test
-    @DisplayName("Delete should throws BadCredentialsExceptions If Theres No A  UserAuthenticated")
+    @DisplayName("Delete should throws BadCredentialsExceptions If Theres No A UserAuthenticated")
     void deleteShouldThrowsBadCredentialExceptionsWhenTheresNoAUserAuthenticated(){
         final User validUser = userCreator.createValid();
         final UUID validId = validUser.getId();
@@ -103,6 +105,51 @@ public class UserProfileServiceTest {
                 .thenThrow(BadCredentialsException.class);
 
         assertThrows(BadCredentialsException.class, () -> service.delete(validId));
-        verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
+    }
+
+    @Test
+    @DisplayName("findUserProfile should verify if the user authenticated is the owner of the profile and return it when success")
+    void findUserProfileShouldVerifyAuthenticatedOwnerAndReturnItWhenSuccess(){
+        final User validUser = userCreator.createValid();
+        final UserProfile userProfile = UserProfile.builder().user(validUser).build();
+
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenReturn(validUser);
+        when(userProfileRepository.findUserProfileByUser(validUser))
+                .thenReturn(Optional.of(userProfile));
+
+        service.findUserProfile();
+        verify(userProfileRepository, times(1)).findUserProfileByUser(validUser);
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
+    }
+
+    @Test
+    @DisplayName("findUserProfile should throws EntityNotFoundException If Theres not found user")
+    void findUserProfileShouldThrowsEntityNotFoundExceptionsWhenTheresNotFoundUser(){
+        final User validUser = userCreator.createValid();
+
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenReturn(validUser);
+        when(userProfileRepository.findUserProfileByUser(validUser))
+                .thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class, () -> service.findUserProfile());
+        verify(userProfileRepository, times(1)).findUserProfileByUser(validUser);
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
+    }
+
+    @Test
+    @DisplayName("findUserProfile should throws BadCredentialsExceptions If Theres No A UserAuthenticated")
+    void findUserProfileShouldThrowsBadCredentialExceptionsWhenTheresNoAUserAuthenticated(){
+        when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
+                .thenThrow(BadCredentialsException.class);
+
+        assertThrows(BadCredentialsException.class, () -> service.findUserProfile());
+        verify(userService, times(1))
+                .findUserAuthenticationContextOrThrowsBadCredentialException();
     }
 }
