@@ -1,9 +1,11 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
+import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,14 @@ public class UserProfileControllerTest {
     private UserProfileController controller;
     @MockBean
     private UserProfileService service;
-    private final UserProfileRequestCreator creator = UserProfileRequestCreator.getInstance();
+    private final UserProfileRequestCreator requestCreator = UserProfileRequestCreator.getInstance();
+    private final UserProfileResponseCreator responseCreator = UserProfileResponseCreator.getInstance();
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
 
     @Test
     @DisplayName("post should execute save from UserProfileService and return a created status when success")
     void postShouldReturnACreatedStatusWhenSuccess() {
-        UserProfileRequest validUserProfileRequest = creator.createValid();
+        UserProfileRequest validUserProfileRequest = requestCreator.createValid();
         when(service.save(validUserProfileRequest))
                 .thenReturn(mapper.requestToResponseDto(validUserProfileRequest));
 
@@ -48,5 +51,17 @@ public class UserProfileControllerTest {
 
         verify(service, times(1)).delete(validId);
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("get should execute getUserProfile from userProfileService and return a valid UserProfileResponse status when success")
+    void getShouldExecuteFindUserProfileFromUserProfileServiceWhenSuccess(){
+        var userProfileResponse = responseCreator.createValid();
+        when(service.findUserProfile()).thenReturn(userProfileResponse);
+        ResponseEntity<UserProfileResponse> response = controller.get();
+
+        verify(service, times(1)).findUserProfile();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(userProfileResponse, response.getBody());
     }
 }

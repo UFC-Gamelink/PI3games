@@ -7,5 +7,4 @@ import java.util.UUID;
 public interface ICrudController<R> {
     ResponseEntity<Void> post(R requestDto) ;
     ResponseEntity<Void> delete(UUID id);
-    ResponseEntity<R> getById(UUID id);
 }

@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,11 @@ public class UserProfileController implements ICrudController<UserProfileRequest
                 .build();
     }
 
-    @Override
-    public ResponseEntity<UserProfileRequest> getById(UUID id) {
-        return null;
+    @GetMapping
+    public ResponseEntity<UserProfileResponse> get() {
+        UserProfileResponse userProfile = service.findUserProfile();
+        return ResponseEntity
+                .ok()
+                .body(userProfile);
     }
 }
