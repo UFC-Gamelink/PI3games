@@ -12,6 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -35,5 +37,16 @@ public class UserProfileControllerTest {
 
         verify(service, times(1)).save(validUserProfileRequest);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Delete should execute delete from userProfileService and return aAccepted status when success")
+    void deleteShouldExecuteDeleteFromUserProfileServiceWhenSuccess(){
+        UUID validId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = controller.delete(validId);
+
+        verify(service, times(1)).delete(validId);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
     }
 }
