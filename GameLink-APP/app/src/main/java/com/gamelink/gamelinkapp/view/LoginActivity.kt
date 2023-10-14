@@ -39,11 +39,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun handleLogin() {
-        val username = binding.editUsername.text.toString().trim()
-        val password = binding.editPassword.text.toString().trim()
-
-
-        viewModel.login(username, password)
+//        val username = binding.editUsername.text.toString().trim()
+//        val password = binding.editPassword.text.toString().trim()
+//
+//
+//        viewModel.login(username, password)
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun observe() {

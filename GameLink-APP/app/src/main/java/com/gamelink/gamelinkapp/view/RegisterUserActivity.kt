@@ -77,7 +77,7 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.user.observe(this) {
             if (it.status()) {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
