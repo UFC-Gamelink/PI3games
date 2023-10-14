@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,14 +19,43 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         setContentView(binding.root)
 
+        replaceFragment(HomeFragment())
 
-        binding.textGamelink.setOnClickListener(this)
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home -> {
+                    replaceFragment(HomeFragment())
+                    true
+                }
+                R.id.posts -> {
+                    replaceFragment(PostsFragment())
+                    true
+                }
+                R.id.groups -> {
+                    replaceFragment(GroupsFragment())
+                    true
+                }
+                R.id.communities -> {
+                    replaceFragment(CommunitiesFragment())
+                    true
+                }
+                R.id.profile -> {
+                    replaceFragment(ProfileFragment())
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+         }
 
     }
 
-    override fun onClick(view: View) {
-        if(view.id == R.id.text_gamelink) {
-            startActivity(Intent(this, RegisterUserActivity::class.java))
-        }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager;
+        val fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
+
 }
