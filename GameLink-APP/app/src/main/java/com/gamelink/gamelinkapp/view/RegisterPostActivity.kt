@@ -11,12 +11,15 @@ import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.view.adapter.ItemAdapter
 import com.gamelink.gamelinkapp.viewmodel.RegisterPostViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class RegisterPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPostBinding
     private lateinit var itemAdapter: ItemAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: RegisterPostViewModel
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
 
     private val list = ArrayList<String>()
 
@@ -60,6 +63,7 @@ class RegisterPostActivity : AppCompatActivity() {
     private fun handlePost() {
         val post = PostModel().apply {
             this.post = binding.editPost.text.toString().trim()
+            this.createdAt = dateFormat.format(Date());
         }
 
         viewModel.save(post)

@@ -13,6 +13,6 @@ interface PostDAO {
     @Query("SELECT * FROM POSTS")
     fun list(): List<PostModel>
 
-    @Query("SELECT * FROM POSTS WHERE user_id = :userId")
+    @Query("SELECT * FROM POSTS WHERE user_id = :userId ORDER BY created_at DESC")
     fun listByUser(userId: Int): List<PostModel>
 }

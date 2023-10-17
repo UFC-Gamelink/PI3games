@@ -18,7 +18,6 @@ class RegisterPostViewModel(application: Application)  : AndroidViewModel(applic
     val postSave: LiveData<ValidationModel> = _postSave
 
     fun save(post: PostModel) {
-        val s = ""
         if(post.post.isEmpty()) {
 
             _postSave.value = ValidationModel("Campo descrição obrigatório")

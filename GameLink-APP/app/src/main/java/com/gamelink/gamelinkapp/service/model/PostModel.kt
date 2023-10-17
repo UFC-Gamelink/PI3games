@@ -16,4 +16,7 @@ class PostModel {
 
     @ColumnInfo(name = "user_id")
     var userId: Int = 0
+
+    @ColumnInfo(name = "created_at")
+    var createdAt: String = ""
 }
