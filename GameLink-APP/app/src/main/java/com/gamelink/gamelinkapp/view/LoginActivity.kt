@@ -44,7 +44,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 
         viewModel.login(username, password)
-        //startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun observe() {
