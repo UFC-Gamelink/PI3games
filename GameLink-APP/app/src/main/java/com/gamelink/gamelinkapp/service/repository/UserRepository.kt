@@ -4,6 +4,7 @@ import android.content.Context
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.UserModel
+import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
 import com.gamelink.gamelinkapp.service.repository.remote.UserService
 import com.gamelink.gamelinkapp.service.request.UserRequest
@@ -14,6 +15,23 @@ import retrofit2.Response
 
 class UserRepository(val context: Context) {
     private val remote = RetrofitClient.getService(UserService::class.java)
+    private val database = LocalDatabase.getDatabase(context).userDAO()
+
+    fun create(user: UserModel) {
+        database.save(user)
+    }
+
+    fun login(username: String, password: String): UserModel? {
+        val user = database.login(username) ?: return null
+
+        return if(user.password == password) {
+            user
+        } else {
+            null
+        }
+
+
+    }
 
     fun create(
         username: String,

@@ -2,23 +2,30 @@ package com.gamelink.gamelinkapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterPostBinding
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.view.adapter.ItemAdapter
+import com.gamelink.gamelinkapp.viewmodel.RegisterPostViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class RegisterPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPostBinding
     private lateinit var itemAdapter: ItemAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var viewModel: RegisterPostViewModel
+
     private val list = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityRegisterPostBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this).get(RegisterPostViewModel::class.java)
 
+        binding = ActivityRegisterPostBinding.inflate(layoutInflater)
 
         binding.buttonClose.setOnClickListener {
             finish()
@@ -32,6 +39,10 @@ class RegisterPostActivity : AppCompatActivity() {
             showBottomSheet()
         }
 
+        observe()
+
+        binding.buttonPost.setOnClickListener { handlePost() }
+
         setContentView(binding.root)
     }
 
@@ -44,6 +55,26 @@ class RegisterPostActivity : AppCompatActivity() {
         recyclerView.adapter = itemAdapter
         dialog.show()
 
+    }
+
+    private fun handlePost() {
+        val post = PostModel().apply {
+            this.post = binding.editPost.text.toString().trim()
+        }
+
+        viewModel.save(post)
+    }
+
+    private fun observe() {
+        viewModel.postSave.observe(this) {
+            if(it.status()) {
+                Toast.makeText(applicationContext, "salvo com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
 }

@@ -47,21 +47,15 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         _passwordHelperErrorResId.value = getErrorStringResIdIfEmpty(password)
 
         if (isFormValid) {
-            userRepository.login(username, password, object : APIListener<UserModel> {
-                override fun onSuccess(result: UserModel) {
-                     securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.token)
+            val user = userRepository.login(username, password)
 
-                    RetrofitClient.addHeaders(result.token)
+            if(user == null) {
+                _login.value = ValidationModel("Nome de usuário/senha incorretos")
+            } else {
+                securityPreferences.store(GameLinkConstants.SHARED.USER_ID, user.id.toString())
 
-                    _login.value = ValidationModel()
-                }
-
-
-                override fun onFailure(message: String) {
-                    _login.value = ValidationModel(message)
-                }
-
-            })
+                _login.value = ValidationModel()
+            }
         }
     }
 

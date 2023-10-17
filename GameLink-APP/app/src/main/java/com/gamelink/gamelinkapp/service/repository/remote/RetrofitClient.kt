@@ -17,7 +17,7 @@ class RetrofitClient private constructor() {
             httpClient.addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
-                    .addHeader(GameLinkConstants.HEADER.TOKEN_KEY, "")
+                    .addHeader(GameLinkConstants.HEADER.TOKEN_KEY, token)
                     .build()
 
                 chain.proceed(request)
