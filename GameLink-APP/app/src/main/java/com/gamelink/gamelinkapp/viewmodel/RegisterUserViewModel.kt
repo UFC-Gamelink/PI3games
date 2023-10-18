@@ -55,20 +55,15 @@ class RegisterUserViewModel(application: Application) : AndroidViewModel(applica
         _passwordHelperErrorResId.value = getErrorStringResIdIfInvalidPassword(password)
 
         if(isFormValid) {
-            userRepository.create(username, email, password, object : APIListener<UserModel> {
-                override fun onSuccess(result: UserModel) {
-                    securityPreferences.store("token", result.token)
+            val user = UserModel().apply {
+                this.username = username
+                this.email = email
+                this.password = password
+            }
 
-                    RetrofitClient.addHeaders(result.token)
+            userRepository.create(user)
 
-                    _user.value = ValidationModel()
-                }
-
-                override fun onFailure(message: String) {
-                    _user.value = ValidationModel(message)
-                }
-
-            })
+            _user.value = ValidationModel()
         }
     }
 

@@ -17,7 +17,7 @@ class RetrofitClient private constructor() {
             httpClient.addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
-                    .addHeader(GameLinkConstants.HEADER.TOKEN_KEY, "")
+                    .addHeader(GameLinkConstants.HEADER.TOKEN_KEY, token)
                     .build()
 
                 chain.proceed(request)
@@ -26,7 +26,7 @@ class RetrofitClient private constructor() {
             if(!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("http://192.168.0.3:8080/")
+                        .baseUrl("http://192.168.0.2:8080/")
                         .client(httpClient.build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
