@@ -17,4 +17,12 @@ class PostRepository(context: Context) {
     fun listByUser(userId: Int):List<PostModel> {
         return database.listByUser(userId)
     }
+
+    fun delete(post: PostModel) {
+        database.delete(post)
+    }
+
+    fun findByIdAndUserId(id: Int, userId: Int): PostModel? {
+        return database.findByIdAndUserId(id, userId)
+    }
 }
