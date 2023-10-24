@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.controllers;
 
-import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import jakarta.validation.Valid;
@@ -14,12 +15,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/profile")
 @RequiredArgsConstructor
-public class UserProfileController implements ICrudController<UserProfileRequest> {
+public class UserProfileController implements ICrudController<PostUserProfileRequest> {
     private final UserProfileService service;
     @PostMapping
     @Override
-    public ResponseEntity<Void> post(@RequestBody @Valid UserProfileRequest userProfileRequest) {
-        service.save(userProfileRequest);
+    public ResponseEntity<Void> post(@RequestBody @Valid PostUserProfileRequest postUserProfileRequest) {
+        service.save(postUserProfileRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
@@ -40,5 +41,13 @@ public class UserProfileController implements ICrudController<UserProfileRequest
         return ResponseEntity
                 .ok()
                 .body(userProfile);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserProfileResponse> put(@RequestBody @Valid PutUserProfileRequest userProfile) {
+        UserProfileResponse response = service.updateProfile(userProfile);
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 }

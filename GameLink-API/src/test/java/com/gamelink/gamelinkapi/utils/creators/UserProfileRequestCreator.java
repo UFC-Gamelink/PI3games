@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.utils.creators;
 
-import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-public class UserProfileRequestCreator implements Creator<UserProfileRequest>{
+public class UserProfileRequestCreator implements Creator<PostUserProfileRequest>{
     private static UserProfileRequestCreator INSTANCE;
 
     private UserProfileRequestCreator() {
@@ -20,8 +20,8 @@ public class UserProfileRequestCreator implements Creator<UserProfileRequest>{
     }
 
     @Override
-    public UserProfileRequest createValid() {
-        return UserProfileRequest.builder()
+    public PostUserProfileRequest createValid() {
+        return PostUserProfileRequest.builder()
                 .name("user")
                 .bio("minha bio")
                 .birthdayDate(LocalDate.now())

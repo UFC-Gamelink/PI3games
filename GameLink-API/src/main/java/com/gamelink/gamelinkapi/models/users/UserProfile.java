@@ -9,6 +9,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,12 +32,9 @@ public class UserProfile extends BaseModel {
     @Column(length = 160)
     private String bio;
 
-    @NotNull
-    private LocalDate entryDate = LocalDate.now();
     private LocalDate birthdayDate;
 
     private List<GameTime> gameTimes = List.of();
-
     @NotNull
     private Gender gender;
 }

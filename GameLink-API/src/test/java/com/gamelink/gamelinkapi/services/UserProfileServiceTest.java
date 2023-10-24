@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.services;
 
-import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.users.User;
@@ -49,15 +49,15 @@ public class UserProfileServiceTest {
     @Test
     @DisplayName("Post execute save in repository and return the entity saved")
     void postShouldExecuteSaveInRepositoryWhenSuccess() {
-        UserProfileRequest userProfileRequest = userProfileRequestCreator.createValid();
+        PostUserProfileRequest postUserProfileRequest = userProfileRequestCreator.createValid();
         ArgumentCaptor<UserProfile> userProfileCaptor = ArgumentCaptor.forClass(UserProfile.class);
 
-        UserProfileResponse userProfileSaved = service.save(userProfileRequest);
+        UserProfileResponse userProfileSaved = service.save(postUserProfileRequest);
 
         verify(userProfileRepository, times(1)).save(userProfileCaptor.capture());
         verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
-        assertEquals(userProfileRequest, userProfileMapper.modelToRequestDto(userProfileCaptor.getValue()));
-        assertEquals(userProfileRequest, userProfileMapper.responseToRequestDto(userProfileSaved));
+        assertEquals(postUserProfileRequest, userProfileMapper.modelToRequestDto(userProfileCaptor.getValue()));
+        assertEquals(postUserProfileRequest, userProfileMapper.responseToPostRequestDto(userProfileSaved));
     }
 
     @Test

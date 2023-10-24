@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.controllers;
 
-import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
@@ -32,13 +32,13 @@ public class UserProfileControllerTest {
     @Test
     @DisplayName("post should execute save from UserProfileService and return a created status when success")
     void postShouldReturnACreatedStatusWhenSuccess() {
-        UserProfileRequest validUserProfileRequest = requestCreator.createValid();
-        when(service.save(validUserProfileRequest))
-                .thenReturn(mapper.requestToResponseDto(validUserProfileRequest));
+        PostUserProfileRequest validPostUserProfileRequest = requestCreator.createValid();
+        when(service.save(validPostUserProfileRequest))
+                .thenReturn(mapper.postRequestToResponseDto(validPostUserProfileRequest));
 
-        ResponseEntity<Void> response = controller.post(validUserProfileRequest);
+        ResponseEntity<Void> response = controller.post(validPostUserProfileRequest);
 
-        verify(service, times(1)).save(validUserProfileRequest);
+        verify(service, times(1)).save(validPostUserProfileRequest);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 

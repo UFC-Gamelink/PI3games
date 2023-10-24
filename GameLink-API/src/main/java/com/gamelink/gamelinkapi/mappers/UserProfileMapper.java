@@ -1,24 +1,37 @@
 package com.gamelink.gamelinkapi.mappers;
 
-import com.gamelink.gamelinkapi.dtos.requests.users.UserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Mapper
-public interface UserProfileMapper extends ModelDtoMapper<UserProfile, UserProfileRequest, UserProfileResponse> {
+public interface UserProfileMapper {
     UserProfileMapper INSTANCE = Mappers.getMapper(UserProfileMapper.class);
-    @Override
-    UserProfileRequest modelToRequestDto(UserProfile userProfile);
-    @Override
-    UserProfile requestToModel(UserProfileRequest request);
-    @Override
+
+    PostUserProfileRequest modelToRequestDto(UserProfile userProfile);
+
+    UserProfile postRequestToModel(PostUserProfileRequest request);
+
+    @Mapping(target = "owner", source = "user.username")
+    @Mapping(qualifiedByName = "entryDateMapper",target = "entryDate", source = "createdAt")
     UserProfileResponse modelToResponseDto(UserProfile userProfile);
 
-    @Override
-    UserProfileResponse requestToResponseDto(UserProfileRequest userProfileRequest);
+    UserProfileResponse postRequestToResponseDto(PostUserProfileRequest postUserProfileRequest);
 
-    @Override
-    UserProfileRequest responseToRequestDto(UserProfileResponse userProfileResponse);
+    PostUserProfileRequest responseToPostRequestDto(UserProfileResponse userProfileResponse);
+
+    UserProfile putRequestToModel(PutUserProfileRequest putUserProfileRequest);
+
+    @Named("entryDateMapper")
+    static LocalDate entryDateMapper(LocalDateTime createdAt) {
+        return createdAt.toLocalDate();
+    }
 }
