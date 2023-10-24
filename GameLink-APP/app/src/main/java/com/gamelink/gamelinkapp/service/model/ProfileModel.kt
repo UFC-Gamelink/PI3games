@@ -30,4 +30,6 @@ class ProfileModel {
 
     @ColumnInfo(name = "show_birthday")
     var showBirthday = false
+
+    var username = ""
 }

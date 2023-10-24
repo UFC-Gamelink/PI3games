@@ -59,6 +59,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 _login.value = ValidationModel("Nome de usuário/senha incorretos")
             } else {
                 securityPreferences.store(GameLinkConstants.SHARED.USER_ID, user.id.toString())
+                securityPreferences.store(GameLinkConstants.SHARED.USERNAME, username)
 
                 _login.value = ValidationModel()
             }
