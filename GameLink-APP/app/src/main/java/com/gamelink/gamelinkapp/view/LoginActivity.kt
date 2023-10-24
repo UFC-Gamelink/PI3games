@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityLoginBinding
+import com.gamelink.gamelinkapp.view.createProfile.CreateProfileStep1Activity
 import com.gamelink.gamelinkapp.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -49,8 +50,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         viewModel.login.observe(this) {
             if(it.status()) {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                viewModel.verifyHasNotProfile()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
@@ -59,6 +59,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.loggedUser.observe(this) {
             if(it) {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
+                finish()
+            }
+        }
+
+        viewModel.hasNotProfile.observe(this) {
+            if(it) {
+                startActivity(Intent(applicationContext, CreateProfileStep1Activity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }

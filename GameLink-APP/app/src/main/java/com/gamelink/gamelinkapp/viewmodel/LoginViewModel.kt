@@ -9,12 +9,14 @@ import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
+import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.service.repository.UserRepository
 import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository = UserRepository(application.applicationContext)
+    private val profileRepository = ProfileRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _usernameFieldErrorResId = MutableLiveData<Int>()
@@ -34,6 +36,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _loggedUser = MutableLiveData<Boolean>()
     val loggedUser: LiveData<Boolean> = _loggedUser
+
+    private val _hasNotProfile = MutableLiveData<Boolean>()
+    val hasNotProfile: LiveData<Boolean> = _hasNotProfile
+
 
     private var isFormValid = false
 
@@ -64,6 +70,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
         val logged = userId != ""
         _loggedUser.value = logged
+    }
+
+    fun verifyHasNotProfile() {
+        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+
+        val profile = profileRepository.getByUser(userId)
+
+        _hasNotProfile.value = profile == null
     }
 
     private fun getErrorStringResIdIfEmpty(value: String): Int? {
