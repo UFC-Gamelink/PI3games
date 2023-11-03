@@ -22,7 +22,10 @@ class PostViewHolder(private val itemBinding: RowPostsListBinding, val listener:
             AlertDialog.Builder(itemView.context)
                 .setTitle("Remover Post")
                 .setMessage("Deseja apagar o post?")
-                .setPositiveButton("Sim") { dialog, which ->
+                .setPositiveButton("Sim") { _, _ ->
+                    if(post.postImagePath != null) {
+                        ImageUtils.deleteImage(post.postImagePath!!)
+                    }
                     listener.onDeleteClick(post.id)
                 }
                 .setNeutralButton("Cancelar", null)
