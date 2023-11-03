@@ -25,4 +25,9 @@ class ProfileViewModel(application: Application)  : AndroidViewModel(application
 
         _profile.value = profileModel
     }
+
+    fun logout() {
+        securityPreferences.remove(GameLinkConstants.SHARED.USER_ID)
+        securityPreferences.remove(GameLinkConstants.SHARED.USERNAME)
+    }
 }

@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapp.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -61,6 +62,19 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, RegisterPostActivity::class.java))
         }
 
+        binding.imageLogout.setOnClickListener {
+            AlertDialog.Builder(context)
+                .setTitle("Fazer Logout")
+                .setMessage("Deseja fazer logout?")
+                .setPositiveButton("Sim") { _, _ ->
+                    viewModel.logout()
+                    startActivity(Intent(context, LoginActivity::class.java))
+                    activity?.finish()
+                }
+                .setNeutralButton("Cancelar", null)
+                .show()
+        }
+
         observe()
 
         // Inflate the layout for this fragment
@@ -87,9 +101,6 @@ class ProfileFragment : Fragment() {
             val pathBannerPic = it.bannerPicPath
             val bitmapBanner = ImageUtils.getBitmap(pathBannerPic)
             binding.imageviewBannerPicture.setImageBitmap(bitmapBanner)
-
-
-
         }
     }
 }
