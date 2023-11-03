@@ -1,12 +1,12 @@
-package com.gamelink.gamelinkapi.services;
+package com.gamelink.gamelinkapi.services.users;
 
 import com.gamelink.gamelinkapi.config.JwtService;
-import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
-import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
-import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
+import com.gamelink.gamelinkapi.dtos.requests.authentication.AuthenticationRequest;
+import com.gamelink.gamelinkapi.dtos.requests.authentication.RegisterRequest;
+import com.gamelink.gamelinkapi.dtos.responses.authentication.AuthenticationResponse;
 import com.gamelink.gamelinkapi.enums.Role;
-import com.gamelink.gamelinkapi.models.User;
-import com.gamelink.gamelinkapi.repositories.UserRepository;
+import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

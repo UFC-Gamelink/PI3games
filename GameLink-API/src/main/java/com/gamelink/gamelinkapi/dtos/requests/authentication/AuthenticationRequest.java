@@ -1,4 +1,4 @@
-package com.gamelink.gamelinkapi.dtos.requests;
+package com.gamelink.gamelinkapi.dtos.requests.authentication;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

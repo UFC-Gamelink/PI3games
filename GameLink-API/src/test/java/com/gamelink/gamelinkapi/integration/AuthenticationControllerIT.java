@@ -1,11 +1,11 @@
 package com.gamelink.gamelinkapi.integration;
 
-import com.gamelink.gamelinkapi.dtos.requests.AuthenticationRequest;
-import com.gamelink.gamelinkapi.dtos.requests.RegisterRequest;
-import com.gamelink.gamelinkapi.dtos.responses.AuthenticationResponse;
+import com.gamelink.gamelinkapi.dtos.requests.authentication.AuthenticationRequest;
+import com.gamelink.gamelinkapi.dtos.requests.authentication.RegisterRequest;
+import com.gamelink.gamelinkapi.dtos.responses.authentication.AuthenticationResponse;
 import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
-import com.gamelink.gamelinkapi.models.User;
-import com.gamelink.gamelinkapi.repositories.UserRepository;
+import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

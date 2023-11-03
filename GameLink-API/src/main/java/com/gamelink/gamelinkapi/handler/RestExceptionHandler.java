@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,21 @@ public class RestExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<RequestExceptionDetails> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        List<String> errors = List.of(ex.getCause().getMessage());
+
+        var exceptionDetails = RequestExceptionDetails.builder()
+                .message("User not found")
+                .details("")
+                .timestamp(LocalDateTime.now())
+                .errors(errors)
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionDetails);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
