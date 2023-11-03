@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
         viewModel.profile.observe(viewLifecycleOwner) {
             binding.textName.text = it.name
             binding.textUsername.text = it.username
-            binding.textBio.text = it.bio
+            binding.textBioValue.text = it.bio
 
             val pathProfilePic = it.profilePicPath
             val bitmap = ImageUtils.getBitmap(pathProfilePic)
