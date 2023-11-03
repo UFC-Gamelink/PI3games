@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_blue_2"
     tools:context=".view.RegisterPostActivity">
 
     <TextView
+        android:id="@+id/text_new_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NovoPost"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/new_post"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/text_new_post"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -22,18 +26,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_close"
+        android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray" />
 
     <TextView
         android:id="@+id/text_visibility_toggle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/text_bg"
         android:padding="10dp"
-        android:text="Publico"
+        android:text="@string/public_post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_new_post" />
@@ -42,19 +48,22 @@
         android:id="@+id/edit_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:hint="Escreva algo novo"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@color/gray"
+        android:hint="@string/placeholder_post"
         app:layout_constraintTop_toBottomOf="@id/text_visibility_toggle" />
 
     <Button
         android:id="@+id/button_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="30dp"
-        android:text="Postar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="48dp"
+        android:background="@drawable/button_gradient"
+        android:text="@string/post"
+        app:layout_constraintTop_toBottomOf="@id/edit_post"
         app:layout_constraintEnd_toEndOf="parent" />
 
 
