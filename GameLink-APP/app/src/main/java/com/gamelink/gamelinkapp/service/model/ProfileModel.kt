@@ -32,4 +32,7 @@ class ProfileModel {
     var showBirthday = false
 
     var username = ""
+
+    @ColumnInfo(name = "num_posts")
+    var numPosts: Int = 0
 }

@@ -63,10 +63,14 @@ class ProfileFragment : Fragment() {
 
         observe()
 
-        viewModel.getProfile()
-
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.getProfile()
     }
 
     private fun observe() {
@@ -74,6 +78,7 @@ class ProfileFragment : Fragment() {
             binding.textName.text = it.name
             binding.textUsername.text = it.username
             binding.textBioValue.text = it.bio
+            binding.textCountPosts.text = it.numPosts.toString()
 
             val pathProfilePic = it.profilePicPath
             val bitmap = ImageUtils.getBitmap(pathProfilePic)
