@@ -39,6 +39,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/image_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:src="@drawable/ic_dot_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_banner_picture"
+        app:tint="@color/white" />
+
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
@@ -105,9 +115,9 @@
         android:id="@+id/text_count_followers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/followers_label"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins_semibold"
+        android:text="@string/followers_label"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/text_followers"
@@ -117,9 +127,9 @@
         android:id="@+id/text_count_following"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/following_label"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins_semibold"
+        android:text="@string/following_label"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/text_following"
@@ -129,9 +139,9 @@
         android:id="@+id/text_count_posts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/posts_label"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins_semibold"
+        android:text="@string/posts_label"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/text_posts"
@@ -142,8 +152,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/label_bio"
         android:fontFamily="@font/poppins_medium"
+        android:text="@string/label_bio"
         android:textColor="@color/blue"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/text_username"
@@ -153,14 +163,14 @@
         android:id="@+id/text_bio_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingHorizontal="32dp"
         android:text="@string/bio_default"
         android:textColor="@color/white"
-        android:fontFamily="@font/poppins_medium"
         android:textSize="11sp"
-        android:layout_marginTop="8dp"
-        android:paddingHorizontal="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_bio"/>
+        app:layout_constraintTop_toBottomOf="@id/text_bio" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"

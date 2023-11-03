@@ -25,11 +25,22 @@
         android:id="@+id/button_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close"
         android:layout_margin="32dp"
+        android:src="@drawable/ic_close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/gray" />
+
+    <ImageView
+        android:id="@+id/image_preview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:maxHeight="280dp"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_post" />
 
     <TextView
         android:id="@+id/text_visibility_toggle"
@@ -50,20 +61,42 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/gray"
         android:hint="@string/placeholder_post"
+        android:textColorHint="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/text_visibility_toggle" />
+
+    <ImageView
+        android:id="@+id/image_remove_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_post"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/image_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginVertical="32dp"
+        android:src="@drawable/ic_image"
+        app:layout_constraintEnd_toStartOf="@+id/button_post"
+        app:layout_constraintTop_toTopOf="@+id/button_post"
+        app:tint="@color/white" />
 
     <Button
         android:id="@+id/button_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="32dp"
-        android:paddingHorizontal="48dp"
+        android:layout_marginVertical="32dp"
         android:background="@drawable/button_gradient"
+        android:paddingHorizontal="48dp"
         android:text="@string/post"
-        app:layout_constraintTop_toBottomOf="@id/edit_post"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 

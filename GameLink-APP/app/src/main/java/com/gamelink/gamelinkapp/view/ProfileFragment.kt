@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapp.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -61,19 +62,37 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, RegisterPostActivity::class.java))
         }
 
-        observe()
+        binding.imageLogout.setOnClickListener {
+            AlertDialog.Builder(context)
+                .setTitle("Fazer Logout")
+                .setMessage("Deseja fazer logout?")
+                .setPositiveButton("Sim") { _, _ ->
+                    viewModel.logout()
+                    startActivity(Intent(context, LoginActivity::class.java))
+                    activity?.finish()
+                }
+                .setNeutralButton("Cancelar", null)
+                .show()
+        }
 
-        viewModel.getProfile()
+        observe()
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.getProfile()
     }
 
     private fun observe() {
         viewModel.profile.observe(viewLifecycleOwner) {
             binding.textName.text = it.name
             binding.textUsername.text = it.username
-            binding.textBio.text = it.bio
+            binding.textBioValue.text = it.bio
+            binding.textCountPosts.text = it.numPosts.toString()
 
             val pathProfilePic = it.profilePicPath
             val bitmap = ImageUtils.getBitmap(pathProfilePic)
@@ -82,9 +101,6 @@ class ProfileFragment : Fragment() {
             val pathBannerPic = it.bannerPicPath
             val bitmapBanner = ImageUtils.getBitmap(pathBannerPic)
             binding.imageviewBannerPicture.setImageBitmap(bitmapBanner)
-
-
-
         }
     }
 }
