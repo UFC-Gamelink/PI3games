@@ -14,6 +14,9 @@ class PostModel {
     @ColumnInfo(name = "post")
     var post: String = ""
 
+    @ColumnInfo(name = "post_image_path")
+    var postImagePath: String? = ""
+
     @ColumnInfo(name = "user_id")
     var userId: Int = 0
 

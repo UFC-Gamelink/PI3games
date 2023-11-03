@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -20,12 +19,6 @@ import androidx.core.content.ContextCompat
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityCreateProfileStep2Binding
 import com.gamelink.gamelinkapp.utils.ImageUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.lang.Exception
 
 class CreateProfileStep2Activity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityCreateProfileStep2Binding
