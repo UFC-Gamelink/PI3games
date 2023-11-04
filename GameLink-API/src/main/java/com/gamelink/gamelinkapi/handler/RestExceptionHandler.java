@@ -1,7 +1,7 @@
 package com.gamelink.gamelinkapi.handler;
 
 import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
-import com.gamelink.gamelinkapi.exceptions.SaveImageException;
+import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
-    @ExceptionHandler(SaveImageException.class)
-    public ResponseEntity<RequestExceptionDetails> handleSaveImageException(SaveImageException ex) {
+    @ExceptionHandler(SaveThreatementException.class)
+    public ResponseEntity<RequestExceptionDetails> handleSaveImageException(SaveThreatementException ex) {
         var exceptionDetails = RequestExceptionDetails.builder()
                 .message("Save image in cloudinary failed")
                 .details(ex.getMessage())

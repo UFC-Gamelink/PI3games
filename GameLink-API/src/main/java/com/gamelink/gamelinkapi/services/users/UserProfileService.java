@@ -3,7 +3,7 @@ package com.gamelink.gamelinkapi.services.users;
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
-import com.gamelink.gamelinkapi.exceptions.SaveImageException;
+import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.users.User;
@@ -74,8 +74,36 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     }
 
     @Transactional
-    public UserProfileResponse saveImages(MultipartFile icon, MultipartFile banner) throws SaveImageException {
+    public UserProfileResponse updateImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
         UserProfile myUserProfile = findUserProfileIfExists();
+        if (myUserProfile.getIcon() != null && myUserProfile.getBanner() != null) {
+            try {
+                cloudinaryRepository.deleteImage(myUserProfile.getIcon().getPublicId());
+                cloudinaryRepository.deleteImage(myUserProfile.getBanner().getPublicId());
+            } catch (IOException e) {
+                throw new SaveThreatementException("Delete image failed");
+            }
+            return mapper.modelToResponseDto(
+                    saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
+            );
+        } else {
+            throw new SaveThreatementException("Images are already saved");
+        }
+    }
+
+    @Transactional
+    public UserProfileResponse saveImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
+        UserProfile myUserProfile = findUserProfileIfExists();
+        if (myUserProfile.getIcon() == null || myUserProfile.getBanner() == null) {
+            return mapper.modelToResponseDto(
+                    saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
+            );
+        } else {
+            throw new SaveThreatementException("Images are already saved");
+        }
+    }
+
+    private UserProfile saveIconAndBannerOrThrowsSaveImageException(UserProfile myUserProfile, MultipartFile icon, MultipartFile banner) {
         ImageModel iconSaved;
         ImageModel bannerSaved;
 
@@ -83,15 +111,14 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
             iconSaved = cloudinaryRepository.saveImage(icon);
             bannerSaved = cloudinaryRepository.saveImage(banner);
         } catch (IOException e) {
-            throw new SaveImageException("Error during saving images");
+            throw new SaveThreatementException("Error during saving images");
         }
 
         myUserProfile.setIcon(iconSaved);
         myUserProfile.setBanner(bannerSaved);
         UserProfile userProfileUpdated = userProfileRepository.save(myUserProfile);
-        return mapper.modelToResponseDto(userProfileUpdated);
+        return userProfileUpdated;
     }
-
     private UserProfile findUserProfileIfExists() {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         return userProfileRepository.findUserProfileByUser(user)

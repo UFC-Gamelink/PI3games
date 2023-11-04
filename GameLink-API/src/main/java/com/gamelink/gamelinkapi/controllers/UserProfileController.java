@@ -39,6 +39,17 @@ public class UserProfileController implements ICrudController<PostUserProfileReq
                 .body(response);
     }
 
+    @PutMapping("/images")
+    public ResponseEntity<UserProfileResponse> putIconAndBanner(
+            @RequestPart @NotNull MultipartFile icon,
+            @RequestPart @NotNull MultipartFile banner
+    ) {
+        UserProfileResponse response = service.updateImages(icon, banner);
+        return ResponseEntity
+                .accepted()
+                .body(response);
+    }
+
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
