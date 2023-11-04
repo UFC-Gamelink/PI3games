@@ -1,5 +1,7 @@
 package com.gamelink.gamelinkapi.config;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -39,5 +41,14 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Cloudinary cloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dcwstde5a",
+                "api_key", "917262978245699",
+                "api_secret", "2Ql9PwgNYhLLaFAt365i33GbGRk"
+        ));
     }
 }

@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.handler;
 
 import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
+import com.gamelink.gamelinkapi.exceptions.SaveImageException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,36 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+    @ExceptionHandler(SaveImageException.class)
+    public ResponseEntity<RequestExceptionDetails> handleSaveImageException(SaveImageException ex) {
+        var exceptionDetails = RequestExceptionDetails.builder()
+                .message("Save image in cloudinary failed")
+                .details(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(InvalidPropertiesFormatException.class)
+    public ResponseEntity<RequestExceptionDetails> handleInvalidPropertiesFormatException(InvalidPropertiesFormatException ex) {
+        var exceptionDetails = RequestExceptionDetails.builder()
+                .message("File format exception")
+                .details(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDetails);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RequestExceptionDetails> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult().getFieldErrors()
