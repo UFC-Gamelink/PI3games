@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gamelink.gamelinkapp.databinding.RowCommunitiesListBinding
 import com.gamelink.gamelinkapp.databinding.RowPostsListBinding
+import com.gamelink.gamelinkapp.service.listener.CommunityListener
 import com.gamelink.gamelinkapp.service.listener.PostListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
@@ -13,15 +14,14 @@ import com.gamelink.gamelinkapp.view.viewholder.PostViewHolder
 
 class CommunityAdapter : RecyclerView.Adapter<CommunityViewHolder>() {
     private var listCommunities: List<CommunityModel> = arrayListOf()
-    // private lateinit var listener: PostListener
+    private lateinit var listener: CommunityListener
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = RowCommunitiesListBinding.inflate(inflater, parent, false)
 
-        // return CommunityViewHolder(itemBinding, listener)
-        return CommunityViewHolder(itemBinding)
+        return CommunityViewHolder(itemBinding, listener)
     }
 
     override fun getItemCount(): Int {
@@ -37,7 +37,7 @@ class CommunityAdapter : RecyclerView.Adapter<CommunityViewHolder>() {
         notifyDataSetChanged()
     }
 
-//    fun attachListener(postListener: PostListener) {
-//        listener = postListener
-//    }
+    fun attachListener(communityListener: CommunityListener) {
+        listener = communityListener
+    }
 }

@@ -13,4 +13,8 @@ class CommunityRepository(context: Context) {
     fun list(): List<CommunityModel> {
         return database.list()
     }
+
+    fun getById(id: Int): CommunityModel? {
+        return database.get(id)
+    }
 }

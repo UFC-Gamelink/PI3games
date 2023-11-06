@@ -12,4 +12,7 @@ interface CommunityDAO {
 
     @Query("SELECT * FROM communities")
     fun list(): List<CommunityModel>
+
+    @Query("SELECT * FROM communities WHERE id = :id")
+    fun get(id: Int): CommunityModel?
 }
