@@ -15,7 +15,7 @@ class PostViewHolder(private val itemBinding: RowPostsListBinding, val listener:
         itemBinding.textPost.text = post.post
 
         if(post.postImagePath != null) {
-            Glide.with(itemBinding.root.context).load(post.postImagePath).into(itemBinding.imagePost)
+            Glide.with(itemView).load(post.postImagePath).into(itemBinding.imagePost)
         }
 
         itemBinding.icDotMenu.setOnClickListener {

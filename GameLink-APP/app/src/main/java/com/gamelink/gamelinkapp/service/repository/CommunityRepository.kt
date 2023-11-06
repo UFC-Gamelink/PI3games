@@ -9,4 +9,8 @@ class CommunityRepository(context: Context) {
     fun save(community: CommunityModel) {
         database.save(community)
     }
+
+    fun list(): List<CommunityModel> {
+        return database.list()
+    }
 }

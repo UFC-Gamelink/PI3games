@@ -9,6 +9,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.util.UUID
 
 abstract class ImageUtils {
     companion object {
@@ -48,7 +49,7 @@ abstract class ImageUtils {
                 inputStream?.use {
                     // Crie um arquivo no diretório de cache do aplicativo
                     val cacheDir: File = context.cacheDir
-                    val cachedImage = File(cacheDir, "cached_image.jpg")
+                    val cachedImage = File(cacheDir, "community-banner-${UUID.randomUUID()}.jpg")
 
                     // Crie um OutputStream para o arquivo no cache
                     val outputStream: OutputStream = cachedImage.outputStream()
