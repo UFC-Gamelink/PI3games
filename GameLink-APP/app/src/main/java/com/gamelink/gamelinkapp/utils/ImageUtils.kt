@@ -3,9 +3,12 @@ package com.gamelink.gamelinkapp.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 abstract class ImageUtils {
     companion object {
@@ -19,7 +22,7 @@ abstract class ImageUtils {
                 stream.close()
 
                 file.absolutePath
-            } catch(e: IOException) {
+            } catch (e: IOException) {
                 e.printStackTrace()
                 null
             }
@@ -29,9 +32,50 @@ abstract class ImageUtils {
             return BitmapFactory.decodeFile(absolutePath)
         }
 
+        fun saveImageUri(context: Context, imageUri: Uri?): String? {
+            if(imageUri == null) {
+                return null
+            }
+
+            // Obtenha um ContentResolver
+            val contentResolver = context.contentResolver
+
+            return try {
+                // Abra um InputStream para o URI
+                val inputStream: InputStream? = contentResolver.openInputStream(imageUri)
+
+                // Verifique se o InputStream não é nulo
+                inputStream?.use {
+                    // Crie um arquivo no diretório de cache do aplicativo
+                    val cacheDir: File = context.cacheDir
+                    val cachedImage = File(cacheDir, "cached_image.jpg")
+
+                    // Crie um OutputStream para o arquivo no cache
+                    val outputStream: OutputStream = cachedImage.outputStream()
+
+                    // Copie os dados do InputStream para o OutputStream
+                    inputStream.copyTo(outputStream)
+
+                    // Feche o InputStream e o OutputStream
+                    inputStream.close()
+                    outputStream.close()
+
+                    // O arquivo da imagem foi salvo no cache
+                    cachedImage.absolutePath
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+        fun getUri(absolutePath: String): Uri {
+            return Uri.fromFile(File(absolutePath))
+        }
+
         fun deleteImage(path: String) {
             val imageFile = File(path)
-            if(imageFile.exists()) {
+            if (imageFile.exists()) {
                 imageFile.delete()
             }
 
