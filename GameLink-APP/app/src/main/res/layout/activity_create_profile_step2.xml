@@ -43,6 +43,17 @@
         app:layout_constraintTop_toBottomOf="@id/text_subtitle" />
 
     <ImageView
+        android:id="@+id/imageview_banner_picture"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/banner_profile"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@id/view_header_profile"
+        app:layout_constraintStart_toStartOf="@id/view_header_profile"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_profile_picture"
+        app:layout_constraintTop_toTopOf="@id/view_header_profile" />
+
+    <ImageView
         android:id="@+id/imageview_profile_picture"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -52,17 +63,6 @@
         android:src="@drawable/ic_user"
         app:layout_constraintStart_toStartOf="@id/view_header_profile"
         app:layout_constraintTop_toBottomOf="@+id/text_name"
-        app:layout_constraintTop_toTopOf="@id/view_header_profile" />
-
-    <ImageView
-        android:id="@+id/imageview_banner_picture"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/banner_profile"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="@id/view_header_profile"
-        app:layout_constraintStart_toStartOf="@id/view_header_profile"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_profile_picture"
         app:layout_constraintTop_toTopOf="@id/view_header_profile" />
 
     <TextView
@@ -78,16 +78,21 @@
         app:layout_constraintStart_toStartOf="@id/view_header_profile"
         app:layout_constraintTop_toBottomOf="@id/imageview_banner_picture" />
 
-
     <Button
         android:id="@+id/button_selection_profile_picture"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/button_gradient"
-        android:drawableTint="@color/white"
+        android:layout_marginTop="56dp"
         android:text="@string/select_profile_picture"
+        android:background="@drawable/button_gradient"
+        android:drawablePadding="0dp"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:paddingHorizontal="90dp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_header_profile" />
@@ -112,12 +117,17 @@
         android:layout_height="wrap_content"
         android:text="@string/next_button"
         android:background="@drawable/button_gradient"
+        android:drawablePadding="0dp"
+        android:drawableTint="@color/white"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
         android:layout_marginBottom="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-
     />
 
     <ImageView
