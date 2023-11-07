@@ -93,7 +93,7 @@
         android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:hint="@string/placeholder_your_name"
-        android:inputType="textPassword"
+        android:inputType="textPersonName"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
         android:textColorHint="@color/grayblue"
