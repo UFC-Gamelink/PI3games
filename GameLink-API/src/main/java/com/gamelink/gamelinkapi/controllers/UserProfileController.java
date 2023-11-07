@@ -5,10 +5,12 @@ import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -24,6 +26,28 @@ public class UserProfileController implements ICrudController<PostUserProfileReq
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
+    }
+
+    @PostMapping("/images")
+    public ResponseEntity<UserProfileResponse> postIconAndBanner(
+            @RequestPart @NotNull MultipartFile icon,
+            @RequestPart @NotNull MultipartFile banner
+    ) {
+        UserProfileResponse response = service.saveImages(icon, banner);
+        return ResponseEntity
+                .accepted()
+                .body(response);
+    }
+
+    @PutMapping("/images")
+    public ResponseEntity<UserProfileResponse> putIconAndBanner(
+            @RequestPart @NotNull MultipartFile icon,
+            @RequestPart @NotNull MultipartFile banner
+    ) {
+        UserProfileResponse response = service.updateImages(icon, banner);
+        return ResponseEntity
+                .accepted()
+                .body(response);
     }
 
     @DeleteMapping("/{id}")

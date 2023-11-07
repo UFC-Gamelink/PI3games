@@ -3,13 +3,14 @@ package com.gamelink.gamelinkapi.models.users;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 import com.gamelink.gamelinkapi.models.BaseModel;
+import com.gamelink.gamelinkapi.models.images.ImageModel;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +28,12 @@ public class UserProfile extends BaseModel {
     @OneToOne
     @NotNull
     private User user;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private ImageModel banner;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private ImageModel icon;
 
     @NotBlank
     @Column(length = 160)

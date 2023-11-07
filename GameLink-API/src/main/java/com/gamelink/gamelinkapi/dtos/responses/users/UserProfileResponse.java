@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.dtos.responses.users;
 
+import com.gamelink.gamelinkapi.dtos.responses.images.ImageResponseDto;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 import lombok.Builder;
@@ -17,6 +18,8 @@ public record UserProfileResponse(
         LocalDate entryDate,
         LocalDate birthdayDate,
         List<GameTime> gameTimes,
-        Gender gender
+        Gender gender,
+        ImageResponseDto icon,
+        ImageResponseDto banner
 ) {
 }
