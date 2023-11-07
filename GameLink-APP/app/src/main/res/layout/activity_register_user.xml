@@ -33,6 +33,7 @@
         android:inputType="text"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
+        android:textColor="@color/white"
         android:textColorHint="@color/grayblue"
         android:textSize="12sp" />
 
@@ -86,6 +87,7 @@
         android:inputType="textEmailAddress"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
+        android:textColor="@color/white"
         android:textColorHint="@color/grayblue"
         android:textSize="12sp" />
 
@@ -118,8 +120,8 @@
         android:inputType="textPassword"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
+        android:textColor="@color/white"
         android:textColorHint="@color/grayblue"
-
         android:textSize="12sp" />
 
     <TextView

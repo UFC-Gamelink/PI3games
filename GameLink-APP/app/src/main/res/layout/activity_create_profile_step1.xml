@@ -93,11 +93,12 @@
         android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:hint="@string/placeholder_your_name"
-        android:inputType="textPassword"
+        android:inputType="textPersonName"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
         android:textColorHint="@color/grayblue"
         android:textSize="12sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/text_label_choose_username" />
@@ -109,12 +110,17 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="56dp"
         android:background="@drawable/button_gradient"
+        android:drawablePadding="0dp"
         android:drawableTint="@color/white"
         android:fontFamily="@font/baloo_bhai_2"
+        android:paddingHorizontal="90dp"
         android:text="@string/confirm_username"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_name"/>
 
     />
 
