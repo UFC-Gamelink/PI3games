@@ -21,7 +21,7 @@ public interface UserProfileMapper {
     UserProfile postRequestToModel(PostUserProfileRequest request);
 
     @Mapping(target = "owner", source = "user.username")
-    @Mapping(qualifiedByName = "entryDateMapper",target = "entryDate", source = "createdAt")
+    @Mapping(qualifiedByName = "entryDateMapper", target = "entryDate", source = "createdAt")
     UserProfileResponse modelToResponseDto(UserProfile userProfile);
 
     UserProfileResponse postRequestToResponseDto(PostUserProfileRequest postUserProfileRequest);

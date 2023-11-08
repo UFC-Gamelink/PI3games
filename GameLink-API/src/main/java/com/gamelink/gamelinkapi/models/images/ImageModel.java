@@ -2,7 +2,6 @@ package com.gamelink.gamelinkapi.models.images;
 
 import com.gamelink.gamelinkapi.models.BaseModel;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 

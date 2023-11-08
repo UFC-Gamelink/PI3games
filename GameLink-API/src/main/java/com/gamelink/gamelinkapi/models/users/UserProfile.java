@@ -17,10 +17,10 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = true)
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class UserProfile extends BaseModel {
     @NotBlank
     private String name;

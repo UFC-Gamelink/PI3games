@@ -30,13 +30,12 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     private final CloudinaryRepository cloudinaryRepository;
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
-    public UserProfileResponse save(PostUserProfileRequest postUserProfileRequest) {
+    public void save(PostUserProfileRequest postUserProfileRequest) {
         UserProfile userProfileToBeSaved = mapper.postRequestToModel(postUserProfileRequest);
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
 
         userProfileToBeSaved.setUser(user);
-        UserProfile userProfileSaved = userProfileRepository.save(userProfileToBeSaved);
-        return mapper.modelToResponseDto(userProfileSaved);
+        userProfileRepository.save(userProfileToBeSaved);
     }
 
     @Override
