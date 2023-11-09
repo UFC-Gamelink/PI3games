@@ -28,9 +28,6 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
         if(isFormValid)  {
             community.ownerId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
 
-
-
-
             communityRepository.save(community)
             _communitySave.value = ValidationModel()
         }

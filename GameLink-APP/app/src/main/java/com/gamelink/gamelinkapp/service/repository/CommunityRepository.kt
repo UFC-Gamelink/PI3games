@@ -17,4 +17,8 @@ class CommunityRepository(context: Context) {
     fun getById(id: Int): CommunityModel? {
         return database.get(id)
     }
+
+    fun getFollowed(userId: Int): List<CommunityModel> {
+        return database.getCommunitiesIFollow(userId);
+    }
 }

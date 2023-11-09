@@ -15,4 +15,7 @@ interface CommunityDAO {
 
     @Query("SELECT * FROM communities WHERE id = :id")
     fun get(id: Int): CommunityModel?
+
+    @Query("SELECT * FROM communities WHERE owner_id = :userId")
+    fun getCommunitiesIFollow(userId: Int): List<CommunityModel>
 }

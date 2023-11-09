@@ -9,17 +9,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.gamelink.gamelinkapp.databinding.FragmentCommunitiesBinding
 import com.gamelink.gamelinkapp.service.listener.CommunityListener
 import com.gamelink.gamelinkapp.view.adapter.CommunityAdapter
+import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunityAdapter
 import com.gamelink.gamelinkapp.viewmodel.CommunitiesViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
 class CommunitiesFragment : Fragment() {
     private lateinit var viewModel: CommunitiesViewModel
     private var _binding: FragmentCommunitiesBinding? = null
 
     private val binding get() = _binding!!
-    private val adapter = CommunityAdapter()
+    private val communityAdapter = CommunityAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +34,7 @@ class CommunitiesFragment : Fragment() {
 
         binding.recyclerCommunities.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerCommunities.adapter = adapter
+        binding.recyclerCommunities.adapter = communityAdapter
 
         val listener = object : CommunityListener {
             override fun onCommunityClick(id: Int) {
@@ -42,11 +46,10 @@ class CommunitiesFragment : Fragment() {
             }
         }
 
-        adapter.attachListener(listener)
+        communityAdapter.attachListener(listener)
 
-        binding.floatingActionButton.setOnClickListener {
-            startActivity(Intent(context, CommunityFormActivity::class.java))
-        }
+        setViewPager()
+        setListeners()
 
         viewModel.list()
 
@@ -57,8 +60,44 @@ class CommunitiesFragment : Fragment() {
 
     private fun observe() {
         viewModel.communities.observe(viewLifecycleOwner) {
-            adapter.updateCommunities(it)
+            communityAdapter.updateCommunities(it)
         }
+    }
+
+    private fun setListeners() {
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(context, CommunityFormActivity::class.java))
+        }
+    }
+
+    private fun setViewPager() {
+        val tabLayout = binding.tabLayoutCommunities
+        val viewPager = binding.viewPagerCommunities
+
+        val viewpagerCommunityAdapter = ViewPagerCommunityAdapter(this)
+
+        viewPager.adapter = viewpagerCommunityAdapter
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+        })
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.getTabAt(position)?.select()
+            }
+        })
     }
 
 }

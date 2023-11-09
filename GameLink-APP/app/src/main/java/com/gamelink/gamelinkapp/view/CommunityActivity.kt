@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.R
@@ -32,6 +33,7 @@ class CommunityActivity : AppCompatActivity() {
             val communityId = bundle.getInt("community_id")
 
             viewModel.load(communityId)
+            viewModel.isOwner()
         }
     }
 
@@ -40,6 +42,12 @@ class CommunityActivity : AppCompatActivity() {
             binding.textName.text = it.name
             binding.textDescription.text = it.description
             Glide.with(this).load(it.bannerUrl).into(binding.imageBanner)
+        }
+
+        viewModel.userIsOwner.observe(this) {
+            if(it) {
+                binding.buttonJoinCommunity.visibility = View.GONE
+            }
         }
     }
 }
