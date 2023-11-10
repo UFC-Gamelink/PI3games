@@ -1,11 +1,14 @@
 package com.gamelink.gamelinkapp.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityCommunityBinding
 import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunityAdapter
 import com.gamelink.gamelinkapp.viewmodel.CommunityViewModel
@@ -24,7 +27,7 @@ class CommunityActivity : AppCompatActivity() {
 
         bundle = intent.extras!!
 
-        loadDataFromActivity()
+
 
         binding.imageBack.setOnClickListener {
             finish()
@@ -42,11 +45,20 @@ class CommunityActivity : AppCompatActivity() {
             viewModel.leave(communityId)
         }
 
+        binding.imageCommunityOptions.setOnClickListener {
+            showPopupMenu(it)
+        }
+
         setViewPager()
 
         observe()
 
         setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadDataFromActivity()
     }
 
     private fun loadDataFromActivity() {
@@ -64,10 +76,11 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         viewModel.userIsOwner.observe(this) {
-            if(it) {
+            if (it) {
                 binding.buttonJoinCommunity.visibility = View.GONE
                 binding.buttonLeaveCommunity.visibility = View.GONE
             } else {
+                binding.imageCommunityOptions.visibility = View.GONE
                 val communityId = bundle.getInt("community_id")
 
                 viewModel.joined(communityId)
@@ -75,7 +88,7 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         viewModel.joined.observe(this) {
-            if(it) {
+            if (it) {
                 binding.buttonJoinCommunity.visibility = View.GONE
                 binding.buttonLeaveCommunity.visibility = View.VISIBLE
             } else {
@@ -114,5 +127,26 @@ class CommunityActivity : AppCompatActivity() {
                 tabLayout.getTabAt(position)?.select()
             }
         })
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view).apply {
+            menuInflater.inflate(R.menu.options_community_menu, this.menu)
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_update_community -> {
+                    val intent = Intent(this, CommunityFormActivity::class.java)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        popupMenu.show()
     }
 }

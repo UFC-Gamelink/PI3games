@@ -13,7 +13,7 @@
         android:scaleType="fitXY"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/valorant_icon" />
+        android:src="@drawable/ic_communities" />
 
     <TextView
         android:id="@+id/text_community_title"

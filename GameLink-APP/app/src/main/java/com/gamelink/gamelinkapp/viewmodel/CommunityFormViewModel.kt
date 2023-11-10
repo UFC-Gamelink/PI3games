@@ -17,6 +17,9 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
     private val _communitySave = MutableLiveData<ValidationModel>()
     val communitySave: LiveData<ValidationModel> = _communitySave
 
+    private val _community = MutableLiveData<CommunityModel>()
+    val community: LiveData<CommunityModel> = _community
+
     private var isFormValid = false
 
     fun save(community: CommunityModel) {
@@ -28,9 +31,18 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
         if(isFormValid)  {
             community.ownerId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
 
-            communityRepository.save(community)
+            if(community.id == 0) {
+                communityRepository.create(community)
+            } else {
+                communityRepository.update(community)
+            }
+
             _communitySave.value = ValidationModel()
         }
+    }
+
+    fun load(communityId: Int) {
+        _community.value = communityRepository.getById(communityId)
     }
 
     private fun getErrorIfEmptyValue(value: String) {

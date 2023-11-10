@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingVertical="16dp"
+    android:padding="16dp"
     tools:context=".view.CommunityActivity">
 
     <ImageView
@@ -16,42 +16,50 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/image_community_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_dot_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/image_banner"
         android:layout_width="0dp"
         android:layout_height="250dp"
-        app:layout_constraintTop_toBottomOf="@id/image_back"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/image_back" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/text_name"
-        app:layout_constraintTop_toBottomOf="@+id/image_banner"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_banner" />
 
     <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/text_description"
-    app:layout_constraintTop_toBottomOf="@+id/text_name"
-    app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
+        android:id="@+id/text_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+
+    <Button
         android:id="@+id/button_join_community"
-        app:layout_constraintTop_toBottomOf="@+id/text_description"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Entrar" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_leave_community"
-        app:layout_constraintTop_toBottomOf="@+id/text_description"
+        android:text="Entrar"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Sair" />
+        app:layout_constraintTop_toBottomOf="@+id/text_description" />
+
+    <Button
+        android:id="@+id/button_leave_community"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sair"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_community"

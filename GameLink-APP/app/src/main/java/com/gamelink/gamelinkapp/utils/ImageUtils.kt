@@ -33,9 +33,28 @@ abstract class ImageUtils {
             return BitmapFactory.decodeFile(absolutePath)
         }
 
+        private fun isFileExists(context: Context, uri: Uri): Boolean {
+            val contentResolver = context.contentResolver
+
+            try {
+                // Tente obter as informações do arquivo
+                val inputStream = contentResolver.openInputStream(uri)
+                inputStream?.close()
+                return true
+            } catch (e: IOException) {
+                // O arquivo não pode ser aberto, então assume-se que não existe
+                return false
+            }
+        }
+
+
         fun saveImageUri(context: Context, imageUri: Uri?): String? {
             if(imageUri == null) {
                 return null
+            }
+
+            if(isFileExists(context, imageUri)) {
+                return imageUri.toString()
             }
 
             // Obtenha um ContentResolver

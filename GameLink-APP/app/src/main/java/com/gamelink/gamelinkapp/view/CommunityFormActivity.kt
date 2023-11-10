@@ -1,12 +1,15 @@
 package com.gamelink.gamelinkapp.view
 
+import android.Manifest
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import com.gamelink.gamelinkapp.R
+import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.databinding.ActivityCommunityFormBinding
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.utils.ImageUtils
@@ -15,18 +18,17 @@ import com.gamelink.gamelinkapp.viewmodel.CommunityFormViewModel
 class CommunityFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommunityFormBinding
     private lateinit var viewModel: CommunityFormViewModel
-
     private var imageUri: Uri? = null
+    private var communityId = 0
 
     private val getContent =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            if(uri != null) {
-                imageUri = uri
-                binding.imageBannerCommunity.setImageURI(imageUri)
-            } else {
-                binding.imageBannerCommunity.setImageDrawable(getDrawable(R.drawable.ic_new_photo))
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data?.data.let { uri ->
+                if (uri != null) {
+                    imageUri = uri
+                    Glide.with(this).load(uri).into(binding.imageBannerCommunity)
+                }
             }
-
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,15 +49,28 @@ class CommunityFormActivity : AppCompatActivity() {
             chooseImage()
         }
 
-        setContentView(binding.root)
+        loadDataFromActivity()
 
         observe()
+
+        setContentView(binding.root)
+    }
+
+    private fun loadDataFromActivity() {
+        val bundle = intent.extras
+
+        if (bundle != null) {
+            communityId = bundle.getInt("community_id")
+
+            viewModel.load(communityId)
+        }
     }
 
     private fun handleSave() {
         val communityBannerPath = ImageUtils.saveImageUri(applicationContext, imageUri)
 
         val community = CommunityModel().apply {
+            this.id = communityId
             this.name = binding.edittextCommunityName.text.toString()
             this.description = binding.edittextCommunityDescription.text.toString()
             this.private = binding.switchPrivateCommunity.isChecked
@@ -66,18 +81,41 @@ class CommunityFormActivity : AppCompatActivity() {
     }
 
     private fun chooseImage() {
-        getContent.launch("image/*")
+        getContent.launch(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        )
     }
 
     private fun observe() {
         viewModel.communitySave.observe(this) {
-            if(it.status()) {
-                Toast.makeText(applicationContext, "salvo com sucesso", Toast.LENGTH_SHORT).show()
-                imageUri = null
+            if (it.status()) {
+                if (communityId == 0) {
+                    toast("salvo com sucesso")
+                } else {
+                    toast("atualizado com sucesso")
+                }
+
                 finish()
             } else {
-                Toast.makeText(applicationContext, it.message(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel.community.observe(this) {
+            binding.edittextCommunityName.setText(it.name)
+            binding.edittextCommunityDescription.setText(it.description)
+            Glide.with(this).load(it.bannerUrl).into(binding.imageBannerCommunity)
+            if(it.bannerUrl != null) {
+                imageUri = Uri.parse(it.bannerUrl)
+            }
+            binding.switchPrivateCommunity.isChecked = it.private
+        }
+    }
+
+    private fun toast(str: String) {
+        Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
     }
 }

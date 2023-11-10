@@ -6,8 +6,12 @@ import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 
 class CommunityRepository(context: Context) {
     private val database = LocalDatabase.getDatabase(context).communityDAO()
-    fun save(community: CommunityModel) {
-        database.save(community)
+    fun create(community: CommunityModel) {
+        database.create(community)
+    }
+
+    fun update(community: CommunityModel) {
+        database.update(community)
     }
 
     fun list(): List<CommunityModel> {
