@@ -17,6 +17,9 @@ interface PostDAO {
     @Query("SELECT * FROM POSTS WHERE user_id = :userId ORDER BY created_at DESC")
     fun listByUser(userId: Int): List<PostModel>
 
+    @Query("SELECT * FROM POSTS WHERE visibility = :visibility ORDER BY created_at DESC")
+    fun listByCommunity(visibility: Int): List<PostModel>
+
     @Delete
     fun delete(post: PostModel)
 

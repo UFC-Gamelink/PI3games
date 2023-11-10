@@ -12,19 +12,19 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterPostBinding
+import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.adapter.ItemAdapter
 import com.gamelink.gamelinkapp.viewmodel.RegisterPostViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
@@ -34,11 +34,10 @@ class RegisterPostActivity : AppCompatActivity() {
     private lateinit var itemAdapter: ItemAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: RegisterPostViewModel
+    private var listCommunities: List<CommunityModel> = mutableListOf()
     private lateinit var dialog: AlertDialog
     private var imagePreview: Bitmap? = null
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-
-    private val list = ArrayList<String>()
 
     private val requestGallery =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
@@ -94,14 +93,6 @@ class RegisterPostActivity : AppCompatActivity() {
             finish()
         }
 
-        for(i in 1..10) {
-            list.add("item $i")
-        }
-
-        binding.textVisibilityToggle.setOnClickListener {
-            showBottomSheet()
-        }
-
         binding.imageAddImage.setOnClickListener {
             checkGalleryPermission()
         }
@@ -115,18 +106,9 @@ class RegisterPostActivity : AppCompatActivity() {
             binding.imageRemoveImage.visibility = View.GONE
         }
 
+        viewModel.loadCommunities()
+
         setContentView(binding.root)
-
-    }
-
-    private fun showBottomSheet () {
-        val dialogView  = layoutInflater.inflate(R.layout.bottom_sheet, null)
-        val dialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-        dialog.setContentView(dialogView)
-        recyclerView = dialogView.findViewById(R.id.recycler_view_item)
-        itemAdapter = ItemAdapter(list)
-        recyclerView.adapter = itemAdapter
-        dialog.show()
 
     }
 
@@ -139,7 +121,15 @@ class RegisterPostActivity : AppCompatActivity() {
         val post = PostModel().apply {
             this.post = binding.editPost.text.toString().trim()
             this.postImagePath = imagePostPath
-            this.createdAt = dateFormat.format(Date());
+            this.createdAt = dateFormat.format(Date())
+
+            val index = binding.spinnerVisibility.selectedItemPosition
+            if(index == 0) {
+                this.visibility = 0
+
+            } else {
+                this.visibility = listCommunities[index - 1].id
+            }
         }
 
         viewModel.save(post)
@@ -154,7 +144,20 @@ class RegisterPostActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
             }
+        }
 
+        viewModel.communityList.observe(this) {
+            listCommunities = it
+
+            val list = mutableListOf<String>()
+
+            list.add("publico")
+            for(c in it) {
+                list.add(c.name)
+            }
+
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, list)
+            binding.spinnerVisibility.adapter = adapter
         }
     }
 

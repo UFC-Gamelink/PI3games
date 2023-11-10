@@ -42,18 +42,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_post" />
 
-    <TextView
-        android:id="@+id/text_visibility_toggle"
+    <Spinner
+        android:id="@+id/spinner_visibility"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/text_bg"
-        android:padding="10dp"
-        android:text="@string/public_post"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#c1c1c1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_new_post" />
+        app:layout_constraintTop_toBottomOf="@+id/text_new_post" />
 
     <EditText
         android:id="@+id/edit_post"
@@ -63,7 +60,7 @@
         android:layout_marginTop="16dp"
         android:hint="@string/placeholder_post"
         android:textColorHint="@color/gray"
-        app:layout_constraintTop_toBottomOf="@id/text_visibility_toggle" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_visibility" />
 
     <ImageView
         android:id="@+id/image_remove_image"

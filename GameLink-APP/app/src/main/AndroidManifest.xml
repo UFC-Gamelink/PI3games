@@ -20,6 +20,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.CommunityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.CommunityFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.createProfile.CreateProfileStep5Activity"
             android:exported="false" />
         <activity

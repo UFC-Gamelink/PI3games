@@ -1,60 +1,105 @@
 package com.gamelink.gamelinkapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gamelink.gamelinkapp.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.gamelink.gamelinkapp.databinding.FragmentCommunitiesBinding
+import com.gamelink.gamelinkapp.service.listener.CommunityListener
+import com.gamelink.gamelinkapp.view.adapter.CommunityAdapter
+import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunitiesAdapter
+import com.gamelink.gamelinkapp.viewmodel.CommunitiesViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CommunitiesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CommunitiesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var viewModel: CommunitiesViewModel
+    private var _binding: FragmentCommunitiesBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val binding get() = _binding!!
+    private val communityAdapter = CommunityAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_communities, container, false)
+    ): View {
+        viewModel = ViewModelProvider(this).get(CommunitiesViewModel::class.java)
+        _binding = FragmentCommunitiesBinding.inflate(inflater, container, false)
+
+        binding.recyclerCommunities.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerCommunities.adapter = communityAdapter
+
+        val listener = object : CommunityListener {
+            override fun onCommunityClick(id: Int) {
+                val intent = Intent(context, CommunityActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt("community_id", id)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+        }
+
+        communityAdapter.attachListener(listener)
+
+        setViewPager()
+        setListeners()
+
+        observe()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CommunitiesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CommunitiesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onResume() {
+        super.onResume()
+        viewModel.list()
     }
+
+    private fun observe() {
+        viewModel.communities.observe(viewLifecycleOwner) {
+            communityAdapter.updateCommunities(it)
+        }
+    }
+
+    private fun setListeners() {
+        binding.floatingActionButton.setOnClickListener {
+            startActivity(Intent(context, CommunityFormActivity::class.java))
+        }
+    }
+
+    private fun setViewPager() {
+        val tabLayout = binding.tabLayoutCommunities
+        val viewPager = binding.viewPagerCommunities
+
+        val viewpagerCommunitiesAdapter = ViewPagerCommunitiesAdapter(this)
+
+        viewPager.adapter = viewpagerCommunitiesAdapter
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+        })
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.getTabAt(position)?.select()
+            }
+        })
+    }
+
 }

@@ -182,9 +182,7 @@
         app:tabTextColor="@color/gray"
         android:background="@color/primary_blue_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_bio_value"
-
-        >
+        app:layout_constraintTop_toBottomOf="@+id/text_bio_value">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
