@@ -1,18 +1,32 @@
 package com.gamelink.gamelinkapp.view.adapter
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.gamelink.gamelinkapp.view.CommunitiesPostsFragment
-import com.gamelink.gamelinkapp.view.CommunitiesTopicsFragment
+import com.gamelink.gamelinkapp.view.CommunityPostsFragment
 
-class ViewPagerCommunityAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 2
+class ViewPagerCommunityAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
+    private var communityId: Int = 0
+
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
-        return when(position) {
-            0 -> CommunitiesPostsFragment()
-            1 -> CommunitiesTopicsFragment()
-            else -> CommunitiesPostsFragment()
+        val fragment = when(position) {
+            0 -> CommunityPostsFragment()
+            1 -> CommunityPostsFragment()
+            2 -> CommunityPostsFragment()
+            else -> CommunityPostsFragment()
         }
+
+        val bundle = Bundle()
+        bundle.putInt("community_id", communityId)
+        fragment.arguments = bundle
+
+        return fragment
+    }
+
+    fun setCommunityId(id: Int) {
+        communityId = id
     }
 }

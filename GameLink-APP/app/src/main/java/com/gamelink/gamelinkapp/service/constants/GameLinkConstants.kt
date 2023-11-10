@@ -10,4 +10,8 @@ class GameLinkConstants {
     object HEADER {
         const val TOKEN_KEY = "token"
     }
+
+    object BUNDLE {
+        const val COMMUNITY_ID = "community_id"
+    }
 }

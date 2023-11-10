@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.databinding.ActivityCommunityBinding
+import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunityAdapter
 import com.gamelink.gamelinkapp.viewmodel.CommunityViewModel
+import com.google.android.material.tabs.TabLayout
 
 class CommunityActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommunityBinding
@@ -38,6 +41,8 @@ class CommunityActivity : AppCompatActivity() {
 
             viewModel.leave(communityId)
         }
+
+        setViewPager()
 
         observe()
 
@@ -78,5 +83,36 @@ class CommunityActivity : AppCompatActivity() {
                 binding.buttonJoinCommunity.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun setViewPager() {
+        val tabLayout = binding.tabLayoutCommunity
+        val viewPager = binding.viewPagerCommunity
+
+        val viewPagerCommunityAdapter = ViewPagerCommunityAdapter(this)
+        viewPagerCommunityAdapter.setCommunityId(bundle.getInt("community_id"))
+
+        viewPager.adapter = viewPagerCommunityAdapter
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // TODO("Not yet implemented")
+            }
+        })
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.getTabAt(position)?.select()
+            }
+        })
     }
 }

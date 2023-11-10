@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapp.view.viewholder
 
 import android.app.AlertDialog
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.databinding.RowPostsListBinding
@@ -17,6 +18,10 @@ class PostViewHolder(private val itemBinding: RowPostsListBinding, val listener:
         if(post.postImagePath != null) {
             Glide.with(itemView).load(post.postImagePath).into(itemBinding.imagePost)
         }
+
+//        if(post.userId == 1) {
+//            itemBinding.icDotMenu.visibility = View.GONE
+//        }
 
         itemBinding.icDotMenu.setOnClickListener {
             AlertDialog.Builder(itemView.context)

@@ -14,8 +14,12 @@ class PostRepository(context: Context) {
         return database.list()
     }
 
-    fun listByUser(userId: Int):List<PostModel> {
+    fun listByUser(userId: Int): List<PostModel> {
         return database.listByUser(userId)
+    }
+
+    fun listByCommunity(communityId: Int): List<PostModel> {
+        return database.listByCommunity(communityId)
     }
 
     fun delete(post: PostModel) {

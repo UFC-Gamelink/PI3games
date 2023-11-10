@@ -5,56 +5,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gamelink.gamelinkapp.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.gamelink.gamelinkapp.databinding.FragmentCommunitiesPostsBinding
+import com.gamelink.gamelinkapp.view.adapter.PostAdapter
+import com.gamelink.gamelinkapp.viewmodel.CommunitiesPostsViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CommunitiesPostsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CommunitiesPostsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var viewModel: CommunitiesPostsViewModel
+    private var _binding: FragmentCommunitiesPostsBinding? = null
+    private val binding get() = _binding!!
+    private val adapter = PostAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_communities_posts, container, false)
+    ): View {
+        _binding = FragmentCommunitiesPostsBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(CommunitiesPostsViewModel::class.java)
+
+        binding.recyclerPostsCommunity.layoutManager = LinearLayoutManager(context)
+        binding.recyclerPostsCommunity.adapter = adapter
+
+        //viewModel.list()
+
+        observe()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CommunitiesPostsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CommunitiesPostsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun observe() {
+        viewModel.posts.observe(viewLifecycleOwner) {
+            adapter.updatePosts(it)
+        }
     }
 }

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.CommunitiesPostsFragment">
+    tools:context=".view.CommunityPostsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_posts_community"
+        android:id="@+id/recycler_community_posts"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"

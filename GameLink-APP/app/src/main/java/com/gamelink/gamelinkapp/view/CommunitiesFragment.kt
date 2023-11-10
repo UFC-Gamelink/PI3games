@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.gamelink.gamelinkapp.databinding.FragmentCommunitiesBinding
 import com.gamelink.gamelinkapp.service.listener.CommunityListener
 import com.gamelink.gamelinkapp.view.adapter.CommunityAdapter
-import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunityAdapter
+import com.gamelink.gamelinkapp.view.adapter.ViewPagerCommunitiesAdapter
 import com.gamelink.gamelinkapp.viewmodel.CommunitiesViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -74,9 +73,9 @@ class CommunitiesFragment : Fragment() {
         val tabLayout = binding.tabLayoutCommunities
         val viewPager = binding.viewPagerCommunities
 
-        val viewpagerCommunityAdapter = ViewPagerCommunityAdapter(this)
+        val viewpagerCommunitiesAdapter = ViewPagerCommunitiesAdapter(this)
 
-        viewPager.adapter = viewpagerCommunityAdapter
+        viewPager.adapter = viewpagerCommunitiesAdapter
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
