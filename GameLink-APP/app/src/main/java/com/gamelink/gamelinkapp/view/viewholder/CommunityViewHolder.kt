@@ -19,6 +19,10 @@ class CommunityViewHolder(
             Glide.with(itemView).load(community.bannerUrl).into(itemBinding.imageCommunityBanner)
         }
 
+        var membros = "${community.numMembers + 1} membro"
+        if (community.numMembers > 0) membros += "s"
+        itemBinding.textCountMembers.text = membros
+
         itemBinding.root.setOnClickListener { listener.onCommunityClick(community.id) }
     }
 

@@ -14,7 +14,7 @@ interface CommunityDAO {
     @Update
     fun update(community: CommunityModel)
 
-    @Query("SELECT * FROM communities")
+    @Query("SELECT c.*, COUNT(uc.user_id) as num_members from communities c LEFT JOIN user_community uc ON c.id = uc.community_id GROUP BY c.id")
     fun list(): List<CommunityModel>
 
     @Query("SELECT * FROM communities WHERE id = :id")

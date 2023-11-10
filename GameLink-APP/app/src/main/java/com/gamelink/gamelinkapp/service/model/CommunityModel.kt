@@ -24,4 +24,7 @@ class CommunityModel {
 
     @ColumnInfo(name = "owner_id")
     var ownerId: Int = 0
+
+    @ColumnInfo(name = "num_members")
+    var numMembers: Int = 0
 }

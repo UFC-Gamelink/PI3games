@@ -25,9 +25,9 @@ class CommunityActivity : AppCompatActivity() {
         binding = ActivityCommunityBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(CommunityViewModel::class.java)
 
+        setContentView(binding.root)
+
         bundle = intent.extras!!
-
-
 
         binding.imageBack.setOnClickListener {
             finish()
@@ -52,8 +52,6 @@ class CommunityActivity : AppCompatActivity() {
         setViewPager()
 
         observe()
-
-        setContentView(binding.root)
     }
 
     override fun onResume() {

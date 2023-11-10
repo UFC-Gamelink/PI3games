@@ -50,11 +50,14 @@ class CommunitiesFragment : Fragment() {
         setViewPager()
         setListeners()
 
-        viewModel.list()
-
         observe()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.list()
     }
 
     private fun observe() {
