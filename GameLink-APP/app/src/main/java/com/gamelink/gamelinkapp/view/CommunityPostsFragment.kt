@@ -36,7 +36,7 @@ class CommunityPostsFragment : Fragment() {
 
         val listener = object : PostListener {
             override fun onDeleteClick(id: Int) {
-               //
+                viewModel.delete(id)
             }
         }
 
@@ -54,6 +54,10 @@ class CommunityPostsFragment : Fragment() {
     private fun observe() {
         viewModel.posts.observe(viewLifecycleOwner) {
             adapter.updatePosts(it)
+        }
+
+        viewModel.delete.observe(viewLifecycleOwner) {
+            viewModel.list(communityId)
         }
     }
 }
