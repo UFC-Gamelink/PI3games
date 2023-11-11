@@ -64,21 +64,14 @@
 
     <EditText
         android:id="@+id/edit_username"
+        style="@style/PrimaryEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/text_username"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="12dp"
         android:autofillHints="name"
-        android:background="@drawable/rounded_edit_text"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:hint="@string/edittext_username"
-        android:inputType="text"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/grayblue"
-        android:textSize="12sp" />
+        android:hint="@string/edittext_username" />
 
     <TextView
         android:id="@+id/text_username_helper"
@@ -107,24 +100,16 @@
 
     <EditText
         android:id="@+id/edit_password"
+        style="@style/PrimaryEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/text_password"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="12dp"
         android:autofillHints="password"
-        android:background="@drawable/rounded_edit_text"
-        android:drawableEnd="@drawable/ic_visible_off"
-        android:drawableTint="@color/grayblue"
-        android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:hint="@string/editpassword_hint"
-        android:inputType="textPassword"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/grayblue"
-        android:textSize="12sp" />
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/text_password_helper"

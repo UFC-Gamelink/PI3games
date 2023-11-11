@@ -45,7 +45,7 @@
             16dp
         </item>
         <item name="android:paddingHorizontal">
-            32dp
+            24dp
         </item>
         <item name="android:textColor">
             @color/white
