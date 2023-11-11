@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.FragmentProfileBinding
 import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.adapter.ViewPagerAdapter
@@ -62,17 +64,8 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, RegisterPostActivity::class.java))
         }
 
-        binding.imageLogout.setOnClickListener {
-            AlertDialog.Builder(context)
-                .setTitle("Fazer Logout")
-                .setMessage("Deseja fazer logout?")
-                .setPositiveButton("Sim") { _, _ ->
-                    viewModel.logout()
-                    startActivity(Intent(context, LoginActivity::class.java))
-                    activity?.finish()
-                }
-                .setNeutralButton("Cancelar", null)
-                .show()
+        binding.imageProfileOptions.setOnClickListener {
+            showPopupMenu(it)
         }
 
         observe()
@@ -102,5 +95,40 @@ class ProfileFragment : Fragment() {
             val bitmapBanner = ImageUtils.getBitmap(pathBannerPic)
             binding.imageviewBannerPicture.setImageBitmap(bitmapBanner)
         }
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(context, view).apply {
+            menuInflater.inflate(R.menu.options_profile_menu, this.menu)
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_update_profile -> {
+                    startActivity(Intent(context, ProfileFormActivity::class.java))
+                    true
+                }
+                R.id.item_logout -> {
+                    showAlertDialog()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
+
+    private fun showAlertDialog() {
+        AlertDialog.Builder(context)
+            .setTitle("Fazer Logout")
+            .setMessage("Deseja fazer logout?")
+            .setPositiveButton("Sim") { _, _ ->
+                viewModel.logout()
+                startActivity(Intent(context, LoginActivity::class.java))
+                activity?.finish()
+            }
+            .setNeutralButton("Cancelar", null)
+            .show()
     }
 }
