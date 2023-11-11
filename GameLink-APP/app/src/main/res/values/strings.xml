@@ -104,4 +104,6 @@
     <string name="posts_label">Posts</string>
     <string name="label_bio">Bio</string>
     <string name="bio_default">Se você não me encontrar na vida real, é porque estou ocupada salvando o mundo em algum RPG épico ou competindo em torneios o nline. Amante de pizza 🍕 e energético ⚡.</string>
+    <string name="login_button_text">Realizar Login</string>
+    <string name="register_button_text">Realizar Cadastro</string>
 </resources>

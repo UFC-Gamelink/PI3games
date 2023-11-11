@@ -36,10 +36,10 @@
         android:id="@+id/image_winner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="64dp"
         android:contentDescription="@string/alt_winner_flatline"
         android:src="@drawable/winner_flatline"
-        android:layout_marginHorizontal="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_subtitle" />
 
@@ -49,11 +49,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:fontFamily="@font/baloo_bhai_2"
+        android:paddingHorizontal="32dp"
         android:text="@string/title_choose_name"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:paddingHorizontal="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_winner" />
 
@@ -61,11 +61,11 @@
         android:id="@+id/text_subtitle_choose_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/baloo_bhai_2"
         android:text="@string/choose_name_subtitle"
         android:textColor="@color/gray"
-        android:layout_marginHorizontal="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_title_choose_name" />
 
@@ -73,55 +73,41 @@
         android:id="@+id/text_label_choose_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/baloo_bhai_2"
         android:text="@string/choose_name"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_marginHorizontal="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_subtitle_choose_name" />
 
     <EditText
         android:id="@+id/edit_name"
+        style="@style/PrimaryEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="12dp"
         android:autofillHints="username"
-        android:background="@drawable/rounded_edit_text"
-        android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:hint="@string/placeholder_your_name"
         android:inputType="textPersonName"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
-        android:textColorHint="@color/grayblue"
-        android:textSize="12sp"
-        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/text_label_choose_username" />
 
     <Button
         android:id="@+id/button_confirm"
+        style="@style/PrimaryButtonTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="56dp"
-        android:background="@drawable/button_gradient"
-        android:drawablePadding="0dp"
-        android:drawableTint="@color/white"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:paddingHorizontal="90dp"
         android:text="@string/confirm_username"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
     />
 
     <ImageView

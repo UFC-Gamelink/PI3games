@@ -86,21 +86,15 @@
 
     <Button
         android:id="@+id/button_post"
+        style="@style/PrimaryButtonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginVertical="32dp"
-        android:background="@drawable/button_gradient"
-        android:drawablePadding="0dp"
-        android:drawableTint="@color/white"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:backgroundTint="@null"
         android:paddingHorizontal="48dp"
         android:text="@string/post"
-        app:layout_constraintTop_toBottomOf="@+id/image_preview"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_preview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
