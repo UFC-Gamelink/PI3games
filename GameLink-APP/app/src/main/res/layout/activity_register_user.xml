@@ -213,21 +213,16 @@
 
     <Button
         android:id="@+id/button_register"
+        style="@style/PrimaryButtonTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_special_character"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/button_gradient"
         android:drawableEnd="@drawable/ic_play"
-        android:drawablePadding="0dp"
         android:drawableTint="@color/white"
-        android:fontFamily="@font/baloo_bhai_2"
         android:paddingHorizontal="90dp"
-        android:text="Realizar Cadastro"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:backgroundTint="@null" />
+        android:text="@string/register_button_text" />
 
     <TextView
         android:id="@+id/text_login"

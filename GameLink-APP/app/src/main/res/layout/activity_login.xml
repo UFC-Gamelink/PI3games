@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    android:orientation="vertical"
     android:fontFamily="@font/baloo_bhai_2"
+    android:orientation="vertical"
     tools:context=".view.LoginActivity">
 
 
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_press_play"
         android:layout_marginHorizontal="30dp"
-        android:text="Encontre Duos, comunidades, jogos\n em promoção e muito mais"
         android:fontFamily="@font/baloo_bhai_2"
+        android:text="Encontre Duos, comunidades, jogos\n em promoção e muito mais"
         android:textColor="#97A5D5"
         android:textSize="13sp" />
 
@@ -76,9 +76,9 @@
         android:inputType="text"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
+        android:textColor="@color/white"
         android:textColorHint="@color/grayblue"
-        android:textSize="12sp"
-        android:textColor="@color/white"/>
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text_username_helper"
@@ -122,8 +122,8 @@
         android:inputType="textPassword"
         android:paddingHorizontal="20dp"
         android:paddingVertical="12dp"
-        android:textColorHint="@color/grayblue"
         android:textColor="@color/white"
+        android:textColorHint="@color/grayblue"
         android:textSize="12sp" />
 
     <TextView
@@ -147,26 +147,20 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="30dp"
-        android:textSize="12sp"
         android:fontFamily="@font/baloo_bhai_2"
         android:text="@string/forgot_password"
-        android:textColor="#095CBF" />
+        android:textColor="#095CBF"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/button_login"
+        style="@style/PrimaryButtonTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_password_helper"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/button_gradient"
-        android:drawableEnd="@drawable/ic_play"
-        android:drawablePadding="0dp"
-        android:drawableTint="@color/white"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:paddingHorizontal="90dp"
-        android:text="Realizar Login"
-        android:textAllCaps="false"
+        android:text="@string/login_button_text"
         android:textColor="@color/white"
         app:backgroundTint="@null" />
 
@@ -190,9 +184,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
+        android:contentDescription="@string/footer"
         android:scaleType="fitXY"
-        android:src="@drawable/bottom_layout"
-        android:contentDescription="@string/footer" />
+        android:src="@drawable/bottom_layout" />
 
 
 </RelativeLayout>
