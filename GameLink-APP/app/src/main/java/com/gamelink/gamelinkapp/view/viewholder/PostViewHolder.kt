@@ -23,7 +23,7 @@ class PostViewHolder(private val itemBinding: RowPostsListBinding, val listener:
         }
 
         itemBinding.textNameProfile.text = post.userProfile.name
-        itemBinding.textUsernameProfile.text = "@" + post.userProfile.username
+        itemBinding.textUsernameProfile.text = "@${post.username}"
         Glide.with(itemView)
             .load(post.userProfile.profilePicPath)
             .into(itemBinding.imageviewProfilePost)

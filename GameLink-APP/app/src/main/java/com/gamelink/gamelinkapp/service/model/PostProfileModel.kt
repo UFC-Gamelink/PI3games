@@ -9,6 +9,7 @@ data class PostProfileModel(
         parentColumn = "user_id",
         entityColumn = "user_id"
     )
-    val userProfile: ProfileModel
+    val userProfile: ProfileModel,
+    val username: String = ""
 ) {
 }
