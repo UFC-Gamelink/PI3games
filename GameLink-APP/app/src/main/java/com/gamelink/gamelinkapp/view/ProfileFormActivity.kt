@@ -1,14 +1,21 @@
 package com.gamelink.gamelinkapp.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityProfileFormBinding
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
+import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.viewmodel.ProfileFormViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -19,6 +26,24 @@ class ProfileFormActivity : AppCompatActivity() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private lateinit var bundle: Bundle
     private var userProfile: UserAndProfileModel? = null
+    private lateinit var imageView: ImageView
+    private var imageUri: Uri? = null
+
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data?.data.let { uri ->
+                if (uri != null) {
+                    imageUri = uri
+                    Glide.with(this).load(uri).into(imageView)
+
+                    if (imageView.id == R.id.image_profile_picture) {
+                        bundle.putString("profile_uri", uri.toString())
+                    } else if (imageView.id == R.id.image_banner_picture) {
+                        bundle.putString("banner_uri", uri.toString())
+                    }
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +67,16 @@ class ProfileFormActivity : AppCompatActivity() {
 
         binding.buttonSave.setOnClickListener {
             handleSave()
+        }
+
+        binding.imageProfilePicture.setOnClickListener {
+            imageView = binding.imageProfilePicture
+            chooseImage()
+        }
+
+        binding.imageBannerPicture.setOnClickListener {
+            imageView = binding.imageBannerPicture
+            chooseImage()
         }
 
         observe()
@@ -80,6 +115,22 @@ class ProfileFormActivity : AppCompatActivity() {
             this.bio = binding.editBio.text.toString()
             this.birthday = binding.buttonDate.text.toString()
             this.showBirthday = binding.switchShowDate.isChecked
+
+            if (bundle.getString("profile_uri") != null) {
+                this.profilePicPath =
+                    ImageUtils.saveImageUri(
+                        applicationContext,
+                        Uri.parse(bundle.getString("profile_uri"))
+                    )
+            }
+
+            if (bundle.getString("banner_uri") != null) {
+                this.bannerPicPath =
+                    ImageUtils.saveImageUri(
+                        applicationContext,
+                        Uri.parse(bundle.getString("banner_uri"))
+                    )
+            }
         }
 
         viewModel.save(user, profile)
@@ -101,10 +152,19 @@ class ProfileFormActivity : AppCompatActivity() {
         }
 
         viewModel.update.observe(this) {
-            if(it.status()) {
+            if (it.status()) {
                 Toast.makeText(this, "Atualizado", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
+    }
+
+    private fun chooseImage() {
+        getContent.launch(
+            Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+        )
     }
 }

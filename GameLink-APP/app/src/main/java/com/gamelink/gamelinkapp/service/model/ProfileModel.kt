@@ -17,10 +17,10 @@ class ProfileModel {
     var name: String = ""
 
     @ColumnInfo(name = "profile_pic_path")
-    var profilePicPath = ""
+    var profilePicPath: String? = ""
 
     @ColumnInfo(name = "banner_pic_path")
-    var bannerPicPath = ""
+    var bannerPicPath: String? = ""
 
     @ColumnInfo(name = "bio")
     var bio = ""

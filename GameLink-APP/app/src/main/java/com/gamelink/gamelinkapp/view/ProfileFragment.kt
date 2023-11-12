@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.FragmentProfileBinding
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
-import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.adapter.ViewPagerAdapter
 import com.gamelink.gamelinkapp.viewmodel.ProfileViewModel
 import com.google.android.material.tabs.TabLayout
@@ -89,13 +89,9 @@ class ProfileFragment : Fragment() {
             binding.textBioValue.text = it.bio
             binding.textCountPosts.text = it.numPosts.toString()
 
-            val pathProfilePic = it.profilePicPath
-            val bitmap = ImageUtils.getBitmap(pathProfilePic)
-            binding.imageviewProfilePicture.setImageBitmap(bitmap)
+            Glide.with(this).load(it.profilePicPath).into(binding.imageviewProfilePicture)
+            Glide.with(this).load(it.bannerPicPath).into(binding.imageviewBannerPicture)
 
-            val pathBannerPic = it.bannerPicPath
-            val bitmapBanner = ImageUtils.getBitmap(pathBannerPic)
-            binding.imageviewBannerPicture.setImageBitmap(bitmapBanner)
 
             bundle.putInt(GameLinkConstants.SHARED.USER_ID, it.id)
         }
