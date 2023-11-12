@@ -57,4 +57,36 @@
             12sp
         </item>
     </style>
+
+    <style name="DefaultTitle1">
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:paddingHorizontal">
+            32dp
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+        <item name="android:textSize">
+            20sp
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="DefaultSubtitle1">
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:textColor">
+            @color/gray
+        </item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

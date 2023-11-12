@@ -25,7 +25,6 @@ class RegisterPostViewModel(application: Application)  : AndroidViewModel(applic
 
     fun save(post: PostModel) {
         if(post.post.isEmpty()) {
-
             _postSave.value = ValidationModel("Campo descrição obrigatório")
         } else {
             post.userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()

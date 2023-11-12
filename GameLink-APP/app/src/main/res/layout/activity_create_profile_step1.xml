@@ -45,15 +45,11 @@
 
     <TextView
         android:id="@+id/text_title_choose_name"
+        style="@style/DefaultTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:paddingHorizontal="32dp"
         android:text="@string/title_choose_name"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_winner" />
 
@@ -63,9 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/baloo_bhai_2"
+        style="@style/DefaultSubtitle1"
         android:text="@string/choose_name_subtitle"
-        android:textColor="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_title_choose_name" />
 
