@@ -32,19 +32,20 @@ class PostViewHolder(private val itemBinding: RowPostsListBinding, val listener:
 
         if(post.post.userId != userId) {
             itemBinding.icDotMenu.visibility = View.GONE
-            itemBinding.icDotMenu.setOnClickListener {
-                AlertDialog.Builder(itemView.context)
-                    .setTitle("Remover Post")
-                    .setMessage("Deseja apagar o post?")
-                    .setPositiveButton("Sim") { _, _ ->
-                        if(post.post.postImagePath != null) {
-                            ImageUtils.deleteImage(post.post.postImagePath!!)
-                        }
-                        listener.onDeleteClick(post.post.id)
+        }
+
+        itemBinding.icDotMenu.setOnClickListener {
+            AlertDialog.Builder(itemView.context)
+                .setTitle("Remover Post")
+                .setMessage("Deseja apagar o post?")
+                .setPositiveButton("Sim") { _, _ ->
+                    if(post.post.postImagePath != null) {
+                        ImageUtils.deleteImage(post.post.postImagePath!!)
                     }
-                    .setNeutralButton("Cancelar", null)
-                    .show()
-            }
+                    listener.onDeleteClick(post.post.id)
+                }
+                .setNeutralButton("Cancelar", null)
+                .show()
         }
     }
 }
