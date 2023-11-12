@@ -22,7 +22,7 @@
         android:contentDescription="@string/banner_aly"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/image_back" />
 
     <ImageView
         android:id="@+id/image_profile_picture"
@@ -94,12 +94,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_bio" />
 
+    <TextView
+        android:id="@+id/text_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data de aniversário"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_bio" />
+
+    <Button
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:id="@+id/button_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:hint="@string/date_select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_birthday" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_show_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_age"
+        app:layout_constraintTop_toBottomOf="@+id/button_date"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/button_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Salvar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_bio" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_show_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

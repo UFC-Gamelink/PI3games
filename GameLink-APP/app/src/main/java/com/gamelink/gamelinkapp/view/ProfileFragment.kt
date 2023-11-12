@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.FragmentProfileBinding
+import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.adapter.ViewPagerAdapter
 import com.gamelink.gamelinkapp.viewmodel.ProfileViewModel
@@ -23,6 +24,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfileViewModel
+    private val bundle = Bundle()
 
 
     override fun onCreateView(
@@ -94,6 +96,8 @@ class ProfileFragment : Fragment() {
             val pathBannerPic = it.bannerPicPath
             val bitmapBanner = ImageUtils.getBitmap(pathBannerPic)
             binding.imageviewBannerPicture.setImageBitmap(bitmapBanner)
+
+            bundle.putInt(GameLinkConstants.SHARED.USER_ID, it.id)
         }
     }
 
@@ -105,7 +109,9 @@ class ProfileFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_update_profile -> {
-                    startActivity(Intent(context, ProfileFormActivity::class.java))
+                    val intent = Intent(context, ProfileFormActivity::class.java)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
                     true
                 }
                 R.id.item_logout -> {

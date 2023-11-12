@@ -14,4 +14,8 @@ class ProfileRepository(context: Context) {
     fun getByUser(userId: Int): ProfileModel? {
         return database.getByUserId(userId)
     }
+
+    fun update(profile: ProfileModel) {
+        database.update(profile)
+    }
 }
