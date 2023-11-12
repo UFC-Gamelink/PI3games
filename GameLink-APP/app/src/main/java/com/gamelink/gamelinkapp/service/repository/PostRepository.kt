@@ -1,7 +1,9 @@
 package com.gamelink.gamelinkapp.service.repository
 
 import android.content.Context
+import com.gamelink.gamelinkapp.service.mocks.MockPosts
 import com.gamelink.gamelinkapp.service.model.PostModel
+import com.gamelink.gamelinkapp.service.model.PostProfileModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 
 class PostRepository(context: Context) {
@@ -10,23 +12,28 @@ class PostRepository(context: Context) {
         database.save(post)
     }
 
-    fun list(): List<PostModel> {
+    fun list(): List<PostProfileModel> {
         return database.list()
     }
 
-    fun listByUser(userId: Int): List<PostModel> {
+    fun listByUser(userId: Int): List<PostProfileModel> {
         return database.listByUser(userId)
     }
 
-    fun listByCommunity(communityId: Int): List<PostModel> {
+    fun listByRecommended(): List<PostProfileModel> {
+        val mockPosts = MockPosts()
+        return mockPosts.getRecommendedPosts()
+    }
+
+    fun listByCommunity(communityId: Int): List<PostProfileModel> {
         return database.listByCommunity(communityId)
     }
 
-    fun delete(post: PostModel) {
-        database.delete(post)
+    fun delete(postId: Int) {
+        database.delete(postId)
     }
 
-    fun findByIdAndUserId(id: Int, userId: Int): PostModel? {
+    fun findByIdAndUserId(id: Int, userId: Int): PostProfileModel? {
         return database.findByIdAndUserId(id, userId)
     }
 }

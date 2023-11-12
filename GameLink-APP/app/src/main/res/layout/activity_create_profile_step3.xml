@@ -36,12 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:paddingHorizontal="32dp"
         android:text="@string/bio_title"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/DefaultTitle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_subtitle" />
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
-import com.gamelink.gamelinkapp.service.model.PostModel
+import com.gamelink.gamelinkapp.service.model.PostProfileModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
@@ -14,8 +14,8 @@ class CommunitiesPostsViewModel(application: Application) : AndroidViewModel(app
     private val postsRepository = PostRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
-    private val _posts = MutableLiveData<List<PostModel>>()
-    val posts: LiveData<List<PostModel>> = _posts
+    private val _posts = MutableLiveData<List<PostProfileModel>>()
+    val posts: LiveData<List<PostProfileModel>> = _posts
 
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
@@ -33,7 +33,7 @@ class CommunitiesPostsViewModel(application: Application) : AndroidViewModel(app
         if(post == null) {
             _delete.value = ValidationModel("Operação não autorizada")
         } else {
-            postsRepository.delete(post)
+            postsRepository.delete(post.post.id)
 
             _delete.value = ValidationModel()
         }

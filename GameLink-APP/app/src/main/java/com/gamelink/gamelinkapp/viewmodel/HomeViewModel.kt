@@ -5,12 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.model.PostProfileModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 
-class PostsUserViewModel(application: Application) : AndroidViewModel(application)  {
+class HomeViewModel(application: Application): AndroidViewModel(application) {
     private val postsRepository = PostRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
@@ -20,10 +21,10 @@ class PostsUserViewModel(application: Application) : AndroidViewModel(applicatio
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
 
-    fun list() {
+    fun getRecommendedPosts() {
         val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
-        _posts.value = postsRepository.listByUser(userId.toInt())
+        _posts.value = postsRepository.listByRecommended()
     }
 
     fun delete(id: Int) {
@@ -35,10 +36,7 @@ class PostsUserViewModel(application: Application) : AndroidViewModel(applicatio
             _delete.value = ValidationModel("Operação não autorizada")
         } else {
             postsRepository.delete(post.post.id)
-
             _delete.value = ValidationModel()
-
-            list()
         }
     }
 }

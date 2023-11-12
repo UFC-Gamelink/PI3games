@@ -56,7 +56,6 @@ class PostsUserFragment : Fragment() {
             val message = if(it.status()) "Post apagado com sucesso" else it.message()
 
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-
         }
     }
 }

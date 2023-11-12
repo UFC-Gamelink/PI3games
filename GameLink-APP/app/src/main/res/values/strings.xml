@@ -106,4 +106,10 @@
     <string name="bio_default">Se você não me encontrar na vida real, é porque estou ocupada salvando o mundo em algum RPG épico ou competindo em torneios o nline. Amante de pizza 🍕 e energético ⚡.</string>
     <string name="login_button_text">Realizar Login</string>
     <string name="register_button_text">Realizar Cadastro</string>
+    <string name="welcome_back">Bem vindo de volta, Sanshine</string>
+    <string name="welcome_subtitle">Divirta-se nesse incrível mundo gamer!</string>
+    <string name="logo_text">Logo</string>
+    <string name="post_image">Post Image</string>
+    <string name="username_post">@</string>
+    <string name="image_perfil">image perfil</string>
 </resources>
