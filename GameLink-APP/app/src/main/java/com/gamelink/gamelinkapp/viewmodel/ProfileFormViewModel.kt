@@ -32,7 +32,7 @@ class ProfileFormViewModel(application: Application) : AndroidViewModel(applicat
         userRepository.update(user)
         profileRepository.update(profile)
 
-        securityPreferences.store(GameLinkConstants.SHARED.USERNAME, user.username!!)
+        //securityPreferences.store(GameLinkConstants.SHARED.USERNAME, user.username!!)
 
         _update.value = ValidationModel()
     }

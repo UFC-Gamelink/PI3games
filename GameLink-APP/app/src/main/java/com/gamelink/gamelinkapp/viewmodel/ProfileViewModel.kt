@@ -21,7 +21,7 @@ class ProfileViewModel(application: Application)  : AndroidViewModel(application
 
         val profileModel = profileRepository.getByUser(userId.toInt())
 
-        profileModel!!.username = securityPreferences.get(GameLinkConstants.SHARED.USERNAME)
+        //profileModel!!.username = securityPreferences.get(GameLinkConstants.SHARED.USERNAME)
 
         _profile.value = profileModel
     }
