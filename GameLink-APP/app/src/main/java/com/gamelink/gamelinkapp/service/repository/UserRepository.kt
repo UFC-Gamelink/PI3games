@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository
 import android.content.Context
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.service.listener.APIListener
+import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
 import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
@@ -31,6 +32,14 @@ class UserRepository(val context: Context) {
         }
 
 
+    }
+
+    fun getUserAndProfile(userId: Int): UserAndProfileModel {
+        return database.getUserAndProfile(userId)
+    }
+
+    fun update(user: UserModel) {
+        database.update(user)
     }
 
     fun create(
