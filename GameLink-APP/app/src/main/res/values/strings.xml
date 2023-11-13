@@ -106,10 +106,20 @@
     <string name="bio_default">Se você não me encontrar na vida real, é porque estou ocupada salvando o mundo em algum RPG épico ou competindo em torneios o nline. Amante de pizza 🍕 e energético ⚡.</string>
     <string name="login_button_text">Realizar Login</string>
     <string name="register_button_text">Realizar Cadastro</string>
-    <string name="welcome_back">Bem vindo de volta, Sanshine</string>
+    <string name="welcome_back">Bem vindo de volta</string>
     <string name="welcome_subtitle">Divirta-se nesse incrível mundo gamer!</string>
     <string name="logo_text">Logo</string>
     <string name="post_image">Post Image</string>
     <string name="username_post">@</string>
     <string name="image_perfil">image perfil</string>
+    <string name="community_name">Nome da comunidade</string>
+    <string name="community_banner_image">community banner image</string>
+    <string name="exit_community">Sair</string>
+    <string name="community_in">Entrar</string>
+    <string name="community_name_label">Nome da comunidade</string>
+    <string name="community_name_placeholder">Nome</string>
+    <string name="community_description_label">Descrição</string>
+    <string name="community_description_placeholder">Descrição da comunidade</string>
+    <string name="visibility_community_label">Privado</string>
+    <string name="create_community_button_text">Criar Comunidade</string>
 </resources>
