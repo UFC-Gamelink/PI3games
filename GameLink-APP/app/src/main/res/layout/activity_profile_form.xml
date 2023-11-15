@@ -27,8 +27,7 @@
         android:src="@drawable/ic_new_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_back"
-        app:tint="@color/white" />
+        app:layout_constraintTop_toBottomOf="@+id/image_back" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_profile_image"
