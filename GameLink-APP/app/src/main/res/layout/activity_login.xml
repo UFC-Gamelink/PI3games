@@ -70,8 +70,9 @@
         android:layout_below="@+id/text_username"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="12dp"
-        android:autofillHints="name"
-        android:hint="@string/edittext_username" />
+        android:autofillHints="username"
+        android:hint="@string/edittext_username"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/text_username_helper"

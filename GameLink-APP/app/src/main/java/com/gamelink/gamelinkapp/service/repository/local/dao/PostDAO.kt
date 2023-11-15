@@ -12,13 +12,13 @@ interface PostDAO {
     @Insert
     fun save(post: PostModel)
 
-    @Query("SELECT * FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id")
+    @Query("SELECT *, users.username FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id JOIN users on users.id = profiles.user_id")
     fun list(): List<PostProfileModel>
 
-    @Query("SELECT * FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id WHERE POSTS.user_id = :userId ORDER BY created_at DESC")
+    @Query("SELECT *, users.username FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id JOIN users on users.id = profiles.user_id WHERE POSTS.user_id = :userId ORDER BY created_at DESC")
     fun listByUser(userId: Int): List<PostProfileModel>
 
-    @Query("SELECT * FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id WHERE POSTS.visibility = :visibility ORDER BY POSTS.created_at DESC")
+    @Query("SELECT *, users.username FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id JOIN users on users.id = profiles.user_id WHERE POSTS.visibility = :visibility ORDER BY POSTS.created_at DESC")
     fun listByCommunity(visibility: Int): List<PostProfileModel>
 
     @Query("DELETE FROM POSTS WHERE id = :postId")

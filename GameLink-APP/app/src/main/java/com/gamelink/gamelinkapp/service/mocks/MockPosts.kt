@@ -25,7 +25,7 @@ class MockPosts {
             postModel.createdAt = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Date())
             postModel.userId = i
 
-            listPosts.add(PostProfileModel(postModel, userProfile))
+            listPosts.add(PostProfileModel(postModel, userProfile, userProfile.username))
         }
 
         return listPosts
