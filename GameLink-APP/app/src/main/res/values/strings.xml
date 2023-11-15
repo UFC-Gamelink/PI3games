@@ -122,4 +122,14 @@
     <string name="community_description_placeholder">Descrição da comunidade</string>
     <string name="visibility_community_label">Privado</string>
     <string name="create_community_button_text">Criar Comunidade</string>
+    <string name="arrowback_icon">arrowback icon</string>
+    <string name="user_name_profile_edit">Nome do Perfil</string>
+    <string name="nome_do_perfil_placeholder">Nome do Perfil</string>
+    <string name="nome_de_usuario_placeholder">Nome de usuário</string>
+    <string name="bio_update_placeholder">Bio</string>
+    <string name="data_de_aniversario_label">Data de aniversário</string>
+    <string name="comunidades_title">Comunidades</string>
+    <string name="community_name_row">Comunidade</string>
+    <string name="community_members_row">0 membros</string>
+    <string name="image_community_icon">image community</string>
 </resources>

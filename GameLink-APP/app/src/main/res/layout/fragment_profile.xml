@@ -29,23 +29,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageview_profile_picture"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_image_profile"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
-        android:contentDescription="@string/perfil_alt"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_user"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="56dp">
+        <ImageView
+            android:id="@+id/imageview_profile_picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/perfil_alt"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
+
+
+
 
     <ImageView
         android:id="@+id/image_profile_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_dot_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageview_banner_picture"
@@ -60,8 +72,8 @@
         android:text="@string/name_default"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/imageview_profile_picture"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_profile_picture" />
+        app:layout_constraintStart_toStartOf="@+id/card_image_profile"
+        app:layout_constraintTop_toBottomOf="@+id/card_image_profile" />
 
     <TextView
         android:id="@+id/text_username"

@@ -3,23 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:background="@color/primary_blue_1"
+    android:padding="8dp"
+    app:tabTextColor="@color/gray">
 
 
     <ImageView
         android:id="@+id/image_community_banner"
         android:layout_width="176dp"
         android:layout_height="176dp"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/image_community_icon"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_communities"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_communities" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/text_community_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comunidade"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/community_name_row"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_community_banner" />
 
@@ -27,7 +35,10 @@
         android:id="@+id/text_count_members"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 membros"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/community_members_row"
+        android:textColor="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_community_title" />
 

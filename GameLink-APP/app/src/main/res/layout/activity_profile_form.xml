@@ -4,52 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/primary_blue_1"
+    android:padding="20dp"
     tools:context=".view.ProfileFormActivity">
 
     <ImageView
         android:id="@+id/image_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/arrowback_icon"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <ImageView
         android:id="@+id/image_banner_picture"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:contentDescription="@string/banner_aly"
-        android:scaleType="centerCrop"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_profile"
+        android:src="@drawable/ic_new_photo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_back" />
+        app:layout_constraintTop_toBottomOf="@+id/image_back"
+        app:tint="@color/white" />
 
-    <ImageView
-        android:id="@+id/image_profile_picture"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_profile_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
-        android:contentDescription="@string/perfil_alt"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_user"
+        app:cardCornerRadius="56dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_profile_picture"
+            style="@style/roundedImageViewRounded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/perfil_alt"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+    </androidx.cardview.widget.CardView>
+
+
 
     <TextView
         android:id="@+id/text_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome do Perfil"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/user_name_profile_edit"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_profile_picture" />
+        app:layout_constraintTop_toBottomOf="@+id/card_profile_image" />
 
     <EditText
         android:id="@+id/edit_nickname"
+        style="@style/PrimaryEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:gravity="top"
-        android:hint="Nome do Perfil"
+        android:hint="@string/nome_do_perfil_placeholder"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,16 +83,21 @@
         android:id="@+id/text_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/baloo_bhai_2"
         android:text="Nome de usuário"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_nickname" />
 
     <EditText
         android:id="@+id/edit_username"
+        style="@style/PrimaryEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:gravity="top"
-        android:hint="Nome de usuário"
+        android:hint="@string/nome_de_usuario_placeholder"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,16 +107,21 @@
         android:id="@+id/text_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bio"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/bio_update_placeholder"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_username" />
 
     <EditText
         android:id="@+id/edit_bio"
+        style="@style/LargeEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:gravity="top"
-        android:hint="Descrição da comunidade"
+        android:hint="@string/bio_placeholder"
         android:inputType="text|textMultiLine"
         android:minLines="4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,19 +132,23 @@
         android:id="@+id/text_birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data de aniversário"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/data_de_aniversario_label"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_bio" />
 
     <Button
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
         android:id="@+id/button_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:background="@android:color/transparent"
+        android:fontFamily="@font/baloo_bhai_2"
         android:gravity="center_vertical"
         android:hint="@string/date_select"
+        android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_birthday" />
@@ -120,11 +158,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_age"
-        app:layout_constraintTop_toBottomOf="@+id/button_date"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_date" />
 
     <Button
         android:id="@+id/button_save"
+        style="@style/PrimaryButtonTheme"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Salvar"

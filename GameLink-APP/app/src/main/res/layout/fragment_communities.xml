@@ -4,24 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingVertical="16dp"
+    android:background="@color/primary_blue_1"
+    android:padding="20dp"
     tools:context=".view.CommunitiesFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_add"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/text_communities"
+        style="@style/DefaultTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comunidades"
+        android:text="@string/comunidades_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +33,7 @@
         android:id="@+id/recycler_communities"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_communities" />
@@ -38,8 +42,10 @@
         android:id="@+id/tab_layout_communities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primary_blue_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_communities">
+        app:layout_constraintTop_toBottomOf="@+id/recycler_communities"
+        app:tabTextColor="@color/gray">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
