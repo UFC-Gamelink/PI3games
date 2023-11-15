@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +27,9 @@ class CommunityFormActivity : AppCompatActivity() {
             result.data?.data.let { uri ->
                 if (uri != null) {
                     imageUri = uri
+                    binding.imageBannerCommunity.scaleType = ImageView.ScaleType.CENTER_CROP
                     Glide.with(this).load(uri).into(binding.imageBannerCommunity)
+
                 }
             }
         }
@@ -107,8 +110,10 @@ class CommunityFormActivity : AppCompatActivity() {
         viewModel.community.observe(this) {
             binding.edittextCommunityName.setText(it.name)
             binding.edittextCommunityDescription.setText(it.description)
-            Glide.with(this).load(it.bannerUrl).into(binding.imageBannerCommunity)
+
             if(it.bannerUrl != null) {
+                Glide.with(this).load(it.bannerUrl).into(binding.imageBannerCommunity)
+                binding.imageBannerCommunity.scaleType = ImageView.ScaleType.CENTER_CROP
                 imageUri = Uri.parse(it.bannerUrl)
             }
             binding.switchPrivateCommunity.isChecked = it.private
