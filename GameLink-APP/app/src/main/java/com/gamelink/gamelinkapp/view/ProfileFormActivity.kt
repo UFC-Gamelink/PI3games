@@ -147,6 +147,7 @@ class ProfileFormActivity : AppCompatActivity() {
 
             Glide.with(this).load(it.profile.profilePicPath).into(binding.imageProfilePicture)
             Glide.with(this).load(it.profile.bannerPicPath).into(binding.imageBannerPicture)
+            binding.imageBannerPicture.scaleType = ImageView.ScaleType.CENTER_CROP
 
             binding.switchShowDate.isChecked = it.profile.showBirthday
         }
