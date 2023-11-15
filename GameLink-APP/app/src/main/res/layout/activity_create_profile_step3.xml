@@ -33,11 +33,12 @@
 
     <TextView
         android:id="@+id/text_title_add_bio"
+        style="@style/DefaultTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="40dp"
         android:text="@string/bio_title"
-        style="@style/DefaultTitle1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_subtitle" />
 
@@ -90,8 +91,8 @@
 
     <TextView
         android:id="@+id/text_label_bio"
-        android:layout_width="7dp"
-        android:layout_height="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/baloo_bhai_2"

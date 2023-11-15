@@ -48,18 +48,19 @@
         style="@style/DefaultTitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="76dp"
         android:text="@string/title_choose_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_winner" />
 
     <TextView
         android:id="@+id/text_subtitle_choose_name"
+        style="@style/DefaultSubtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        style="@style/DefaultSubtitle1"
         android:text="@string/choose_name_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_title_choose_name" />

@@ -58,12 +58,33 @@
         </item>
     </style>
 
-    <style name="DefaultTitle1">
+    <style name="LargeEditText">
+        <item name="android:background">
+            @drawable/rounded_large_text_background
+        </item>
         <item name="android:fontFamily">
             @font/baloo_bhai_2
         </item>
+        <item name="android:paddingVertical">
+            16dp
+        </item>
         <item name="android:paddingHorizontal">
-            32dp
+            24dp
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+        <item name="android:textColorHint">
+            @color/grayblue
+        </item>
+        <item name="android:textSize">
+            12sp
+        </item>
+    </style>
+
+    <style name="DefaultTitle1">
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
         </item>
         <item name="android:textColor">
             @color/white
