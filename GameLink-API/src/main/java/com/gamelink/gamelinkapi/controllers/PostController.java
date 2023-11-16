@@ -19,7 +19,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostResponse> post(
+    public ResponseEntity<Void> post(
             @RequestPart MultipartFile image,
             @RequestPart @NotBlank String description
     ) {
