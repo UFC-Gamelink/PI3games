@@ -92,7 +92,7 @@ public class CommunityService {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(id);
 
-        if (communityFound.getOwner().equals(user)) {
+        if (!communityFound.getOwner().equals(user)) {
             throw new BadCredentialsException("You can't update this community");
         }
 
