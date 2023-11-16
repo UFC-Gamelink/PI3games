@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +44,11 @@ public class UserProfileServiceTest {
     @BeforeEach
     private void setup() {
         when(userProfileRepository.save(any(UserProfile.class)))
-                .thenAnswer(invocation -> invocation.getArguments()[0]);
+                .thenAnswer(invocation -> {
+                    UserProfile argument = (UserProfile) invocation.getArguments()[0];
+                    argument.setCreatedAt(LocalDateTime.now());
+                    return argument;
+                });
     }
 
     @Test
@@ -114,6 +119,7 @@ public class UserProfileServiceTest {
     void findUserProfileShouldVerifyAuthenticatedOwnerAndReturnItWhenSuccess(){
         final User validUser = userCreator.createValid();
         final UserProfile userProfile = UserProfile.builder().user(validUser).build();
+        userProfile.setCreatedAt(LocalDateTime.now());
 
         when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
                 .thenReturn(validUser);
