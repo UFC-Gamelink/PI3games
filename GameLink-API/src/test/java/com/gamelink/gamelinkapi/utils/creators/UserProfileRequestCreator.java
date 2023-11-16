@@ -27,6 +27,7 @@ public class UserProfileRequestCreator implements Creator<PostUserProfileRequest
                 .birthdayDate(LocalDate.now())
                 .gender(Gender.MALE)
                 .gameTimes(List.of(GameTime.NIGHT))
+                .birthdayDate(LocalDate.now())
                 .build();
     }
 }
