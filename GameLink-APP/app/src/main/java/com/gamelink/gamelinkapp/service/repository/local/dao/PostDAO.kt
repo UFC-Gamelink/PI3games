@@ -25,5 +25,5 @@ interface PostDAO {
     fun delete(postId: Int)
 
     @Query("SELECT * FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id WHERE POSTS.id = :id AND POSTS.user_id = :userId")
-    fun findByIdAndUserId(id: Int, userId: Int): PostProfileModel?
+    fun findByIdAndUserId(id: Int, userId: Int): PostModel?
 }

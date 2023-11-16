@@ -14,7 +14,7 @@ import java.util.UUID
 abstract class ImageUtils {
     companion object {
         fun saveImage(context: Context, filename: String, bitmap: Bitmap): String? {
-            val file = File(context.cacheDir, "$filename.jpg")
+            val file = File(context.cacheDir, "${UUID.randomUUID()}-$filename.jpg")
 
             return try {
                 val stream = FileOutputStream(file)

@@ -33,7 +33,7 @@ class CommunityPostsViewModel(application: Application) : AndroidViewModel(appli
         if(post == null) {
             _delete.value = ValidationModel("Operação não autorizada")
         } else {
-            postsRepository.delete(post.post.id)
+            postsRepository.delete(post.id)
 
             _delete.value = ValidationModel()
         }
