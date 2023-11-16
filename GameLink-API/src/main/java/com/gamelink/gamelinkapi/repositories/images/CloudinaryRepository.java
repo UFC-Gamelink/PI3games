@@ -25,9 +25,7 @@ public class CloudinaryRepository {
                     .uploader()
                     .upload(fileConverted, ObjectUtils.emptyMap());
 
-            if (fileConverted != null) {
-                fileConverted.delete();
-            }
+            if (fileConverted != null) fileConverted.delete();
 
             return ImageModel.builder()
                     .filename(file.getName())

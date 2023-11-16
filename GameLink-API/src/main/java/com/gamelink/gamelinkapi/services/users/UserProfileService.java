@@ -11,6 +11,7 @@ import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.images.CloudinaryRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.ICrudService;
+import com.gamelink.gamelinkapi.services.cloudinary.CloudinaryService;
 import com.gamelink.gamelinkapi.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ import java.util.UUID;
 public class UserProfileService implements ICrudService<UserProfile, PostUserProfileRequest, UserProfileResponse> {
     private final UserProfileRepository userProfileRepository;
     private final UserService userService;
-    private final CloudinaryRepository cloudinaryRepository;
+    private final CloudinaryService cloudinaryService;
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
     public void save(PostUserProfileRequest postUserProfileRequest) {
@@ -76,17 +77,13 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     public UserProfileResponse updateImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
         UserProfile myUserProfile = findUserProfileIfExists();
         if (myUserProfile.getIcon() != null && myUserProfile.getBanner() != null) {
-            try {
-                cloudinaryRepository.deleteImage(myUserProfile.getIcon().getPublicId());
-                cloudinaryRepository.deleteImage(myUserProfile.getBanner().getPublicId());
-            } catch (IOException e) {
-                throw new SaveThreatementException("Delete image failed");
-            }
+            cloudinaryService.deleteImageOrThrowSaveThreatementException(myUserProfile.getIcon().getPublicId());
+            cloudinaryService.deleteImageOrThrowSaveThreatementException(myUserProfile.getBanner().getPublicId());
             return mapper.modelToResponseDto(
                     saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
             );
         } else {
-            throw new SaveThreatementException("Images are already saved");
+            throw new SaveThreatementException("There's no images defined");
         }
     }
 
@@ -103,20 +100,10 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     }
 
     private UserProfile saveIconAndBannerOrThrowsSaveImageException(UserProfile myUserProfile, MultipartFile icon, MultipartFile banner) {
-        ImageModel iconSaved;
-        ImageModel bannerSaved;
+        myUserProfile.setIcon(cloudinaryService.saveImageOrThrowSaveThreatementException(icon));
+        myUserProfile.setBanner(cloudinaryService.saveImageOrThrowSaveThreatementException(banner));
 
-        try {
-            iconSaved = cloudinaryRepository.saveImage(icon);
-            bannerSaved = cloudinaryRepository.saveImage(banner);
-        } catch (IOException e) {
-            throw new SaveThreatementException("Error during saving images");
-        }
-
-        myUserProfile.setIcon(iconSaved);
-        myUserProfile.setBanner(bannerSaved);
-        UserProfile userProfileUpdated = userProfileRepository.save(myUserProfile);
-        return userProfileUpdated;
+        return userProfileRepository.save(myUserProfile);
     }
     private UserProfile findUserProfileIfExists() {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();

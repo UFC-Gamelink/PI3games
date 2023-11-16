@@ -8,6 +8,7 @@ import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.images.CloudinaryRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
+import com.gamelink.gamelinkapi.services.cloudinary.CloudinaryService;
 import com.gamelink.gamelinkapi.services.users.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,22 +26,15 @@ import java.util.UUID;
 public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
-    private final CloudinaryRepository cloudinaryRepository;
+    private final CloudinaryService cloudinaryService;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
     public void save(MultipartFile image, String description) {
-        PostModel postToBeSaved;
-        ImageModel imageSaved;
         User userFounded = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        ImageModel imageSaved = cloudinaryService.saveImageOrThrowSaveThreatementException(image);
 
-        try{
-            imageSaved = cloudinaryRepository.saveImage(image);
-        } catch (IOException e) {
-            throw new SaveThreatementException("Save post image failed");
-        }
-
-        postToBeSaved = PostModel.builder()
+        PostModel postToBeSaved = PostModel.builder()
                 .user(userFounded)
                 .image(imageSaved)
                 .description(description)
