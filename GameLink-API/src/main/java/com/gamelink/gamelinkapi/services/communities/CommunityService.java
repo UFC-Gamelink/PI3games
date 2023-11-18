@@ -7,7 +7,7 @@ import com.gamelink.gamelinkapi.mappers.CommunityMapper;
 import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
-import com.gamelink.gamelinkapi.services.cloudinary.CloudinaryService;
+import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.services.users.UserService;
 import com.gamelink.gamelinkapi.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class CommunityService {
     private final CommunityRepository communityRepository;
     private final UserService userService;
-    private final CloudinaryService cloudinaryService;
+    private final ImageCloudService imageCloudService;
     private final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
 
     public void createCommunity(CommunityRequest communityRequest) {
@@ -40,7 +40,7 @@ public class CommunityService {
         CommunityModel communityFounded = findCommunityById(id);
 
         if (communityFounded.getBanner() == null) {
-            communityFounded.setBanner(cloudinaryService.saveImageOrThrowSaveThreatementException(banner));
+            communityFounded.setBanner(imageCloudService.saveImageOrThrowSaveThreatementException(banner));
             return communityMapper.modelToResponse(communityRepository.save(communityFounded));
         } else {
             throw new SaveThreatementException("Banner is already saved");
@@ -62,8 +62,9 @@ public class CommunityService {
         CommunityModel communityFounded = findCommunityById(id);
 
         if (communityFounded.getBanner() != null) {
-            cloudinaryService.deleteImageOrThrowSaveThreatementException(communityFounded.getBanner().getPublicId());
-            communityFounded.setBanner(cloudinaryService.saveImageOrThrowSaveThreatementException(banner));
+            communityFounded.setBanner(
+                    imageCloudService.updateImageOrThrowSaveThreatementException(communityFounded.getBanner())
+            );
             return communityMapper.modelToResponse(communityRepository.save(communityFounded));
         } else {
             throw new SaveThreatementException("Banner is not saved yet");
@@ -77,18 +78,20 @@ public class CommunityService {
                 .toList();
     }
 
+    @Transactional
     public void deleteCommunity(UUID id) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityFounded = findCommunityIfExistsOrElseThrowsEntityNotFoundException(id);
 
         if (communityFounded.getOwner().getId() == user.getId()) {
             communityRepository.deleteById(id);
+            imageCloudService.deleteImageOrThrowSaveThreatementException(communityFounded.getBanner());
         } else {
             throw new BadCredentialsException("Invalid user");
         }
     }
 
-    private CommunityModel findCommunityById(UUID id){
+    private CommunityModel findCommunityById(UUID id) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(id);
 

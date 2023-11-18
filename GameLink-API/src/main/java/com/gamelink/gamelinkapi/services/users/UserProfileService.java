@@ -8,10 +8,9 @@ import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
-import com.gamelink.gamelinkapi.repositories.images.CloudinaryRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.ICrudService;
-import com.gamelink.gamelinkapi.services.cloudinary.CloudinaryService;
+import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -28,7 +26,7 @@ import java.util.UUID;
 public class UserProfileService implements ICrudService<UserProfile, PostUserProfileRequest, UserProfileResponse> {
     private final UserProfileRepository userProfileRepository;
     private final UserService userService;
-    private final CloudinaryService cloudinaryService;
+    private final ImageCloudService imageCloudService;
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
     public void save(PostUserProfileRequest postUserProfileRequest) {
@@ -47,6 +45,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
 
         if (userFounded.getUser().getId().equals(user.getId())) {
             userProfileRepository.deleteById(id);
+            deleteBannerAndIcon(userFounded);
         } else {
             throw new BadCredentialsException("Invalid user");
         }
@@ -60,7 +59,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     public UserProfileResponse updateProfile(PutUserProfileRequest userProfile) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
 
-        UserProfile oldUserProfile = userProfileRepository.findById(userProfile.id())
+        UserProfile oldUserProfile = userProfileRepository.findUserProfileByUser(user)
                 .orElseThrow(() -> new EntityNotFoundException("User Profile not exists"));
 
         if (!userProfile.owner().equals(user.getUsername())){
@@ -77,11 +76,11 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     public UserProfileResponse updateImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
         UserProfile myUserProfile = findUserProfileIfExists();
         if (myUserProfile.getIcon() != null && myUserProfile.getBanner() != null) {
-            cloudinaryService.deleteImageOrThrowSaveThreatementException(myUserProfile.getIcon().getPublicId());
-            cloudinaryService.deleteImageOrThrowSaveThreatementException(myUserProfile.getBanner().getPublicId());
-            return mapper.modelToResponseDto(
-                    saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
-            );
+            ImageModel iconUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getIcon());
+            ImageModel bannerUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getBanner());
+            myUserProfile.setIcon(iconUpdated);
+            myUserProfile.setBanner(bannerUpdated);
+            return mapper.modelToResponseDto(userProfileRepository.save(myUserProfile));
         } else {
             throw new SaveThreatementException("There's no images defined");
         }
@@ -99,12 +98,18 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
         }
     }
 
+    private void deleteBannerAndIcon(UserProfile myUserProfile) {
+        imageCloudService.deleteImageOrThrowSaveThreatementException(myUserProfile.getIcon());
+        imageCloudService.deleteImageOrThrowSaveThreatementException(myUserProfile.getBanner());
+    }
+
     private UserProfile saveIconAndBannerOrThrowsSaveImageException(UserProfile myUserProfile, MultipartFile icon, MultipartFile banner) {
-        myUserProfile.setIcon(cloudinaryService.saveImageOrThrowSaveThreatementException(icon));
-        myUserProfile.setBanner(cloudinaryService.saveImageOrThrowSaveThreatementException(banner));
+        myUserProfile.setIcon(imageCloudService.saveImageOrThrowSaveThreatementException(icon));
+        myUserProfile.setBanner(imageCloudService.saveImageOrThrowSaveThreatementException(banner));
 
         return userProfileRepository.save(myUserProfile);
     }
+
     private UserProfile findUserProfileIfExists() {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         return userProfileRepository.findUserProfileByUser(user)

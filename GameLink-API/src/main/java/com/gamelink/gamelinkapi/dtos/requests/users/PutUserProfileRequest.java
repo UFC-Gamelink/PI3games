@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Builder
 public record PutUserProfileRequest(
-        @NotNull UUID id,
         @NotBlank String owner,
         @NotBlank String name,
         @NotBlank @Size(max = 160) String bio,

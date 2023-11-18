@@ -29,10 +29,10 @@ public class UserProfile extends BaseModel {
     @NotNull
     private User user;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private ImageModel banner;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private ImageModel icon;
 
     @NotBlank

@@ -25,7 +25,7 @@ public class CommunityModel extends BaseModel {
     private String name;
     @NotBlank
     private String description;
-    @OneToOne(cascade=CascadeType.PERSIST)
+    @OneToOne
     private ImageModel banner;
     @OneToMany
     private List<PostModel> posts;
