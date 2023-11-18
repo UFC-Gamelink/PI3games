@@ -17,6 +17,6 @@ public class PostModel extends BaseModel {
     private String description;
     @ManyToOne
     private User user;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private ImageModel image;
 }
