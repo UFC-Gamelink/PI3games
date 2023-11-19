@@ -116,6 +116,14 @@
             app:layout_constraintTop_toBottomOf="@id/text_post"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/image_comment"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_comment"
+            app:layout_constraintTop_toBottomOf="@id/text_post"
+            app:layout_constraintStart_toEndOf="@id/image_like"
+            android:layout_marginStart="26dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

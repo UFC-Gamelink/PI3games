@@ -10,6 +10,11 @@ data class PostProfileModel(
         entityColumn = "user_id"
     )
     val userProfile: ProfileModel,
-    val username: String = ""
+    val username: String = "",
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "post_id"
+    )
+    val commentaries: List<CommentaryModel> = listOf()
 ) {
 }
