@@ -17,7 +17,7 @@ class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = RowPostsListBinding.inflate(inflater, parent, false)
 
-        return PostViewHolder(itemBinding, listener)
+        return PostViewHolder(itemBinding, listener, inflater)
     }
 
     override fun getItemCount(): Int {

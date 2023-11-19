@@ -9,13 +9,11 @@ import com.gamelink.gamelinkapp.view.CommunityPostsFragment
 class ViewPagerCommunityAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
     private var communityId: Int = 0
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 1
 
     override fun createFragment(position: Int): Fragment {
         val fragment = when(position) {
             0 -> CommunityPostsFragment()
-            1 -> CommunityPostsFragment()
-            2 -> CommunityPostsFragment()
             else -> CommunityPostsFragment()
         }
 

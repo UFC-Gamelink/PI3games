@@ -8,18 +8,6 @@
         android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
-        android:id="@+id/posts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/ic_posts"
-        android:title="Posts" />
-    <item
-        android:id="@+id/groups"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/ic_groups"
-        android:title="Groups" />
-    <item
         android:id="@+id/communities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

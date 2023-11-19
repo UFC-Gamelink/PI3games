@@ -27,14 +27,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(HomeFragment())
                     true
                 }
-                R.id.posts -> {
-                    replaceFragment(PostsFragment())
-                    true
-                }
-                R.id.groups -> {
-                    replaceFragment(GroupsFragment())
-                    true
-                }
                 R.id.communities -> {
                     replaceFragment(CommunitiesFragment())
                     true
