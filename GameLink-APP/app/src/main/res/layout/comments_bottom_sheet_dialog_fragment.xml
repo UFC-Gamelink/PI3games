@@ -24,15 +24,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_commentaries" />
 
-    <ImageView
-        android:id="@+id/image_profile_commentary"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/circle"
-        android:contentDescription="@string/image_perfil"
-        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_commentaries" />
+        app:layout_constraintTop_toBottomOf="@id/recycler_commentaries"
+        app:cardCornerRadius="56dp">
+
+        <ImageView
+            android:id="@+id/image_profile_commentary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle"
+            app:layout_constraintBottom_toBottomOf="@+id/view_post_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/image_perfil" />
+    </androidx.cardview.widget.CardView>
 
     <EditText
         android:id="@+id/edit_commentary"
@@ -44,7 +54,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_profile_commentary"
+        app:layout_constraintStart_toEndOf="@id/card_image"
         app:layout_constraintTop_toBottomOf="@id/recycler_commentaries" />
 
 

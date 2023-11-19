@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.databinding.CommentsBottomSheetDialogFragmentBinding
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.view.adapter.CommentaryAdapter
@@ -41,6 +42,8 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             handleSave()
         }
 
+        viewModel.getProfile()
+
         observe()
 
         return binding.root
@@ -68,6 +71,10 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 Toast.makeText(context, "Comentário adicionado com sucesso", Toast.LENGTH_SHORT).show()
 
             }
+        }
+
+        viewModel.profilePic.observe(viewLifecycleOwner) {
+            Glide.with(this).load(it).into(binding.imageProfileCommentary)
         }
     }
 

@@ -8,10 +8,12 @@ import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.model.CommentaryAndProfileModel
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.repository.CommentaryRepository
+import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 
 class CommentsBottomSheetDialogViewModel(application: Application) : AndroidViewModel(application) {
     private val commentaryRepository = CommentaryRepository(application.applicationContext)
+    private val profileRepository = ProfileRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _comments = MutableLiveData<List<CommentaryAndProfileModel>>()
@@ -19,6 +21,9 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
 
     private val _commentarySave = MutableLiveData<Boolean>()
     val commentarySave: LiveData<Boolean> = _commentarySave
+
+    private val _profilePic = MutableLiveData<String>()
+    val profilePic: LiveData<String> = _profilePic
 
     fun listByPost(postId: Int) {
         _comments.value = commentaryRepository.listWithProfileByPost(postId)
@@ -32,5 +37,13 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
         commentaryRepository.create(commentary)
 
         _commentarySave.value = true
+    }
+
+    fun getProfile() {
+        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+
+        val profile = profileRepository.getByUser(userId)
+
+        _profilePic.value = profile?.profilePicPath
     }
 }
