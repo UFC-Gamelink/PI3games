@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gamelink.gamelinkapp.databinding.RowCommentaryListBinding
+import com.gamelink.gamelinkapp.service.model.CommentaryAndProfileModel
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.view.viewholder.CommentaryViewHolder
 
 class CommentaryAdapter: RecyclerView.Adapter<CommentaryViewHolder>() {
-    private var listCommentaries: List<CommentaryModel> = arrayListOf()
+    private var listCommentaries: List<CommentaryAndProfileModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentaryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,7 +27,7 @@ class CommentaryAdapter: RecyclerView.Adapter<CommentaryViewHolder>() {
         holder.bindData(listCommentaries[position])
     }
 
-    fun updateCommentaries(list: List<CommentaryModel>) {
+    fun updateCommentaries(list: List<CommentaryAndProfileModel>) {
         listCommentaries = list
         notifyDataSetChanged()
     }
