@@ -10,6 +10,6 @@ interface CommentaryDAO {
     @Insert
     fun create(commentary: CommentaryModel)
 
-    @Query("SELECT * FROM commentary WHERE post_id = :postId")
+    @Query("SELECT * FROM commentary WHERE post_id = :postId ORDER BY id DESC")
     fun listByPost(postId: Int): List<CommentaryModel>
 }
