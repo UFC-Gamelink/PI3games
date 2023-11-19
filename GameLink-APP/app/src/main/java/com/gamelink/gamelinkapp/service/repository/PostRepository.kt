@@ -33,6 +33,10 @@ class PostRepository(context: Context) {
         database.delete(postId)
     }
 
+    fun deleteFromCommunity(id: Int) {
+        database.deleteFromCommunity(id)
+    }
+
     fun findByIdAndUserId(id: Int, userId: Int): PostModel? {
         return database.findByIdAndUserId(id, userId)
     }

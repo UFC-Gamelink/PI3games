@@ -25,4 +25,8 @@ class CommunityRepository(context: Context) {
     fun getFollowed(userId: Int): List<CommunityModel> {
         return database.getCommunitiesIFollow(userId);
     }
+
+    fun delete(id: Int) {
+        database.delete(id)
+    }
 }
