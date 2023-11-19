@@ -3,12 +3,13 @@ package com.gamelink.gamelinkapp.service.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "posts")
 class PostModel {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "post_id")
     var id: Int = 0
 
     @ColumnInfo(name = "post")
