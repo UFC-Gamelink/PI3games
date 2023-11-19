@@ -62,7 +62,7 @@ class PostViewHolder(
             val context = itemBinding.root.context
 
             val bundle = Bundle()
-            bundle.putString("cur", "jao cur")
+            bundle.putInt("post_id", post.post.id)
 
             val commentsFragment = CommentsBottomSheetDialogFragment()
             commentsFragment.arguments = bundle

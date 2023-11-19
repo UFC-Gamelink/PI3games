@@ -10,4 +10,8 @@ class CommentaryRepository(context: Context) {
     fun create(commentary: CommentaryModel) {
         database.create(commentary)
     }
+
+    fun listByPost(postId: Int): List<CommentaryModel> {
+        return database.listByPost(postId)
+    }
 }
