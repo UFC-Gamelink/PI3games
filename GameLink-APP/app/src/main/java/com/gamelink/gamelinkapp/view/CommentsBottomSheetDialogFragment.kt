@@ -1,19 +1,16 @@
 package com.gamelink.gamelinkapp.view
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.databinding.CommentsBottomSheetDialogFragmentBinding
+import com.gamelink.gamelinkapp.service.listener.CommentaryListener
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.view.adapter.CommentaryAdapter
 import com.gamelink.gamelinkapp.viewmodel.CommentsBottomSheetDialogViewModel
@@ -36,6 +33,14 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel = ViewModelProvider(this).get(CommentsBottomSheetDialogViewModel::class.java)
 
         binding.recyclerCommentaries.layoutManager = LinearLayoutManager(context)
+
+        adapter.attachListener(object : CommentaryListener {
+            override fun onDeleteClick(commentaryId: Int) {
+                viewModel.delete(commentaryId)
+            }
+
+        })
+
         binding.recyclerCommentaries.adapter = adapter
 
         binding.editCommentary.setOnClickListener {
@@ -65,10 +70,11 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
 
         viewModel.commentarySave.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 viewModel.listByPost(bundle.getInt("post_id"))
                 binding.editCommentary.setText("")
-                Toast.makeText(context, "Comentário adicionado com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Comentário adicionado com sucesso", Toast.LENGTH_SHORT)
+                    .show()
 
             }
         }
@@ -76,22 +82,32 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.profilePic.observe(viewLifecycleOwner) {
             Glide.with(this).load(it).into(binding.imageProfileCommentary)
         }
+
+        viewModel.deleteCommentary.observe(viewLifecycleOwner) {
+            if (it.status()) {
+                viewModel.listByPost(bundle.getInt("post_id"))
+                Toast.makeText(context, "Comentário apagado com sucesso", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleSave() {
-        if(binding.editCommentary.text.toString().isNotEmpty()) {
-            binding.editCommentary.setOnKeyListener { _, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    viewModel.save(CommentaryModel().apply {
-                        this.postId = bundle.getInt("post_id")
-                        this.text = binding.editCommentary.text.toString()
-                    })
 
-                    return@setOnKeyListener true
+        binding.editCommentary.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                if(binding.editCommentary.text.toString().isEmpty()) {
+                    return@setOnKeyListener false
                 }
-                false
+
+                viewModel.save(CommentaryModel().apply {
+                    this.postId = bundle.getInt("post_id")
+                    this.text = binding.editCommentary.text.toString()
+                })
+
+                return@setOnKeyListener true
             }
+            false
         }
-        }
+    }
 
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.model.CommentaryAndProfileModel
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
+import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommentaryRepository
 import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
@@ -24,6 +25,9 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
 
     private val _profilePic = MutableLiveData<String>()
     val profilePic: LiveData<String> = _profilePic
+
+    private val _deleteCommentary = MutableLiveData<ValidationModel>()
+    val deleteCommentary: LiveData<ValidationModel> = _deleteCommentary
 
     fun listByPost(postId: Int) {
         _comments.value = commentaryRepository.listWithProfileByPost(postId)
@@ -45,5 +49,11 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
         val profile = profileRepository.getByUser(userId)
 
         _profilePic.value = profile?.profilePicPath
+    }
+
+    fun delete(commentaryId: Int) {
+        commentaryRepository.delete(commentaryId)
+
+        _deleteCommentary.value = ValidationModel()
     }
 }

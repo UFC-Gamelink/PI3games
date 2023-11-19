@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "commentary")
 class CommentaryModel {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "comment_id")
     var id: Int = 0
 
     @ColumnInfo(name = "text")

@@ -20,5 +20,9 @@ class CommentaryRepository(context: Context) {
         return database.listWithProfileByPost(postId)
     }
 
+    fun delete(commentaryId: Int) {
+        database.delete(commentaryId)
+    }
+
 
 }
