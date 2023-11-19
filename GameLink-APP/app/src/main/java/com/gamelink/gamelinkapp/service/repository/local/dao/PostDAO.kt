@@ -26,4 +26,7 @@ interface PostDAO {
 
     @Query("SELECT * FROM POSTS JOIN PROFILES ON POSTS.user_id == PROFILES.user_id WHERE POSTS.post_id = :id AND POSTS.user_id = :userId")
     fun findByIdAndUserId(id: Int, userId: Int): PostModel?
+
+    @Query("DELETE FROM POSTS WHERE visibility = :id")
+    fun deleteFromCommunity(id: Int)
 }

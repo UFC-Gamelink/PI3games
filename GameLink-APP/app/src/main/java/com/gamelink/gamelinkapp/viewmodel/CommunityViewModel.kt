@@ -7,13 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.UserCommunityModel
+import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommunityRepository
+import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.service.repository.UserCommunityRepository
 
 class CommunityViewModel(application: Application) : AndroidViewModel(application) {
     private val communityRepository = CommunityRepository(application.applicationContext)
     private val userCommunityRepository = UserCommunityRepository(application.applicationContext)
+    private val postRepository = PostRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _community = MutableLiveData<CommunityModel>()
@@ -24,6 +27,9 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _joined = MutableLiveData<Boolean>()
     val joined: LiveData<Boolean> = _joined
+
+    private val _delete = MutableLiveData<ValidationModel>()
+    val delete: LiveData<ValidationModel> = _delete
 
     fun load(id: Int) {
         _community.value = communityRepository.getById(id)
@@ -63,5 +69,13 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
         userCommunityRepository.leaveCommunity(userId, communityId)
 
         _joined.value = false
+    }
+
+    fun delete(id: Int) {
+        userCommunityRepository.deleteMembers(id)
+        communityRepository.delete(id)
+        postRepository.deleteFromCommunity(id)
+
+        _delete.value = ValidationModel()
     }
 }

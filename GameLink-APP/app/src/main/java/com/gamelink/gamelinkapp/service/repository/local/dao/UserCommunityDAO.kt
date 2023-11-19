@@ -16,4 +16,7 @@ interface UserCommunityDAO {
 
     @Query("SELECT * FROM user_community WHERE user_id = :userId AND community_id = :communityId")
     fun isJoin(userId: Int, communityId: Int): UserCommunityModel?
+
+    @Query("DELETE FROM user_community WHERE community_id = :communityId")
+    fun deleteMembers(communityId: Int)
 }

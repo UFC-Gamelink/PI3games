@@ -1,10 +1,12 @@
 package com.gamelink.gamelinkapp.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -94,6 +96,13 @@ class CommunityActivity : AppCompatActivity() {
                 binding.buttonJoinCommunity.visibility = View.VISIBLE
             }
         }
+
+        viewModel.delete.observe(this) {
+            if(it.status()) {
+                finish()
+                Toast.makeText(this, "Comunidade apagada com sucesso", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setViewPager() {
@@ -140,11 +149,26 @@ class CommunityActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.item_delete_community -> {
+                    showAlertDialog(bundle.getInt("community_id"))
+                    true
+                }
 
                 else -> false
             }
         }
 
         popupMenu.show()
+    }
+
+    private fun showAlertDialog(id: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("Apagar Comunidade")
+            .setMessage("Deseja apagar comunidade?")
+            .setPositiveButton("Sim") { _, _ ->
+                viewModel.delete(id)
+            }
+            .setNeutralButton("Cancelar", null)
+            .show()
     }
 }

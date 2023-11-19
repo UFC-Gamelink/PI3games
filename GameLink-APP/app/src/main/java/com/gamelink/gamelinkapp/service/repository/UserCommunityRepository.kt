@@ -18,4 +18,8 @@ class UserCommunityRepository(context: Context) {
     fun userIsJoin(userId: Int, communityId: Int):Boolean {
         return database.isJoin(userId, communityId) != null
     }
+
+    fun deleteMembers(id: Int) {
+        database.deleteMembers(id)
+    }
 }

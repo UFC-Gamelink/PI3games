@@ -29,4 +29,7 @@ interface CommunityDAO {
             "INNER JOIN user_community u ON c.id = u.community_id " +
             "WHERE u.user_id = :userId")
     fun getCommunitiesIFollow(userId: Int): List<CommunityModel>
+
+    @Query("DELETE FROM communities WHERE id = :communityId")
+    fun delete(communityId: Int)
 }
