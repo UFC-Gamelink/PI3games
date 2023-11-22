@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
@@ -13,6 +14,7 @@ import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.service.repository.UserRepository
 import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
+import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository = UserRepository(application.applicationContext)
@@ -53,15 +55,26 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         _passwordHelperErrorResId.value = getErrorStringResIdIfEmpty(password)
 
         if (isFormValid) {
-            val user = userRepository.login(username, password)
+            viewModelScope.launch {
+                val user = UserModel().apply {
+                    this.username = username
+                    this.password = password
+                }
 
-            if(user == null) {
-                _login.value = ValidationModel("Nome de usuário/senha incorretos")
-            } else {
-                securityPreferences.store(GameLinkConstants.SHARED.USER_ID, user.id.toString())
-                securityPreferences.store(GameLinkConstants.SHARED.USERNAME, username)
+                userRepository.login(user, object : APIListener<UserModel> {
+                    override fun onSuccess(result: UserModel) {
+                        securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.token)
 
-                _login.value = ValidationModel()
+                        RetrofitClient.addHeaders(result.token)
+
+                        _login.value = ValidationModel()
+                    }
+
+                    override fun onFailure(message: String) {
+                        _login.value = ValidationModel(message)
+                    }
+
+                })
             }
         }
     }

@@ -57,13 +57,13 @@ class RegisterUserViewModel(application: Application) : AndroidViewModel(applica
         _passwordHelperErrorResId.value = getErrorStringResIdIfInvalidPassword(password)
 
         if(isFormValid) {
-            val user = UserModel().apply {
-                this.username = username
-                this.email = email
-                this.password = password
-            }
-
             viewModelScope.launch {
+                val user = UserModel().apply {
+                    this.username = username
+                    this.email = email
+                    this.password = password
+                }
+
                 userRepository.create(user, object : APIListener<Boolean> {
                     override fun onSuccess(result: Boolean) {
                         _user.value = ValidationModel()

@@ -50,7 +50,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
         viewModel.login.observe(this) {
             if(it.status()) {
-                viewModel.verifyHasNotProfile()
+                Toast.makeText(this, "Login Feito", Toast.LENGTH_SHORT).show()
+                //viewModel.verifyHasNotProfile()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }

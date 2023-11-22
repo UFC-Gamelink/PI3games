@@ -24,4 +24,21 @@ class UserDatabase {
             }
         }
     }
+
+    suspend fun login(user: UserModel): UserModel {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.login(user)
+
+                if(response.code() != 200){
+                    throw Exception("Usuário não encontrado")
+                }
+
+                return@withContext response.body()!!
+            } catch (error: Exception) {
+                Log.d("UserDatabase", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
 }

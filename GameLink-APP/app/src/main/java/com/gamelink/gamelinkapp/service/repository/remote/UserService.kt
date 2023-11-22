@@ -12,5 +12,5 @@ interface UserService {
     suspend fun create(@Body body: UserModel): Response<UserModel>
 
     @POST("auth/authenticate")
-    fun login(@Body body: UserRequest): Call<UserModel>
+    suspend fun login(@Body body: UserModel): Response<UserModel>
 }
