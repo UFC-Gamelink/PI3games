@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.UserModel
@@ -12,6 +13,7 @@ import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.service.repository.UserRepository
 import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 class RegisterUserViewModel(application: Application) : AndroidViewModel(application) {
@@ -61,9 +63,19 @@ class RegisterUserViewModel(application: Application) : AndroidViewModel(applica
                 this.password = password
             }
 
-            userRepository.create(user)
+            viewModelScope.launch {
+                userRepository.create(user, object : APIListener<Boolean> {
+                    override fun onSuccess(result: Boolean) {
+                        _user.value = ValidationModel()
+                    }
 
-            _user.value = ValidationModel()
+                    override fun onFailure(message: String) {
+                        _user.value = ValidationModel(message)
+                    }
+
+                })
+            }
+
         }
     }
 
