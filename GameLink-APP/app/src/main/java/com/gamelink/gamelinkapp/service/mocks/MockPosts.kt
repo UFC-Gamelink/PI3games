@@ -12,7 +12,7 @@ class MockPosts {
 
         for (i in 0..19) {
             val userProfile = ProfileModel()
-            userProfile.id = i + 99
+            userProfile.id = "${i + 99}"
             userProfile.name = generateRandomName()[i]
             userProfile.username = generateRandomUsername()[i]
             userProfile.userId = i + 95

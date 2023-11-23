@@ -22,7 +22,9 @@ class PostRepository(context: Context) {
 
     fun listByRecommended(): List<PostProfileModel> {
         val mockPosts = MockPosts()
-        return mockPosts.getRecommendedPosts()
+
+        return listOf()
+        //return mockPosts.getRecommendedPosts()
     }
 
     fun listByCommunity(communityId: Int): List<PostProfileModel> {

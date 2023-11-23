@@ -93,7 +93,7 @@ class ProfileFragment : Fragment() {
             Glide.with(this).load(it.bannerPicPath).into(binding.imageviewBannerPicture)
 
 
-            bundle.putInt(GameLinkConstants.SHARED.USER_ID, it.id)
+            bundle.putString(GameLinkConstants.SHARED.USER_ID, it.id)
         }
     }
 

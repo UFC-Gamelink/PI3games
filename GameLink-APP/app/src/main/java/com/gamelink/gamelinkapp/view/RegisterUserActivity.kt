@@ -78,6 +78,7 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.user.observe(this) {
             if (it.status()) {
                 startActivity(Intent(this, LoginActivity::class.java))
+                Toast.makeText(this, "Usuário cadastrado com sucesso", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()

@@ -3,12 +3,12 @@ package com.gamelink.gamelinkapp.service.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "profiles")
 class ProfileModel {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    var id: Int = 0
+    @PrimaryKey
+    var id: String = ""
 
     @ColumnInfo(name = "user_id")
     var userId: Int = 0
@@ -26,6 +26,7 @@ class ProfileModel {
     var bio = ""
 
     @ColumnInfo(name = "birthday")
+    @SerializedName("birthdayDate")
     var birthday = ""
 
     @ColumnInfo(name = "show_birthday")
@@ -35,4 +36,8 @@ class ProfileModel {
 
     @ColumnInfo(name = "num_posts")
     var numPosts: Int = 0
+
+    var gender: String = "MALE"
+
+
 }
