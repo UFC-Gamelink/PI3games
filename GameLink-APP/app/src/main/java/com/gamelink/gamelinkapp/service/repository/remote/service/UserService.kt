@@ -1,8 +1,6 @@
-package com.gamelink.gamelinkapp.service.repository.remote
+package com.gamelink.gamelinkapp.service.repository.remote.service
 
 import com.gamelink.gamelinkapp.service.model.UserModel
-import com.gamelink.gamelinkapp.service.request.UserRequest
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

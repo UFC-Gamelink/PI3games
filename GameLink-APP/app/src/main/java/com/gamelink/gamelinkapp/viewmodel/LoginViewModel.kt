@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
+import com.gamelink.gamelinkapp.service.model.ProfileModel
 import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.ProfileRepository
@@ -87,11 +88,11 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun verifyHasNotProfile() {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+        viewModelScope.launch {
+            val profile = profileRepository.getByUser()
 
-        val profile = profileRepository.getByUser(userId)
-
-        _hasNotProfile.value = profile == null
+            _hasNotProfile.value = profile == null
+        }
     }
 
     private fun getErrorStringResIdIfEmpty(value: String): Int? {

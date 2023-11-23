@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.UserModel
+import com.gamelink.gamelinkapp.service.repository.remote.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

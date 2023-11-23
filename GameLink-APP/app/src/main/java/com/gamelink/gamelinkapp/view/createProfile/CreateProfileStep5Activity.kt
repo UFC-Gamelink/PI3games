@@ -97,7 +97,7 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             } else {
-                Toast.makeText(this, it.message(), Toast.LENGTH_SHORT)
+                Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
         }
     }

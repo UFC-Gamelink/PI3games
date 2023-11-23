@@ -19,7 +19,6 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
     DatePickerDialog.OnDateSetListener {
     private lateinit var binding: ActivityCreateProfileStep4Binding
     private lateinit var bundle: Bundle
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +52,8 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
         val calendar = Calendar.getInstance()
         calendar.set(year, month, dayOfMonth)
 
-        val birthday = dateFormat.format(calendar.time)
-        binding.buttonDate.text = birthday
+
+        binding.buttonDate.text = SimpleDateFormat("dd/MM/yyyy").format(calendar.time)
     }
 
     override fun onClick(v: View) {
@@ -74,7 +73,9 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleNext() {
-        bundle.putString("birthday", binding.buttonDate.text.toString())
+        val date = SimpleDateFormat("dd/MM/yyyy").parse(binding.buttonDate.text.toString())
+
+        bundle.putString("birthday", SimpleDateFormat("yyyy-MM-dd").format(date))
         bundle.putBoolean("show_birthday", binding.switchShowDate.isChecked)
 
         startActivity(
