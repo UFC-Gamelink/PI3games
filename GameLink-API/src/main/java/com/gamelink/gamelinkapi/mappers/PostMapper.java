@@ -17,6 +17,10 @@ public interface PostMapper {
     PostModel requestToModel(PostRequest postRequest);
     @Mapping(target = "imageUrl", source = "image.url")
     @Mapping(target = "postDate", source = "createdAt")
+    @Mapping(target = "ownerId", source = "owner.user.id")
+    @Mapping(target = "ownerName", source = "owner.name")
+    @Mapping(target = "username", source = "owner.user.username")
+    @Mapping(target = "userIconUrl", source = "owner.icon.url")
     PostResponse modelToResponse(PostModel postModel);
 
 }

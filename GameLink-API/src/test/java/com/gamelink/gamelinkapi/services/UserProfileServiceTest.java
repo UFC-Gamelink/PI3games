@@ -6,6 +6,7 @@ import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
+import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.services.users.UserService;
 import com.gamelink.gamelinkapi.utils.creators.UserCreator;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.BadCredentialsException;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,6 +41,8 @@ public class UserProfileServiceTest {
     private UserProfileRepository userProfileRepository;
     @MockBean
     private UserService userService;
+    @MockBean
+    private ImageCloudService imageCloudService;
 
     @BeforeEach
     private void setup() {
@@ -52,12 +56,11 @@ public class UserProfileServiceTest {
         PostUserProfileRequest postUserProfileRequest = userProfileRequestCreator.createValid();
         ArgumentCaptor<UserProfile> userProfileCaptor = ArgumentCaptor.forClass(UserProfile.class);
 
-        UserProfileResponse userProfileSaved = service.save(postUserProfileRequest);
+        service.save(postUserProfileRequest);
 
         verify(userProfileRepository, times(1)).save(userProfileCaptor.capture());
         verify(userService, times(1)).findUserAuthenticationContextOrThrowsBadCredentialException();
         assertEquals(postUserProfileRequest, userProfileMapper.modelToRequestDto(userProfileCaptor.getValue()));
-        assertEquals(postUserProfileRequest, userProfileMapper.responseToPostRequestDto(userProfileSaved));
     }
 
     @Test
@@ -113,7 +116,10 @@ public class UserProfileServiceTest {
     @DisplayName("findUserProfile should verify if the user authenticated is the owner of the profile and return it when success")
     void findUserProfileShouldVerifyAuthenticatedOwnerAndReturnItWhenSuccess(){
         final User validUser = userCreator.createValid();
-        final UserProfile userProfile = UserProfile.builder().user(validUser).build();
+        final UserProfile userProfile = UserProfile.builder()
+                .user(validUser)
+                .build();
+        userProfile.setCreatedAt(LocalDateTime.now());
 
         when(userService.findUserAuthenticationContextOrThrowsBadCredentialException())
                 .thenReturn(validUser);

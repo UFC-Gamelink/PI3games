@@ -52,7 +52,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     }
 
     public UserProfileResponse findUserProfile() {
-        UserProfile userProfile = findUserProfileIfExists();
+        UserProfile userProfile = findUserProfileByContext();
         return mapper.modelToResponseDto(userProfile);
     }
 
@@ -74,7 +74,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
 
     @Transactional
     public UserProfileResponse updateImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
-        UserProfile myUserProfile = findUserProfileIfExists();
+        UserProfile myUserProfile = findUserProfileByContext();
         if (myUserProfile.getIcon() != null && myUserProfile.getBanner() != null) {
             ImageModel iconUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getIcon());
             ImageModel bannerUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getBanner());
@@ -88,7 +88,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
 
     @Transactional
     public UserProfileResponse saveImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
-        UserProfile myUserProfile = findUserProfileIfExists();
+        UserProfile myUserProfile = findUserProfileByContext();
         if (myUserProfile.getIcon() == null || myUserProfile.getBanner() == null) {
             return mapper.modelToResponseDto(
                     saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
@@ -96,6 +96,12 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
         } else {
             throw new SaveThreatementException("Images are already saved");
         }
+    }
+
+    public UserProfile findUserProfileByContext() {
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        return userProfileRepository.findUserProfileByUser(user)
+                .orElseThrow(() -> new EntityNotFoundException("This user doesn't exists"));
     }
 
     private void deleteBannerAndIcon(UserProfile myUserProfile) {
@@ -110,9 +116,4 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
         return userProfileRepository.save(myUserProfile);
     }
 
-    private UserProfile findUserProfileIfExists() {
-        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
-        return userProfileRepository.findUserProfileByUser(user)
-                .orElseThrow(() -> new EntityNotFoundException("This user doesn't exists"));
-    }
 }

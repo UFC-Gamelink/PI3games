@@ -14,7 +14,7 @@ public interface CommentaryMapper {
     CommentaryModel requestToModel(CommentaryRequest commentaryRequest);
 
     @Mapping(target = "postId", source = "post.id")
-    @Mapping(target = "ownerId", source = "creator.id")
+    @Mapping(target = "ownerId", source = "creator.user.id")
     @Mapping(target = "ownerName", source = "creator.name")
     @Mapping(target = "username", source = "creator.user.username")
     @Mapping(target = "userIconUrl", source = "creator.icon.url")

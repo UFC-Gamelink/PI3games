@@ -33,8 +33,6 @@ public class UserProfileControllerTest {
     @DisplayName("post should execute save from UserProfileService and return a created status when success")
     void postShouldReturnACreatedStatusWhenSuccess() {
         PostUserProfileRequest validPostUserProfileRequest = requestCreator.createValid();
-        when(service.save(validPostUserProfileRequest))
-                .thenReturn(mapper.postRequestToResponseDto(validPostUserProfileRequest));
 
         ResponseEntity<Void> response = controller.post(validPostUserProfileRequest);
 

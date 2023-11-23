@@ -7,6 +7,7 @@ import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
+import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.services.users.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +25,16 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
     private final ImageCloudService imageCloudService;
+    private final UserProfileService userProfileService;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
     public void save(MultipartFile image, String description) {
-        User userFounded = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        var userProfileFounded = userProfileService.findUserProfileByContext();
         ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(image);
 
         PostModel postToBeSaved = PostModel.builder()
-                .user(userFounded)
+                .owner(userProfileFounded)
                 .image(imageSaved)
                 .description(description)
                 .build();
@@ -41,9 +43,9 @@ public class PostService {
     }
 
     public List<PostResponse> findAll() {
-        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        var userProfileFound = userProfileService.findUserProfileByContext();
 
-        return postRepository.findAllByUser(user)
+        return postRepository.findAllByOwner(userProfileFound)
                 .stream()
                 .map(postMapper::modelToResponse)
                 .toList();
@@ -56,7 +58,7 @@ public class PostService {
                 () -> new EntityNotFoundException("this post doesn't exists")
         );
 
-        if (postFounded.getUser().getId() == user.getId()) {
+        if (postFounded.getOwner().getId() == user.getId()) {
             postRepository.deleteById(id);
             imageCloudService.deleteImageOrThrowSaveThreatementException(postFounded.getImage());
         } else {
