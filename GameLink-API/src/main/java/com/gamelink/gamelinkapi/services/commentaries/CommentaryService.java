@@ -1,0 +1,73 @@
+package com.gamelink.gamelinkapi.services.commentaries;
+
+import com.gamelink.gamelinkapi.dtos.requests.commentaries.CommentaryRequest;
+import com.gamelink.gamelinkapi.dtos.responses.commentaries.CommentaryResponse;
+import com.gamelink.gamelinkapi.mappers.CommentaryMapper;
+import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
+import com.gamelink.gamelinkapi.models.posts.PostModel;
+import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.repositories.commentaries.CommentaryRepository;
+import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
+import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
+import com.gamelink.gamelinkapi.services.posts.PostService;
+import com.gamelink.gamelinkapi.services.users.UserService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class CommentaryService {
+    private final CommentaryRepository commentaryRepository;
+    private final PostRepository postRepository;
+    private final UserProfileRepository userProfileRepository;
+    private final UserService userService;
+    private final CommentaryMapper commentaryMapper = CommentaryMapper.INSTANCE;
+
+    public void save(CommentaryRequest commentaryRequest, UUID postId) {
+        UserProfile userProfileFounded = findUserProfile();
+        PostModel postFound = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("Post not exists"));
+
+        CommentaryModel commentaryToBeSaved = commentaryMapper.requestToModel(commentaryRequest);
+        commentaryToBeSaved.setCreator(userProfileFounded);
+        commentaryToBeSaved.setPost(postFound);
+
+        commentaryRepository.save(commentaryToBeSaved);
+    }
+
+    public List<CommentaryResponse> findCommentariesByPostId(UUID postId) {
+        PostModel postFound = postRepository.findById(postId).orElseThrow(() ->
+                new EntityNotFoundException("Post not exists"));
+
+        return commentaryRepository.findAllByPost(postFound)
+                .stream()
+                .map(commentaryMapper::modelToResponse)
+                .toList();
+    }
+
+    public void delete(UUID commentaryId) {
+        UserProfile userProfileFounded = findUserProfile();
+        CommentaryModel commentaryFound = commentaryRepository.findById(commentaryId).orElseThrow(
+                () -> new EntityNotFoundException("Commentary not found")
+        );
+
+        if (userProfileFounded.getId().equals(commentaryFound.getCreator().getId())) {
+            commentaryRepository.delete(commentaryFound);
+        } else {
+            throw new BadCredentialsException("You can't delete this commentary");
+        }
+    }
+
+    private UserProfile findUserProfile() {
+        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        return userProfileRepository.findUserProfileByUser(userFound)
+                .orElseThrow(() -> new EntityNotFoundException("User Profile not found"));
+    }
+}
