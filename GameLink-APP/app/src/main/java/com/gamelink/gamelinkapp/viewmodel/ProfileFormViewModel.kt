@@ -25,11 +25,11 @@ class ProfileFormViewModel(application: Application) : AndroidViewModel(applicat
     val update: LiveData<ValidationModel> = _update
 
     fun load(userId: Int) {
-        _userAndProfile.value = userRepository.getUserAndProfile(userId)
+       // _userAndProfile.value = userRepository.getUserAndProfile(userId)
     }
 
     fun save(user: UserModel, profile: ProfileModel) {
-        userRepository.update(user)
+        //userRepository.update(user)
         profileRepository.update(profile)
 
         //securityPreferences.store(GameLinkConstants.SHARED.USERNAME, user.username!!)

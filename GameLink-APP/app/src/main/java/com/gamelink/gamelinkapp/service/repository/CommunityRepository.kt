@@ -5,28 +5,27 @@ import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 
 class CommunityRepository(context: Context) {
-    private val database = LocalDatabase.getDatabase(context).communityDAO()
     fun create(community: CommunityModel) {
-        database.create(community)
+
     }
 
     fun update(community: CommunityModel) {
-        database.update(community)
+
     }
 
     fun list(): List<CommunityModel> {
-        return database.list()
+        return listOf()
     }
 
     fun getById(id: Int): CommunityModel? {
-        return database.get(id)
+        return null
     }
 
     fun getFollowed(userId: Int): List<CommunityModel> {
-        return database.getCommunitiesIFollow(userId);
+        return listOf()
     }
 
     fun delete(id: Int) {
-        database.delete(id)
+
     }
 }

@@ -9,7 +9,6 @@ import okhttp3.MultipartBody
 
 class ProfileRepository(context: Context) {
     private val profileDatabase = ProfileDatabase()
-    private val database = LocalDatabase.getDatabase(context).profileDAO()
 
     suspend fun save(profile: ProfileModel, listener: APIListener<Boolean>) {
         try {
@@ -41,7 +40,7 @@ class ProfileRepository(context: Context) {
     }
 
     fun update(profile: ProfileModel) {
-        database.update(profile)
+        //database.update(profile)
     }
 
     fun getByUser(userId: Int): ProfileModel? {

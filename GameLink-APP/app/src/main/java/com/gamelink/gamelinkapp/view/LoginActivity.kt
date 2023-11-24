@@ -8,18 +8,21 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityLoginBinding
+import com.gamelink.gamelinkapp.view.utils.LoadingDialog
 import com.gamelink.gamelinkapp.view.createProfile.CreateProfileStep1Activity
 import com.gamelink.gamelinkapp.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        loadingDialog = LoadingDialog(this)
 
         setContentView(binding.root)
 
@@ -45,6 +48,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 
         viewModel.login(username, password)
+        loadingDialog.startLoadingDialog()
     }
 
     private fun observe() {
@@ -52,12 +56,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             if(it.status()) {
                 viewModel.verifyHasNotProfile()
             } else {
+                loadingDialog.dismissDialog()
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
         }
 
         viewModel.loggedUser.observe(this) {
             if(it) {
+                loadingDialog.dismissDialog()
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
@@ -65,9 +71,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.hasNotProfile.observe(this) {
             if(it) {
+                loadingDialog.dismissDialog()
                 startActivity(Intent(applicationContext, CreateProfileStep1Activity::class.java))
                 finish()
             } else {
+                loadingDialog.dismissDialog()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
