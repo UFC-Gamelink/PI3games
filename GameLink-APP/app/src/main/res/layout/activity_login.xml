@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    android:fontFamily="@font/baloo_bhai_2"
+    android:orientation="vertical"
+    tools:context=".view.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/image_title_gamer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="156dp"
+        android:src="@drawable/gamer" />
+
+    <TextView
+        android:id="@+id/text_press_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_title_gamer"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Aperte o Play"
+        android:textColor="@color/white"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/text_description_gamelink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_press_play"
+        android:layout_marginHorizontal="30dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="Encontre Duos, comunidades, jogos\n em promoção e muito mais"
+        android:textColor="#97A5D5"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_description_gamelink"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/logo_gamelink" />
+
+    <TextView
+        android:id="@+id/text_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_logo"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/username"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+
+    <EditText
+        android:id="@+id/edit_username"
+        style="@style/PrimaryEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/text_username"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:autofillHints="username"
+        android:hint="@string/edittext_username"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/text_username_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_username"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/text_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_username_helper"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/password"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/edit_password"
+        style="@style/PrimaryEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/text_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="12dp"
+        android:autofillHints="password"
+        android:gravity="center_vertical"
+        android:hint="@string/editpassword_hint"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/text_password_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_password"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/text_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_password_helper"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/forgot_password"
+        android:textColor="#095CBF"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/button_login"
+        style="@style/PrimaryButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_password_helper"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/login_button_text"
+        android:textColor="@color/white"
+        app:backgroundTint="@null" />
+
+    <TextView
+        android:id="@+id/text_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_login"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/baloo_bhai_2"
+        android:text="@string/not_have_an_account"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/image_below"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:contentDescription="@string/footer"
+        android:scaleType="fitXY"
+        android:src="@drawable/bottom_layout" />
+
+
+</RelativeLayout>

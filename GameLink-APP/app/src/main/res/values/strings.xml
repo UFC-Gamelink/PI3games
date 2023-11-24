@@ -1,3 +1,135 @@
 <resources>
     <string name="app_name">GameLink-APP</string>
+    <string name="edittext_hint">Informe seu e-mail de cadastro</string>
+    <string name="editpassword_hint">Informe sua senha</string>
+    <string name="edittext_username">Informe seu nome de usuário</string>
+    <string name="already_have_an_account">Já tem uma conta? <font color='#095CBF'>Logar-se</font></string>
+    <string name="not_have_an_account">Não tem uma conta? <font color='#095CBF'>Cadastre-se</font></string>
+    <string name="required_field_error">Campo Obrigatório</string>
+    <string name="invalid_email_error">E-mail inválido</string>
+    <string name="invalid_password_error">Senha inválida. Preencha todos os requisitos</string>
+    <string name="username">Nome de usuário</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="UNEXPECTED_ERROR">Erro inesperado</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="USER_NOT_FOUND">Usuário não encontrado</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_register_post">RegisterPostActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+    <string name="level_01">Level 01</string>
+    <string name="choose_name">Escolher nome</string>
+    <string name="placeholder_name_userprofile">Infome seu nome de apresentação</string>
+    <string name="placeholder_your_name">Seu nome</string>
+    <string name="alt_winner_flatline">ilustração de um Homem segurando uma medalha e um troféu</string>
+    <string name="title_choose_name">Todo player precisa de um nome único, escolha o seu</string>
+    <string name="choose_name_subtitle">Esse nome será o seu @ do perfil</string>
+    <string name="confirm_username">Confirmar</string>
+    <string name="footer">footer</string>
+    <string name="level_02">Level 02</string>
+    <string name="subtitle_images">Imagens</string>
+    <string name="profile_icon">profile_icon</string>
+    <string name="banner_profile">banner profile</string>
+    <string name="user_profile_name">user anterior</string>
+    <string name="select_profile_picture">Selecionar Foto de Perfil</string>
+    <string name="select_profile_banner">Selecionar Foto de Capa</string>
+    <string name="select_picture_banner">Selecionar Foto de Capa</string>
+    <string name="next_button">Prosseguir</string>
+    <string name="level_03">Level 03</string>
+    <string name="subtitle_bio">Bio</string>
+    <string name="bio_title">Conte a sua lore, fale um pouco sobre você na sua bio.</string>
+    <string name="bio_placeholder">Escreva um pouco sobre você. Ex: gosto de gatos, presentes surpresas</string>
+    <string name="level_04">Level 04</string>
+    <string name="birthday_date">Data Nascimento</string>
+    <string name="date_select">Clique para selecionar a data de anivesário</string>
+    <string name="show_age">Exibir idade no Perfil</string>
+    <string name="level_05">Level 05</string>
+    <string name="favorite_games_title">Jogos favoritos</string>
+    <string name="new_post">Novo Post</string>
+    <string name="post">Postar</string>
+    <string name="placeholder_post">Escreva algo novo</string>
+    <string name="public_post">Público</string>
+    <string name="default_mock">default</string>
+    <string name="options_post">Opções</string>
+    <string name="game_default_name">Valorant</string>
+    <string name="game_description_default">FPS, Multijogador</string>
+    <string name="banner_aly">imagem banner</string>
+    <string name="perfil_alt">Imagem perfil</string>
+    <string name="name_default">Name</string>
+    <string name="username_default">Username</string>
+    <string name="followers_label">Seguidores</string>
+    <string name="following_label">Seguindo</string>
+    <string name="posts_label">Posts</string>
+    <string name="label_bio">Bio</string>
+    <string name="bio_default">Se você não me encontrar na vida real, é porque estou ocupada salvando o mundo em algum RPG épico ou competindo em torneios o nline. Amante de pizza 🍕 e energético ⚡.</string>
+    <string name="login_button_text">Realizar Login</string>
+    <string name="register_button_text">Realizar Cadastro</string>
+    <string name="welcome_back">Bem vindo de volta</string>
+    <string name="welcome_subtitle">Divirta-se nesse incrível mundo gamer!</string>
+    <string name="logo_text">Logo</string>
+    <string name="post_image">Post Image</string>
+    <string name="username_post">@</string>
+    <string name="image_perfil">image perfil</string>
+    <string name="community_name">Nome da comunidade</string>
+    <string name="community_banner_image">community banner image</string>
+    <string name="exit_community">Sair</string>
+    <string name="community_in">Entrar</string>
+    <string name="community_name_label">Nome da comunidade</string>
+    <string name="community_name_placeholder">Nome</string>
+    <string name="community_description_label">Descrição</string>
+    <string name="community_description_placeholder">Descrição da comunidade</string>
+    <string name="visibility_community_label">Privado</string>
+    <string name="create_community_button_text">Criar Comunidade</string>
+    <string name="arrowback_icon">arrowback icon</string>
+    <string name="user_name_profile_edit">Nome do Perfil</string>
+    <string name="nome_do_perfil_placeholder">Nome do Perfil</string>
+    <string name="nome_de_usuario_placeholder">Nome de usuário</string>
+    <string name="bio_update_placeholder">Bio</string>
+    <string name="data_de_aniversario_label">Data de aniversário</string>
+    <string name="comunidades_title">Comunidades</string>
+    <string name="community_name_row">Comunidade</string>
+    <string name="community_members_row">0 membros</string>
+    <string name="image_community_icon">image community</string>
 </resources>

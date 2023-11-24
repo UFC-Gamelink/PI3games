@@ -1,9 +1,113 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.GameLinkAPP" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.GameLinkAPP" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.GameLinkAPP" parent="Base.Theme.GameLinkAPP" />
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">
+            @android:color/transparent
+        </item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">
+            @style/BottomSheetStyle
+        </item>
+    </style>
+
+    <style name="PrimaryButtonTheme">
+        <item name="android:background">
+            @drawable/button_gradient
+        </item>
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="backgroundTint">
+            @null
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+    </style>
+
+    <style name="PrimaryEditText">
+        <item name="android:background">
+            @drawable/rounded_edit_text
+        </item>
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:paddingVertical">
+            16dp
+        </item>
+        <item name="android:paddingHorizontal">
+            24dp
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+        <item name="android:textColorHint">
+            @color/grayblue
+        </item>
+        <item name="android:textSize">
+            12sp
+        </item>
+    </style>
+
+    <style name="LargeEditText">
+        <item name="android:background">
+            @drawable/rounded_large_text_background
+        </item>
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:paddingVertical">
+            16dp
+        </item>
+        <item name="android:paddingHorizontal">
+            24dp
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+        <item name="android:textColorHint">
+            @color/grayblue
+        </item>
+        <item name="android:textSize">
+            12sp
+        </item>
+    </style>
+
+    <style name="DefaultTitle1">
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:textColor">
+            @color/white
+        </item>
+        <item name="android:textSize">
+            20sp
+        </item>
+        <item name="android:textStyle">
+            bold
+        </item>
+    </style>
+
+    <style name="DefaultSubtitle1">
+        <item name="android:fontFamily">
+            @font/baloo_bhai_2
+        </item>
+        <item name="android:textColor">
+            @color/gray
+        </item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
