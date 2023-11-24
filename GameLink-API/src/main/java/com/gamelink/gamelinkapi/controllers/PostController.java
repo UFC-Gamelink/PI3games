@@ -20,7 +20,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostResponse> post(
-            @RequestPart MultipartFile image,
+            @RequestPart(required = false) MultipartFile image,
             @RequestPart @NotBlank String description
     ) {
         postService.save(image, description);

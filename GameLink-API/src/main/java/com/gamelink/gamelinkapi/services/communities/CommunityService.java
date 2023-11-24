@@ -1,13 +1,17 @@
 package com.gamelink.gamelinkapi.services.communities;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
+import com.gamelink.gamelinkapi.mappers.PostMapper;
 import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
+import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
+import com.gamelink.gamelinkapi.services.posts.PostService;
 import com.gamelink.gamelinkapi.services.users.UserService;
 import com.gamelink.gamelinkapi.utils.Utils;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +30,9 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final UserService userService;
     private final ImageCloudService imageCloudService;
+    private final PostService postService;
     private final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
+    private final PostMapper postMapper = PostMapper.INSTANCE;
 
     public void createCommunity(CommunityRequest communityRequest) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
@@ -107,5 +113,29 @@ public class CommunityService {
                 .findById(id).orElseThrow(() ->
                         new EntityNotFoundException("Community not exists")
                 );
+    }
+
+    @Transactional
+    public void enterCommunity(UUID communityId) {
+        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(communityId);
+
+        communityFound.getMembers().add(userFound);
+        communityRepository.save(communityFound);
+    }
+
+    @Transactional
+    public void addPost(UUID communityId, PostRequest postRequest) {
+        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(communityId);
+        if (communityFound.getMembers().contains(userFound)) {
+            UUID idPostSaved = postService.save(postRequest.image(), postRequest.description());
+            var postToBeSaved = new PostModel();
+            postToBeSaved.setId(idPostSaved);
+            communityFound.getPosts().add(postToBeSaved);
+            communityRepository.save(communityFound);
+        } else {
+            throw new BadCredentialsException("You can't add posts to this community");
+        }
     }
 }
