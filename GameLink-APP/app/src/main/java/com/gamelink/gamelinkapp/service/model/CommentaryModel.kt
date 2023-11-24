@@ -4,18 +4,18 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "commentary")
+//@Entity(tableName = "commentary")
 class CommentaryModel {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "comment_id")
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = "comment_id")
     var id: Int = 0
 
-    @ColumnInfo(name = "text")
+//    @ColumnInfo(name = "text")
     var text: String = ""
 
-    @ColumnInfo(name = "post_id")
+//    @ColumnInfo(name = "post_id")
     var postId: Int = 0
 
-    @ColumnInfo(name = "user_id")
+//    @ColumnInfo(name = "user_id")
     var userId: Int = 0
 }

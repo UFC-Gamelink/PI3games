@@ -65,6 +65,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 userRepository.login(user, object : APIListener<UserModel> {
                     override fun onSuccess(result: UserModel) {
                         securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.token)
+                        securityPreferences.store(GameLinkConstants.SHARED.USERNAME, username)
+                        securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.id)
 
                         RetrofitClient.addHeaders(result.token)
 

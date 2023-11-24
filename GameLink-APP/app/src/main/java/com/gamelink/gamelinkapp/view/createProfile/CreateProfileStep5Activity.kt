@@ -27,6 +27,7 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
     private var categoriesGameList = ArrayList<CategoryGameModel>()
     private lateinit var gameAdapter: GameAdapter
     private lateinit var categoryGameAdapter: CategoryGameAdapter
+    private lateinit var profile: ProfileModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +80,7 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
         val birthday: String = bundle.getString("birthday") ?: ""
         val showBirthday: Boolean = bundle.getBoolean("show_birthday")
 
-        val profile = ProfileModel().apply {
+        profile = ProfileModel().apply {
             this.name = name
             this.profilePicPath = profilePicturePath
             this.bannerPicPath = profileBannerPath
@@ -94,7 +95,16 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
     private fun observe(){
         viewModel.profileSave.observe(this) {
             if(it.status()) {
+                viewModel.saveImages(profile)
+            } else {
+                Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.profileImagesSave.observe(this) {
+            if(it.status()) {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
+                Toast.makeText(this, "Perfil criado com sucesso", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()

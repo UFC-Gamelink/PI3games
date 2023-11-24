@@ -5,25 +5,25 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 
-@Entity(tableName = "posts")
+//@Entity(tableName = "posts")
 class PostModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "post_id")
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = "post_id")
     var id: Int = 0
 
-    @ColumnInfo(name = "post")
+//    @ColumnInfo(name = "post")
     var post: String = ""
 
-    @ColumnInfo(name = "post_image_path")
+//    @ColumnInfo(name = "post_image_path")
     var postImagePath: String? = ""
 
-    @ColumnInfo(name = "user_id")
+//    @ColumnInfo(name = "user_id")
     var userId: Int = 0
 
-    @ColumnInfo(name = "visibility")
+//    @ColumnInfo(name = "visibility")
     var visibility: Int = 0
 
-    @ColumnInfo(name = "created_at")
+//    @ColumnInfo(name = "created_at")
     var createdAt: String = ""
 }

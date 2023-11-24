@@ -4,27 +4,27 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "communities")
+//@Entity(tableName = "communities")
 class CommunityModel {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+//    @PrimaryKey(autoGenerate = true)
+//    @ColumnInfo(name = "id")
     var id: Int = 0
 
-    @ColumnInfo(name = "name")
+//    @ColumnInfo(name = "name")
     var name: String = ""
 
-    @ColumnInfo(name = "description")
+//    @ColumnInfo(name = "description")
     var description: String = ""
 
-    @ColumnInfo(name = "banner_url")
+//    @ColumnInfo(name = "banner_url")
     var bannerUrl: String? = ""
 
-    @ColumnInfo(name = "private")
+//    @ColumnInfo(name = "private")
     var private = false
 
-    @ColumnInfo(name = "owner_id")
+//    @ColumnInfo(name = "owner_id")
     var ownerId: Int = 0
 
-    @ColumnInfo(name = "num_members")
+//    @ColumnInfo(name = "num_members")
     var numMembers: Int = 0
 }

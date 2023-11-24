@@ -4,6 +4,7 @@ import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RetrofitClient private constructor() {
     companion object {
@@ -13,7 +14,8 @@ class RetrofitClient private constructor() {
 
         private fun getRetrofitInstance(): Retrofit {
             val httpClient = OkHttpClient.Builder()
-
+                .readTimeout(180, TimeUnit.SECONDS)
+                .connectTimeout(180, TimeUnit.SECONDS)
             httpClient.addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
@@ -26,7 +28,7 @@ class RetrofitClient private constructor() {
             if(!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("http://192.168.0.7:8080/")
+                        .baseUrl("http://192.168.0.6:8080/")
                         .client(httpClient.build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()

@@ -6,17 +6,17 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.gamelink.gamelinkapp.service.model.UserCommunityModel
 
-@Dao
+//@Dao
 interface UserCommunityDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun joinCommunity(userCommunityFollowModel: UserCommunityModel)
 
-    @Query("DELETE FROM user_community WHERE user_id = :userId AND community_id = :communityId")
+//    @Query("DELETE FROM user_community WHERE user_id = :userId AND community_id = :communityId")
     fun leaveCommunity(userId: Int, communityId: Int)
 
-    @Query("SELECT * FROM user_community WHERE user_id = :userId AND community_id = :communityId")
+//    @Query("SELECT * FROM user_community WHERE user_id = :userId AND community_id = :communityId")
     fun isJoin(userId: Int, communityId: Int): UserCommunityModel?
 
-    @Query("DELETE FROM user_community WHERE community_id = :communityId")
+//    @Query("DELETE FROM user_community WHERE community_id = :communityId")
     fun deleteMembers(communityId: Int)
 }
