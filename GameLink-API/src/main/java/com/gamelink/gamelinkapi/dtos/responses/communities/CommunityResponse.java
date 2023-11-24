@@ -7,6 +7,7 @@ public record CommunityResponse(
         String name,
         String description,
         String bannerUrl,
-        String owner
+        String owner,
+        UUID ownerId
 ) {
 }

@@ -1,4 +1,6 @@
 package com.gamelink.gamelinkapi.dtos.responses.authentication;
 
-public record AuthenticationResponse(String token) {
+import java.util.UUID;
+
+public record AuthenticationResponse(String token, UUID userId) {
 }

@@ -13,6 +13,7 @@ public interface CommunityMapper {
 
     CommunityModel requestToModel(CommunityRequest communityRequest);
     @Mapping(target = "owner", source = "owner.username")
+    @Mapping(target = "ownerId", source = "owner.id")
     @Mapping(target = "bannerUrl", source = "banner.url")
     CommunityResponse modelToResponse(CommunityModel communityModel);
 }

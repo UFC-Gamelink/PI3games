@@ -7,6 +7,10 @@ public record PostResponse(
         UUID id,
         String description,
         LocalDateTime postDate,
-        String imageUrl
+        String imageUrl,
+        UUID ownerId,
+        String ownerName,
+        String username,
+        String userIconUrl
 ) {
 }
