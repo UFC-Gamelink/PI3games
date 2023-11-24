@@ -47,7 +47,11 @@ public class UserProfileServiceTest {
     @BeforeEach
     private void setup() {
         when(userProfileRepository.save(any(UserProfile.class)))
-                .thenAnswer(invocation -> invocation.getArguments()[0]);
+                .thenAnswer(invocation -> {
+                    UserProfile argument = (UserProfile) invocation.getArguments()[0];
+                    argument.setCreatedAt(LocalDateTime.now());
+                    return argument;
+                });
     }
 
     @Test
