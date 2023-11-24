@@ -22,6 +22,8 @@ class ProfileViewModel(application: Application)  : AndroidViewModel(application
         viewModelScope.launch {
             val profileModel = profileRepository.getByUser()
 
+            profileModel?.username = "@${securityPreferences.get(GameLinkConstants.SHARED.USERNAME)}"
+
             _profile.value = profileModel
         }
     }
@@ -29,5 +31,6 @@ class ProfileViewModel(application: Application)  : AndroidViewModel(application
     fun logout() {
         securityPreferences.remove(GameLinkConstants.SHARED.USER_ID)
         securityPreferences.remove(GameLinkConstants.SHARED.USERNAME)
+        securityPreferences.remove(GameLinkConstants.SHARED.TOKEN_KEY)
     }
 }

@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapp.service.repository
 
 import android.content.Context
 import com.gamelink.gamelinkapp.service.listener.APIListener
+import com.gamelink.gamelinkapp.service.model.ProfileModel
 import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
 import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
@@ -12,7 +13,6 @@ import com.google.gson.Gson
 
 class UserRepository(val context: Context) {
     private val userDatabase = UserDatabase()
-    private val database = LocalDatabase.getDatabase(context).userDAO()
 
     suspend fun create(user: UserModel, listener: APIListener<Boolean>) {
         try {
@@ -35,11 +35,11 @@ class UserRepository(val context: Context) {
     }
 
     fun getUserAndProfile(userId: Int): UserAndProfileModel {
-        return database.getUserAndProfile(userId)
+        return UserAndProfileModel(UserModel(), ProfileModel())
     }
 
     fun update(user: UserModel) {
-        database.update(user)
+
     }
 
     private fun failResponse(str: String): String {

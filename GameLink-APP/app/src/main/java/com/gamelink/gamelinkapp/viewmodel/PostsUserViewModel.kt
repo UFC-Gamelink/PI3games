@@ -23,7 +23,9 @@ class PostsUserViewModel(application: Application) : AndroidViewModel(applicatio
     fun list() {
         val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
-        _posts.value = postsRepository.listByUser(userId.toInt())
+        //_posts.value = postsRepository.listByUser(userId.toInt())
+
+        _posts.value = listOf()
     }
 
     fun delete(id: Int) {

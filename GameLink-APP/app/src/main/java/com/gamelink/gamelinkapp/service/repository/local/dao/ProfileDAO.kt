@@ -6,15 +6,15 @@ import androidx.room.Query
 import androidx.room.Update
 import com.gamelink.gamelinkapp.service.model.ProfileModel
 
-@Dao
+//@Dao
 interface ProfileDAO {
-    @Insert
+//    @Insert
     fun save(profile: ProfileModel)
 
-    @Query("SELECT profiles.*, users.username, count(posts.post_id) AS num_posts FROM profiles JOIN users on users.id = profiles.user_id LEFT JOIN posts ON profiles.user_id = posts.user_id WHERE profiles.user_id = :userId GROUP BY profiles.user_id")
+  //  @Query("SELECT profiles.*, users.username, count(posts.post_id) AS num_posts FROM profiles JOIN users on users.id = profiles.user_id LEFT JOIN posts ON profiles.user_id = posts.user_id WHERE profiles.user_id = :userId GROUP BY profiles.user_id")
     fun getByUserId(userId: Int): ProfileModel?
 
-    @Update
+    //@Update
     fun update(profile: ProfileModel)
 
 }

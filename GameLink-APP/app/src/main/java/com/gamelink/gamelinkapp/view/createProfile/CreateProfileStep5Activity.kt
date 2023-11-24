@@ -14,6 +14,7 @@ import com.gamelink.gamelinkapp.service.listener.CategoryGameListener
 import com.gamelink.gamelinkapp.service.model.CategoryGameModel
 import com.gamelink.gamelinkapp.service.model.GameModel
 import com.gamelink.gamelinkapp.service.model.ProfileModel
+import com.gamelink.gamelinkapp.view.utils.LoadingDialog
 import com.gamelink.gamelinkapp.view.MainActivity
 import com.gamelink.gamelinkapp.view.adapter.CategoryGameAdapter
 import com.gamelink.gamelinkapp.view.adapter.GameAdapter
@@ -27,13 +28,17 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
     private var categoriesGameList = ArrayList<CategoryGameModel>()
     private lateinit var gameAdapter: GameAdapter
     private lateinit var categoryGameAdapter: CategoryGameAdapter
+    private lateinit var profile: ProfileModel
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateProfileStep5Binding.inflate(layoutInflater)
-        setContentView(binding.root)
 
+        binding = ActivityCreateProfileStep5Binding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(SaveProfileViewModel::class.java)
+        loadingDialog = LoadingDialog(this)
+
+        setContentView(binding.root)
 
         bundle = intent.extras!!
 
@@ -79,7 +84,7 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
         val birthday: String = bundle.getString("birthday") ?: ""
         val showBirthday: Boolean = bundle.getBoolean("show_birthday")
 
-        val profile = ProfileModel().apply {
+        profile = ProfileModel().apply {
             this.name = name
             this.profilePicPath = profilePicturePath
             this.bannerPicPath = profileBannerPath
@@ -89,14 +94,27 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
         }
 
         viewModel.save(profile)
+        loadingDialog.startLoadingDialog()
     }
 
     private fun observe(){
         viewModel.profileSave.observe(this) {
             if(it.status()) {
+                viewModel.saveImages(profile)
+            } else {
+                loadingDialog.dismissDialog()
+                Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.profileImagesSave.observe(this) {
+            if(it.status()) {
+                loadingDialog.dismissDialog()
                 startActivity(Intent(applicationContext, MainActivity::class.java))
+                Toast.makeText(this, "Perfil criado com sucesso", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
+                loadingDialog.dismissDialog()
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
         }

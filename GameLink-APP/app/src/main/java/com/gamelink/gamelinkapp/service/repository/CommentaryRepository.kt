@@ -6,22 +6,21 @@ import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 
 class CommentaryRepository(context: Context) {
-    private val database = LocalDatabase.getDatabase(context).commentaryDAO()
 
     fun create(commentary: CommentaryModel) {
-        database.create(commentary)
+        //database.create(commentary)
     }
 
     fun listByPost(postId: Int): List<CommentaryModel> {
-        return database.listByPost(postId)
+        return listOf()
     }
 
     fun listWithProfileByPost(postId: Int): List<CommentaryAndProfileModel> {
-        return database.listWithProfileByPost(postId)
+        return listOf()
     }
 
     fun delete(commentaryId: Int) {
-        database.delete(commentaryId)
+
     }
 
 

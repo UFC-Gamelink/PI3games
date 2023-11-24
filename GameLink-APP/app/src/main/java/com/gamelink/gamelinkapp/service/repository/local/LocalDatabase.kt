@@ -18,15 +18,7 @@ import com.gamelink.gamelinkapp.service.repository.local.dao.UserCommunityDAO
 import com.gamelink.gamelinkapp.service.repository.local.dao.UserDAO
 
 
-@Database(
-    entities = [
-        PostModel::class,
-        UserModel::class,
-        ProfileModel::class,
-        CommunityModel::class,
-        UserCommunityModel::class,
-               CommentaryModel::class], version = 1
-)
+//@Database(entities = [], version = 1)
 abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun postDAO(): PostDAO

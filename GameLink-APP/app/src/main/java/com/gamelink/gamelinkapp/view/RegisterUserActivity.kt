@@ -11,17 +11,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterUserBinding
+import com.gamelink.gamelinkapp.view.utils.LoadingDialog
 import com.gamelink.gamelinkapp.viewmodel.RegisterUserViewModel
 
 class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: RegisterUserViewModel
     private lateinit var binding: ActivityRegisterUserBinding
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(RegisterUserViewModel::class.java)
         binding = ActivityRegisterUserBinding.inflate(layoutInflater)
+        loadingDialog = LoadingDialog(this)
 
         binding.buttonRegister.setOnClickListener(this)
         binding.textLogin.setOnClickListener(this)
@@ -77,10 +80,12 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.user.observe(this) {
             if (it.status()) {
+                loadingDialog.dismissDialog()
                 startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "Usuário cadastrado com sucesso", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
+                loadingDialog.dismissDialog()
                 Toast.makeText(this, it.message(), Toast.LENGTH_SHORT).show()
             }
         }
@@ -91,6 +96,7 @@ class RegisterUserActivity : AppCompatActivity(), View.OnClickListener {
         val email = binding.editEmail.text.toString().trim()
         val password = binding.editPassword.text.toString().trim()
 
+        loadingDialog.startLoadingDialog()
         viewModel.create(username, email, password)
     }
 

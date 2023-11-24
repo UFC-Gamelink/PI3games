@@ -7,17 +7,17 @@ import com.gamelink.gamelinkapp.service.model.PostProfileModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 
 class PostRepository(context: Context) {
-    private val database = LocalDatabase.getDatabase(context).postDAO()
+
     fun save(post: PostModel) {
-        database.save(post)
+
     }
 
     fun list(): List<PostProfileModel> {
-        return database.list()
+        return listOf()
     }
 
     fun listByUser(userId: Int): List<PostProfileModel> {
-        return database.listByUser(userId)
+        return listOf()
     }
 
     fun listByRecommended(): List<PostProfileModel> {
@@ -28,18 +28,18 @@ class PostRepository(context: Context) {
     }
 
     fun listByCommunity(communityId: Int): List<PostProfileModel> {
-        return database.listByCommunity(communityId)
+        return listOf()
     }
 
     fun delete(postId: Int) {
-        database.delete(postId)
+
     }
 
     fun deleteFromCommunity(id: Int) {
-        database.deleteFromCommunity(id)
+
     }
 
     fun findByIdAndUserId(id: Int, userId: Int): PostModel? {
-        return database.findByIdAndUserId(id, userId)
+        return null
     }
 }

@@ -89,8 +89,8 @@ class ProfileFragment : Fragment() {
             binding.textBioValue.text = it.bio
             binding.textCountPosts.text = it.numPosts.toString()
 
-            Glide.with(this).load(it.profilePicPath).into(binding.imageviewProfilePicture)
-            Glide.with(this).load(it.bannerPicPath).into(binding.imageviewBannerPicture)
+            Glide.with(this).load(it.icon.url).into(binding.imageviewProfilePicture)
+            Glide.with(this).load(it.banner.url).into(binding.imageviewBannerPicture)
 
 
             bundle.putString(GameLinkConstants.SHARED.USER_ID, it.id)
