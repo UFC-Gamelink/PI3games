@@ -1,10 +1,13 @@
 package com.gamelink.gamelinkapi.services.posts;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
+import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
@@ -26,20 +29,24 @@ public class PostService {
     private final UserService userService;
     private final ImageCloudService imageCloudService;
     private final UserProfileService userProfileService;
+    private final CommunityRepository communityRepository;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
-    public void save(MultipartFile image, String description) {
+    public UUID save(MultipartFile image, String description) {
         var userProfileFounded = userProfileService.findUserProfileByContext();
-        ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(image);
 
         PostModel postToBeSaved = PostModel.builder()
                 .owner(userProfileFounded)
-                .image(imageSaved)
                 .description(description)
                 .build();
 
-        postRepository.save(postToBeSaved);
+        if (image != null) {
+            ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(image);
+            postToBeSaved.setImage(imageSaved);
+        }
+
+        return postRepository.save(postToBeSaved).getId();
     }
 
     public List<PostResponse> findAll() {

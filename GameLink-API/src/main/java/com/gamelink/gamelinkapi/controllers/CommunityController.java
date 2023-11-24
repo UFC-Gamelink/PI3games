@@ -1,9 +1,11 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -66,4 +68,26 @@ public class CommunityController {
                 .status(HttpStatus.OK)
                 .body(communityResponse);
     }
+
+    @PutMapping("/{id}/enter")
+    public ResponseEntity<Void> enterCommunity(@PathVariable UUID id) {
+        communityService.enterCommunity(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @PutMapping("/{id}/post")
+    public ResponseEntity<Void> addPost(
+            @PathVariable UUID id,
+            @RequestPart @NotBlank String description,
+            @RequestPart(required = false) MultipartFile image
+    ) {
+        PostRequest postRequest = new PostRequest(description, image);
+        communityService.addPost(id, postRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
 }

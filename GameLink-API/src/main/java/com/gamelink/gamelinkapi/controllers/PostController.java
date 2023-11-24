@@ -19,8 +19,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> post(
-            @RequestPart MultipartFile image,
+    public ResponseEntity<PostResponse> post(
+            @RequestPart(required = false) MultipartFile image,
             @RequestPart @NotBlank String description
     ) {
         postService.save(image, description);

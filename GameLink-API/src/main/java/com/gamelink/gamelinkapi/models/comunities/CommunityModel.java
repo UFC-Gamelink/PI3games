@@ -7,7 +7,6 @@ import com.gamelink.gamelinkapi.models.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -27,6 +26,8 @@ public class CommunityModel extends BaseModel {
     private String description;
     @OneToOne
     private ImageModel banner;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<PostModel> posts;
+    @OneToMany
+    private List<User> members;
 }
