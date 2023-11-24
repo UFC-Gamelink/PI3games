@@ -125,6 +125,15 @@ public class CommunityService {
     }
 
     @Transactional
+    public void exitCommunity(UUID communityId) {
+        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(communityId);
+
+        communityFound.getMembers().remove(userFound);
+        communityRepository.save(communityFound);
+    }
+
+    @Transactional
     public void addPost(UUID communityId, PostRequest postRequest) {
         User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(communityId);

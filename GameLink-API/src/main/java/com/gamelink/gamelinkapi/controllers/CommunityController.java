@@ -77,6 +77,14 @@ public class CommunityController {
                 .build();
     }
 
+    @PutMapping("/{id}/exit")
+    public ResponseEntity<Void> exitCommunity(@PathVariable UUID id) {
+        communityService.exitCommunity(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
     @PutMapping("/{id}/post")
     public ResponseEntity<Void> addPost(
             @PathVariable UUID id,
