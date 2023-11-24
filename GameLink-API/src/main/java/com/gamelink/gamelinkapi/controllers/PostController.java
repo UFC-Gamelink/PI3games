@@ -29,6 +29,13 @@ public class PostController {
                 .build();
     }
 
+    @PutMapping("/{id}/like")
+    public ResponseEntity<Boolean> likePost(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(postService.changeLike(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<PostResponse>> get() {
         return ResponseEntity
