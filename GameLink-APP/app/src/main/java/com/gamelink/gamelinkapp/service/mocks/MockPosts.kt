@@ -15,7 +15,7 @@ class MockPosts {
             userProfile.id = "${i + 99}"
             userProfile.name = generateRandomName()[i]
             userProfile.username = generateRandomUsername()[i]
-            userProfile.userId = i + 95
+            userProfile.owner = "${i + 95}"
             userProfile.profilePicPath = "https://media.istockphoto.com/id/1305224036/pt/foto/latin-man-gaming-on-his-pc-during-a-live-stream.jpg?s=612x612&w=0&k=20&c=d7CHJY8R_mdRONaA7c62pdAD7308HkdZIL-Ne5t6T3w="
 
             val postModel = PostModel()

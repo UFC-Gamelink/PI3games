@@ -79,30 +79,6 @@
         app:layout_constraintTop_toBottomOf="@id/text_nickname" />
 
     <TextView
-        android:id="@+id/text_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/baloo_bhai_2"
-        android:text="Nome de usuário"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_nickname" />
-
-    <EditText
-        android:id="@+id/edit_username"
-        style="@style/PrimaryEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="top"
-        android:hint="@string/nome_de_usuario_placeholder"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_username" />
-
-    <TextView
         android:id="@+id/text_bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,7 +87,7 @@
         android:text="@string/bio_update_placeholder"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_username" />
+        app:layout_constraintTop_toBottomOf="@id/edit_nickname" />
 
     <EditText
         android:id="@+id/edit_bio"

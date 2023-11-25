@@ -46,9 +46,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val username = binding.editUsername.text.toString().trim()
         val password = binding.editPassword.text.toString().trim()
 
-
-        viewModel.login(username, password)
         loadingDialog.startLoadingDialog()
+        viewModel.login(username, password)
     }
 
     private fun observe() {
@@ -63,7 +62,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.loggedUser.observe(this) {
             if(it) {
-                loadingDialog.dismissDialog()
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
@@ -75,25 +73,28 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(applicationContext, CreateProfileStep1Activity::class.java))
                 finish()
             } else {
-                loadingDialog.dismissDialog()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }
 
         viewModel.usernameHelperErrorResId.observe(this) {
+            loadingDialog.dismissDialog()
             binding.textUsernameHelper.text = if (it != null) getString(it) else ""
         }
 
         viewModel.usernameFieldErrorResId.observe(this) {
+            loadingDialog.dismissDialog()
             binding.editUsername.setBackgroundResource(it)
         }
 
         viewModel.passwordFieldErrorResId.observe(this) {
+            loadingDialog.dismissDialog()
             binding.editPassword.setBackgroundResource(it)
         }
 
         viewModel.passwordHelperErrorResId.observe(this) {
+            loadingDialog.dismissDialog()
             binding.textPasswordHelper.text = if (it != null) getString(it) else ""
         }
     }

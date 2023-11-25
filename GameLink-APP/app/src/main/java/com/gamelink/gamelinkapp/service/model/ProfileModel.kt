@@ -9,7 +9,7 @@ data class Image(
 
 class ProfileModel {
     var id: String = ""
-    var userId: Int = 0
+    var owner: String = ""
     var name: String = ""
     var profilePicPath: String? = ""
     var bannerPicPath: String? = ""
