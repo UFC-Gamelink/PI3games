@@ -18,12 +18,22 @@ import java.util.UUID;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping("/image")
     public ResponseEntity<PostResponse> post(
             @RequestPart(required = false) MultipartFile image,
             @RequestPart @NotBlank String description
     ) {
         postService.save(image, description);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PostMapping
+    public ResponseEntity<PostResponse> post(
+            @RequestPart @NotBlank String description
+    ) {
+        postService.save(null, description);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
