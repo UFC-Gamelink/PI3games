@@ -1,0 +1,90 @@
+package com.gamelink.gamelinkapi.controllers;
+
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
+import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
+import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
+import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
+import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
+import com.gamelink.gamelinkapi.services.posts.PostService;
+import com.gamelink.gamelinkapi.services.users.UserProfileService;
+import com.gamelink.gamelinkapi.utils.creators.PostCreator;
+import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
+import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.internal.matchers.Any;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@SpringBootTest
+public class PostControllerTest {
+    @Autowired
+    private PostController controller;
+    @MockBean
+    private PostService service;
+
+    private final PostCreator postCreator = PostCreator.getInstance();
+
+    @Test
+    @DisplayName("post should execute save from PostService and return a created status when success")
+    void postShouldReturnACreatedStatusWhenSuccess() {
+        final var postText = "post text";
+
+        ResponseEntity<PostResponse> response = controller.post(postText);
+
+        verify(service, times(1)).save(null, postText);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Delete should execute delete from PostService and return an Accepted status when success")
+    void deleteShouldExecuteDeleteFromUserProfileServiceWhenSuccess() {
+        UUID validId = UUID.randomUUID();
+
+        ResponseEntity<Void> response = controller.delete(validId);
+
+        verify(service, times(1)).delete(validId);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("get should execute findAll from PostService and return a valid PostResponse status when success")
+    void getShouldExecuteFindUserProfileFromUserProfileServiceWhenSuccess() {
+        var postResponse = postCreator.createValid();
+        when(service.findAll()).thenReturn(List.of(postResponse));
+
+        ResponseEntity<List<PostResponse>> response = controller.get();
+
+        verify(service, times(1)).findAll();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals(postResponse, response.getBody().get(0));
+    }
+
+    @Test
+    @DisplayName("likePost Should return true when the post is not liked yet and execute changeLike in PostService")
+    void likePostShouldReturnTrueWhenSuccess() {
+        UUID postId = UUID.randomUUID();
+
+        when(service.changeLike(postId)).thenReturn(true);
+
+        ResponseEntity<Boolean> response = controller.likePost(postId);
+
+        verify(service, times(1)).changeLike(postId);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody());
+    }
+}
