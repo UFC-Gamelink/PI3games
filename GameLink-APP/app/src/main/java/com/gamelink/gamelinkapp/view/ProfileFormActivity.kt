@@ -13,19 +13,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityProfileFormBinding
-import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
-import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
-import com.gamelink.gamelinkapp.utils.ImageUtils
+import com.gamelink.gamelinkapp.service.model.ProfileModel
 import com.gamelink.gamelinkapp.viewmodel.ProfileFormViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class ProfileFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileFormBinding
     private lateinit var viewModel: ProfileFormViewModel
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private lateinit var bundle: Bundle
-    private var userProfile: UserAndProfileModel? = null
+    private var profile: ProfileModel? = null
     private lateinit var imageView: ImageView
     private var imageUri: Uri? = null
 
@@ -83,9 +81,7 @@ class ProfileFormActivity : AppCompatActivity() {
     }
 
     private fun loadDataFromActivity() {
-        val userId = bundle.getInt(GameLinkConstants.SHARED.USER_ID)
-
-        viewModel.load(userId)
+        viewModel.load()
     }
 
     private fun handleDate() {
@@ -93,7 +89,7 @@ class ProfileFormActivity : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
 
-            val dueDate = dateFormat.format(calendar.time)
+            val dueDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
             binding.buttonDate.text = dueDate
         }
 
@@ -106,50 +102,52 @@ class ProfileFormActivity : AppCompatActivity() {
     }
 
     private fun handleSave() {
-        val user = userProfile!!.user.apply {
-            this.username = binding.editUsername.text.toString()
-        }
-
-        val profile = userProfile!!.profile.apply {
+        val profile = profile!!.apply {
             this.name = binding.editNickname.text.toString()
             this.bio = binding.editBio.text.toString()
-            this.birthday = binding.buttonDate.text.toString()
+
+            val date = SimpleDateFormat(
+                "dd/MM/yyyy",
+                Locale.getDefault()
+            ).parse(binding.buttonDate.text.toString())
+
+            this.birthday = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date!!)
             this.showBirthday = binding.switchShowDate.isChecked
-
-            if (bundle.getString("profile_uri") != null) {
-                this.profilePicPath =
-                    ImageUtils.saveImageUri(
-                        applicationContext,
-                        Uri.parse(bundle.getString("profile_uri"))
-                    )
-            }
-
-            if (bundle.getString("banner_uri") != null) {
-                this.bannerPicPath =
-                    ImageUtils.saveImageUri(
-                        applicationContext,
-                        Uri.parse(bundle.getString("banner_uri"))
-                    )
-            }
         }
+//            if (bundle.getString("profile_uri") != null) {
+//                this.profilePicPath =
+//                    ImageUtils.saveImageUri(
+//                        applicationContext,
+//                        Uri.parse(bundle.getString("profile_uri"))
+//                    )
+//            }
+//
+//            if (bundle.getString("banner_uri") != null) {
+//                this.bannerPicPath =
+//                    ImageUtils.saveImageUri(
+//                        applicationContext,
+//                        Uri.parse(bundle.getString("banner_uri"))
+//                    )
+//            }
 
-        viewModel.save(user, profile)
+
+        viewModel.save(profile)
     }
 
     private fun observe() {
-        viewModel.userAndProfile.observe(this) {
-            userProfile = it
-            binding.editUsername.setText(it.user.username)
-            binding.editNickname.setText(it.profile.name)
-            binding.editBio.setText(it.profile.bio)
+        viewModel.profile.observe(this) {
+            profile = it
 
-            binding.buttonDate.text = it.profile.birthday
+            binding.editNickname.setText(it.name)
+            binding.editBio.setText(it.bio)
 
-            Glide.with(this).load(it.profile.profilePicPath).into(binding.imageProfilePicture)
-            Glide.with(this).load(it.profile.bannerPicPath).into(binding.imageBannerPicture)
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(it.birthday)
+            binding.buttonDate.text =
+                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date!!)
+
+            Glide.with(this).load(it.icon.url).into(binding.imageProfilePicture)
+            Glide.with(this).load(it.banner.url).into(binding.imageBannerPicture)
             binding.imageBannerPicture.scaleType = ImageView.ScaleType.CENTER_CROP
-
-            binding.switchShowDate.isChecked = it.profile.showBirthday
         }
 
         viewModel.update.observe(this) {

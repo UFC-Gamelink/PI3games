@@ -1,45 +1,61 @@
 package com.gamelink.gamelinkapp.service.repository
 
 import android.content.Context
+import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.mocks.MockPosts
 import com.gamelink.gamelinkapp.service.model.PostModel
-import com.gamelink.gamelinkapp.service.model.PostProfileModel
-import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
+import com.gamelink.gamelinkapp.service.repository.remote.PostDatabase
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class PostRepository(context: Context) {
+    private val postDatabase = PostDatabase()
 
-    fun save(post: PostModel) {
+    suspend fun save(
+        description: RequestBody,
+        image: MultipartBody.Part?,
+        listener: APIListener<Boolean>
+    ) {
+        try {
+            postDatabase.save(description, image)
 
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 
-    fun list(): List<PostProfileModel> {
+    suspend fun list(): List<PostModel> {
+        return postDatabase.get()
+    }
+
+    fun listByUser(userId: Int): List<PostModel> {
         return listOf()
     }
 
-    fun listByUser(userId: Int): List<PostProfileModel> {
+    fun listByRecommended(): List<PostModel> {
+        return MockPosts().getRecommendedPosts()
+    }
+
+    fun listByCommunity(communityId: Int): List<PostModel> {
         return listOf()
     }
 
-    fun listByRecommended(): List<PostProfileModel> {
-        val mockPosts = MockPosts()
+    suspend fun delete(postId: String, listener: APIListener<Boolean>) {
+        try {
+            postDatabase.delete(postId)
 
-        return listOf()
-        //return mockPosts.getRecommendedPosts()
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 
-    fun listByCommunity(communityId: Int): List<PostProfileModel> {
-        return listOf()
-    }
-
-    fun delete(postId: Int) {
-
-    }
-
-    fun deleteFromCommunity(id: Int) {
+    fun deleteFromCommunity(id: String) {
 
     }
 
-    fun findByIdAndUserId(id: Int, userId: Int): PostModel? {
+    fun findByIdAndUserId(id: String, userId: String): PostModel? {
         return null
     }
 }

@@ -1,15 +1,25 @@
 package com.gamelink.gamelinkapp.service.model
 
 class PostModel {
-    var id: Int = 0
+    var id: String = ""
 
-    var post: String = ""
+    var description: String = ""
 
-    var postImagePath: String? = ""
+    var postDate: String = ""
 
-    var userId: Int = 0
+    var imageUrl: String? = ""
 
-    var visibility: Int = 0
+    var ownerId: String = ""
 
-    var createdAt: String = ""
+    var ownerName: String = ""
+
+    var username: String = ""
+
+    var userIconUrl: String = ""
+
+    var likeQuantity: Int = 0
+
+    var liked : Boolean =  false
+
+
 }

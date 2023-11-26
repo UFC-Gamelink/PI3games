@@ -4,21 +4,24 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
+import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommentaryAndProfileModel
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommentaryRepository
 import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
+import kotlinx.coroutines.launch
 
 class CommentsBottomSheetDialogViewModel(application: Application) : AndroidViewModel(application) {
     private val commentaryRepository = CommentaryRepository(application.applicationContext)
     private val profileRepository = ProfileRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
-    private val _comments = MutableLiveData<List<CommentaryAndProfileModel>>()
-    val comments: LiveData<List<CommentaryAndProfileModel>> = _comments
+    private val _comments = MutableLiveData<List<CommentaryModel>>()
+    val comments: LiveData<List<CommentaryModel>> = _comments
 
     private val _commentarySave = MutableLiveData<Boolean>()
     val commentarySave: LiveData<Boolean> = _commentarySave
@@ -29,29 +32,36 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
     private val _deleteCommentary = MutableLiveData<ValidationModel>()
     val deleteCommentary: LiveData<ValidationModel> = _deleteCommentary
 
-    fun listByPost(postId: Int) {
-        _comments.value = commentaryRepository.listWithProfileByPost(postId)
+    fun listByPost(postId: String) {
+        viewModelScope.launch {
+            _comments.value = commentaryRepository.listByPost(postId)
+        }
+
     }
 
     fun save(commentary: CommentaryModel) {
-        commentary.apply {
-            this.userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+        viewModelScope.launch {
+            commentary.apply {
+                this.ownerId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+            }
+
+            commentaryRepository.create(commentary, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _commentarySave.value = true
+                }
+
+                override fun onFailure(message: String) {
+                    _commentarySave.value = false
+                }
+
+            })
+
+            _commentarySave.value = true
         }
 
-        commentaryRepository.create(commentary)
-
-        _commentarySave.value = true
     }
 
-    fun getProfile() {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
-
-        val profile = profileRepository.getByUser(userId)
-
-        _profilePic.value = profile?.profilePicPath
-    }
-
-    fun delete(commentaryId: Int) {
+    fun delete(commentaryId: String) {
         commentaryRepository.delete(commentaryId)
 
         _deleteCommentary.value = ValidationModel()

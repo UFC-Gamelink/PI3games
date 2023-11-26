@@ -31,7 +31,7 @@ class PostsUserFragment : Fragment() {
         binding.recyclerPostsUser.adapter = adapter
 
         val listener = object : PostListener {
-            override fun onDeleteClick(id: Int) {
+            override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
             }
         }
@@ -53,9 +53,16 @@ class PostsUserFragment : Fragment() {
         }
 
         viewModel.delete.observe(viewLifecycleOwner) {
-            val message = if(it.status()) "Post apagado com sucesso" else it.message()
+            if(it.status()) {
+                Toast.makeText(context, "Post apagado com sucesso", Toast.LENGTH_SHORT).show()
+                viewModel.list()
+            }
+            else {
+                Toast.makeText(context, it.message(), Toast.LENGTH_SHORT).show()
+            }
 
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+
         }
     }
 }

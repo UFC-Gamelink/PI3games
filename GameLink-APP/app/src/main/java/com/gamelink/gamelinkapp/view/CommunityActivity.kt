@@ -150,7 +150,7 @@ class CommunityActivity : AppCompatActivity() {
                     true
                 }
                 R.id.item_delete_community -> {
-                    showAlertDialog(bundle.getInt("community_id"))
+                    showAlertDialog(bundle.getString("community_id")!!)
                     true
                 }
 
@@ -161,7 +161,7 @@ class CommunityActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
-    private fun showAlertDialog(id: Int) {
+    private fun showAlertDialog(id: String) {
         AlertDialog.Builder(this)
             .setTitle("Apagar Comunidade")
             .setMessage("Deseja apagar comunidade?")

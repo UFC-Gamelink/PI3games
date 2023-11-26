@@ -27,6 +27,24 @@ class ProfileDatabase {
         }
     }
 
+    suspend fun update(profile: ProfileModel): ProfileModel {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.update(profile)
+
+                if(response.code() != 200) {
+                    throw Exception(response.errorBody()!!.string())
+                }
+
+                return@withContext response.body()!!
+            } catch(error: Exception) {
+                error.printStackTrace()
+                Log.d("ProfileDatabase update", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
     suspend fun saveImages(icon: MultipartBody.Part, banner: MultipartBody.Part): ProfileModel {
         return withContext(Dispatchers.IO) {
             try {
@@ -50,8 +68,6 @@ class ProfileDatabase {
         return withContext(Dispatchers.IO) {
             try {
                 val profile = remote.get()
-
-
 
                 return@withContext profile.body()
             } catch(error: Exception) {
