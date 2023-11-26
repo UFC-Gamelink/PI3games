@@ -26,7 +26,6 @@ class PostViewHolder(
     private val securityPreferences = SecurityPreferences(itemBinding.root.context)
 
     fun bindData(post: PostModel) {
-        var liked = false
         itemBinding.textPost.text = post.description
 
         if (post.imageUrl != null) {
@@ -44,7 +43,17 @@ class PostViewHolder(
             itemBinding.icDotMenu.visibility = View.GONE
         }
 
+        var liked = false
+        liked = if(post.liked) {
+            itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
+            true
+        } else {
+            itemBinding.imageLike.setImageResource(R.drawable.ic_like)
+            false
+        }
+
         itemBinding.imageLike.setOnClickListener {
+            listener.onLikeClick(post.id)
             liked = if (!liked) {
                 itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
                 true

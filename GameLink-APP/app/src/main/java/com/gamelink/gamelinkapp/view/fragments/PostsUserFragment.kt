@@ -34,6 +34,10 @@ class PostsUserFragment : Fragment() {
             override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
             }
+
+            override fun onLikeClick(id: String) {
+                viewModel.like(id)
+            }
         }
 
         adapter.attachListener(listener)

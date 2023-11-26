@@ -8,6 +8,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
@@ -31,5 +32,8 @@ interface PostService {
 
     @DELETE("posts/{id}")
     suspend fun delete(@Path("id") id: String): Response<Unit>
+
+    @PUT("posts/{id}/like")
+    suspend fun like(@Path("id") id: String): Response<Boolean>
 
 }

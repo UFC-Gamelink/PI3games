@@ -36,6 +36,10 @@ class HomeFragment : Fragment() {
             override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
             }
+
+            override fun onLikeClick(id: String) {
+                TODO("Not yet implemented")
+            }
         })
 
         binding.recyclerPostsHome.adapter = adapter

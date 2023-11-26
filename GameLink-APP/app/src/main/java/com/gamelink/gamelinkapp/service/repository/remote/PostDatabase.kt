@@ -64,4 +64,22 @@ class PostDatabase {
             }
         }
     }
+
+    suspend fun like(id: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.like(id)
+
+                if (response.code() != 202) {
+                    throw Exception(response.errorBody()!!.string())
+                }
+
+                return@withContext response.body()!!
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("PostDatabase delete", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
 }

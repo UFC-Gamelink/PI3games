@@ -22,14 +22,7 @@ class CommentaryRepository(context: Context) {
     }
 
     suspend fun listByPost(postId: String): List<CommentaryModel> {
-        
             return commentaryDatabase.get(postId)
-
-
-    }
-
-    fun listWithProfileByPost(postId: Int): List<CommentaryModel> {
-        return listOf()
     }
 
     suspend fun delete(commentaryId: String, listener: APIListener<Boolean>) {

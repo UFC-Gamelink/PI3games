@@ -4,13 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gamelink.gamelinkapp.databinding.RowCommunitiesListBinding
-import com.gamelink.gamelinkapp.databinding.RowPostsListBinding
 import com.gamelink.gamelinkapp.service.listener.CommunityListener
-import com.gamelink.gamelinkapp.service.listener.PostListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
-import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.view.viewholder.CommunityViewHolder
-import com.gamelink.gamelinkapp.view.viewholder.PostViewHolder
 
 class CommunityAdapter : RecyclerView.Adapter<CommunityViewHolder>() {
     private var listCommunities: List<CommunityModel> = arrayListOf()

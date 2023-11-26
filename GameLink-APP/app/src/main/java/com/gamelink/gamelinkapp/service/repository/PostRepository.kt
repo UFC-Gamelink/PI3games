@@ -51,6 +51,10 @@ class PostRepository(context: Context) {
         }
     }
 
+    suspend fun like(postID: String): Boolean {
+        return postDatabase.like(postID)
+    }
+
     fun deleteFromCommunity(id: String) {
 
     }
