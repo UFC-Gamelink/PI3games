@@ -32,8 +32,14 @@ class CommentaryRepository(context: Context) {
         return listOf()
     }
 
-    fun delete(commentaryId: String) {
+    suspend fun delete(commentaryId: String, listener: APIListener<Boolean>) {
+        try {
+            val result = commentaryDatabase.delete(commentaryId)
 
+            listener.onSuccess(result)
+        }catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 
 

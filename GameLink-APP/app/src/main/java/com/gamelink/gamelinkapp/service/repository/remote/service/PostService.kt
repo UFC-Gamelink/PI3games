@@ -20,7 +20,7 @@ interface PostService {
     ): Response<Unit>
 
     @Multipart
-    @POST("posts")
+    @POST("posts/image")
     suspend fun saveWithImage(
         @Part("description") description: RequestBody,
         @Part image: MultipartBody.Part

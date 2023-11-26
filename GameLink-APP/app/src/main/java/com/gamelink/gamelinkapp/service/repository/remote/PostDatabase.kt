@@ -52,7 +52,7 @@ class PostDatabase {
             try {
                 val response = remote.delete(id)
 
-                if (response.code() != 204) {
+                if (response.code() != 202) {
                     throw Exception(response.errorBody()!!.string())
                 }
 
