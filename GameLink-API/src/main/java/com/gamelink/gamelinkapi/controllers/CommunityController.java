@@ -85,11 +85,11 @@ public class CommunityController {
                 .build();
     }
 
-    @PutMapping("/{id}/post")
+    @PutMapping("/{id}/post/image")
     public ResponseEntity<Void> addPost(
             @PathVariable UUID id,
             @RequestPart @NotBlank String description,
-            @RequestPart(required = false) MultipartFile image
+            @RequestPart MultipartFile image
     ) {
         PostRequest postRequest = new PostRequest(description, image);
         communityService.addPost(id, postRequest);
@@ -98,4 +98,15 @@ public class CommunityController {
                 .build();
     }
 
+    @PutMapping("/{id}/post")
+    public ResponseEntity<Void> addPost(
+            @PathVariable UUID id,
+            @RequestPart @NotBlank String description
+    ) {
+        PostRequest postRequest = new PostRequest(description, null);
+        communityService.addPost(id, postRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
