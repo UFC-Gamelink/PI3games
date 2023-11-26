@@ -65,12 +65,12 @@ public class PostService {
 
     @Transactional
     public void delete(UUID id) {
-        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        var user = userProfileService.findUserProfileByContext();
         PostModel postFounded = findPostOrThrowsEntityNotFoundException(id);
 
         if (postFounded.getOwner().getId() == user.getId()) {
             postRepository.deleteById(id);
-            imageCloudService.deleteImageOrThrowSaveThreatementException(postFounded.getImage());
+            if (postFounded.getImage() != null) imageCloudService.deleteImageOrThrowSaveThreatementException(postFounded.getImage());
         } else {
             throw new BadCredentialsException("Invalid user");
         }
