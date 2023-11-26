@@ -11,7 +11,7 @@ import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.view.viewholder.CommentaryViewHolder
 
 class CommentaryAdapter: RecyclerView.Adapter<CommentaryViewHolder>() {
-    private var listCommentaries: List<CommentaryAndProfileModel> = arrayListOf()
+    private var listCommentaries: List<CommentaryModel> = arrayListOf()
     private lateinit var listener: CommentaryListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentaryViewHolder {
@@ -29,7 +29,7 @@ class CommentaryAdapter: RecyclerView.Adapter<CommentaryViewHolder>() {
         holder.bindData(listCommentaries[position])
     }
 
-    fun updateCommentaries(list: List<CommentaryAndProfileModel>) {
+    fun updateCommentaries(list: List<CommentaryModel>) {
         listCommentaries = list
         notifyDataSetChanged()
     }

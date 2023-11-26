@@ -1,31 +1,22 @@
 package com.gamelink.gamelinkapp.service.mocks
 
 import com.gamelink.gamelinkapp.service.model.PostModel
-import com.gamelink.gamelinkapp.service.model.PostProfileModel
-import com.gamelink.gamelinkapp.service.model.ProfileModel
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class MockPosts {
-    fun getRecommendedPosts(): List<PostProfileModel> {
-        val listPosts: MutableList<PostProfileModel> = mutableListOf()
+    fun getRecommendedPosts(): List<PostModel> {
+        val listPosts: MutableList<PostModel> = mutableListOf()
 
         for (i in 0..19) {
-            val userProfile = ProfileModel()
-            userProfile.id = "${i + 99}"
-            userProfile.name = generateRandomName()[i]
-            userProfile.username = generateRandomUsername()[i]
-            userProfile.owner = "${i + 95}"
-            userProfile.profilePicPath = "https://media.istockphoto.com/id/1305224036/pt/foto/latin-man-gaming-on-his-pc-during-a-live-stream.jpg?s=612x612&w=0&k=20&c=d7CHJY8R_mdRONaA7c62pdAD7308HkdZIL-Ne5t6T3w="
+            val post = PostModel().apply {
+                id = "${i + 95}"
+                description = generateRandomPost()[i]
+                ownerId = "${i + 99}"
+                ownerName = generateRandomName()[i]
+                username = generateRandomUsername()[i]
+                userIconUrl = "https://media.istockphoto.com/id/1305224036/pt/foto/latin-man-gaming-on-his-pc-during-a-live-stream.jpg?s=612x612&w=0&k=20&c=d7CHJY8R_mdRONaA7c62pdAD7308HkdZIL-Ne5t6T3w="
 
-            val postModel = PostModel()
-            postModel.id = i + 95
-            postModel.post = generateRandomPost()[i]
-            postModel.visibility = 1
-            postModel.createdAt = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Date())
-            postModel.userId = i + 99
-
-            listPosts.add(PostProfileModel(postModel, userProfile, userProfile.username))
+            }
+            listPosts.add(post)
         }
 
         return listPosts

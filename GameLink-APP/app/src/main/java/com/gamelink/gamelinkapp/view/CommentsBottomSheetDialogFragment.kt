@@ -35,7 +35,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.recyclerCommentaries.layoutManager = LinearLayoutManager(context)
 
         adapter.attachListener(object : CommentaryListener {
-            override fun onDeleteClick(commentaryId: Int) {
+            override fun onDeleteClick(commentaryId: String) {
                 viewModel.delete(commentaryId)
             }
 
@@ -47,8 +47,6 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             handleSave()
         }
 
-        viewModel.getProfile()
-
         observe()
 
         return binding.root
@@ -59,7 +57,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         bundle = arguments as Bundle
 
-        val postId = bundle.getInt("post_id")
+        val postId = bundle.getString("post_id").toString()
 
         viewModel.listByPost(postId)
     }
@@ -71,7 +69,8 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         viewModel.commentarySave.observe(viewLifecycleOwner) {
             if (it) {
-                viewModel.listByPost(bundle.getInt("post_id"))
+                val postId = bundle.getString("post_id").toString()
+                viewModel.listByPost(postId)
                 binding.editCommentary.setText("")
                 Toast.makeText(context, "Comentário adicionado com sucesso", Toast.LENGTH_SHORT)
                     .show()
@@ -85,7 +84,8 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         viewModel.deleteCommentary.observe(viewLifecycleOwner) {
             if (it.status()) {
-                viewModel.listByPost(bundle.getInt("post_id"))
+                val postId = bundle.getString("post_id").toString()
+                viewModel.listByPost(postId)
                 Toast.makeText(context, "Comentário apagado com sucesso", Toast.LENGTH_SHORT).show()
             }
         }
@@ -100,7 +100,7 @@ class CommentsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 }
 
                 viewModel.save(CommentaryModel().apply {
-                    this.postId = bundle.getInt("post_id")
+                    this.postId = bundle.getString("post_id").toString()
                     this.text = binding.editCommentary.text.toString()
                 })
 

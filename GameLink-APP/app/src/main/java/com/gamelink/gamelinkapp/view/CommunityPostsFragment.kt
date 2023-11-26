@@ -35,7 +35,7 @@ class CommunityPostsFragment : Fragment() {
         }
 
         val listener = object : PostListener {
-            override fun onDeleteClick(id: Int) {
+            override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
             }
         }

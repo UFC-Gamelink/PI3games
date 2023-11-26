@@ -71,7 +71,7 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
         _joined.value = false
     }
 
-    fun delete(id: Int) {
+    fun delete(id: String) {
         userCommunityRepository.deleteMembers(id)
         communityRepository.delete(id)
         postRepository.deleteFromCommunity(id)

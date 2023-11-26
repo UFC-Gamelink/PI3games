@@ -1,5 +1,5 @@
 package com.gamelink.gamelinkapp.service.listener
 
 interface PostListener {
-    fun onDeleteClick(id: Int)
+    fun onDeleteClick(id: String)
 }

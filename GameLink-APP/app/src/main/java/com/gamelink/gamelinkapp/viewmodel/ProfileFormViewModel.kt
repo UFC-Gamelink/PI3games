@@ -5,11 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.ProfileModel
-import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
-import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.ProfileRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences

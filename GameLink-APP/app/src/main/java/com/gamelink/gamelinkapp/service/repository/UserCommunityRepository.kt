@@ -18,7 +18,7 @@ class UserCommunityRepository(context: Context) {
         return false
     }
 
-    fun deleteMembers(id: Int) {
+    fun deleteMembers(id: String) {
 
     }
 }

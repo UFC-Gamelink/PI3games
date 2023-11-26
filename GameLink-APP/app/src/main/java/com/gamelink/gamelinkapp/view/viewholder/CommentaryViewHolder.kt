@@ -21,12 +21,12 @@ class CommentaryViewHolder(
     private val securityPreferences = SecurityPreferences(itemBinding.root.context)
 
 
-    fun bindData(commentary: CommentaryAndProfileModel) {
+    fun bindData(commentary: CommentaryModel) {
         var liked = false
         itemBinding.textUsername.text = commentary.username
-        itemBinding.textCommentary.text = commentary.commentary.text
+        itemBinding.textCommentary.text = commentary.text
 
-        Glide.with(itemView).load(commentary.profile.profilePicPath)
+        Glide.with(itemView).load(commentary.userIconUrl)
             .into(itemBinding.imageProfile)
 
         itemBinding.imageLike.setOnClickListener {
@@ -38,13 +38,13 @@ class CommentaryViewHolder(
                 false
             }
         }
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
-        if (commentary.commentary.userId == userId) {
+        if (commentary.ownerId == userId) {
             itemBinding.root.setOnLongClickListener {
                 AlertDialog.Builder(itemView.context).setTitle("Remover Comentário")
                     .setMessage("Deseja apagar o comentário?").setPositiveButton("Sim") { _, _ ->
-                        listener.onDeleteClick(commentary.commentary.id)
+                        listener.onDeleteClick(commentary.id)
                     }.setNeutralButton("Cancelar", null).show()
                 true
             }

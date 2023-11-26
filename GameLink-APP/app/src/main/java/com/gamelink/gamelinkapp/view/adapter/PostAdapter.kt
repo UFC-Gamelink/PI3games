@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gamelink.gamelinkapp.databinding.RowPostsListBinding
 import com.gamelink.gamelinkapp.service.listener.PostListener
-import com.gamelink.gamelinkapp.service.model.PostProfileModel
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.view.viewholder.PostViewHolder
 
 class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
-    private var listPosts: List<PostProfileModel> = arrayListOf()
+    private var listPosts: List<PostModel> = arrayListOf()
     private lateinit var listener: PostListener
 
 
@@ -28,7 +28,7 @@ class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
         holder.bindData(listPosts[position])
     }
 
-    fun updatePosts(list: List<PostProfileModel>) {
+    fun updatePosts(list: List<PostModel>) {
         listPosts = list
         notifyDataSetChanged()
     }

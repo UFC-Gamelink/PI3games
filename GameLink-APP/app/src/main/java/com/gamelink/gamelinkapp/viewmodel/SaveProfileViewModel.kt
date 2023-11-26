@@ -21,7 +21,6 @@ import java.io.File
 
 class SaveProfileViewModel(application: Application) : AndroidViewModel(application) {
     private val profileRepository = ProfileRepository(application.applicationContext)
-    private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _profileSave = MutableLiveData<ValidationModel>()
     val profileSave: LiveData<ValidationModel> = _profileSave

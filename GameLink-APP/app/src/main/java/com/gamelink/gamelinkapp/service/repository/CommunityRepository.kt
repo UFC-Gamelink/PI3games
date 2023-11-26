@@ -25,7 +25,7 @@ class CommunityRepository(context: Context) {
         return listOf()
     }
 
-    fun delete(id: Int) {
+    fun delete(id: String) {
 
     }
 }

@@ -13,17 +13,21 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterPostBinding
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.adapter.ItemAdapter
+import com.gamelink.gamelinkapp.view.createProfile.CreateProfileStep2Activity
 import com.gamelink.gamelinkapp.viewmodel.RegisterPostViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -31,13 +35,11 @@ import java.util.UUID
 
 class RegisterPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPostBinding
-    private lateinit var itemAdapter: ItemAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: RegisterPostViewModel
     private var listCommunities: List<CommunityModel> = mutableListOf()
-    private lateinit var dialog: AlertDialog
     private var imagePreview: Bitmap? = null
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+    private lateinit var dialog: AlertDialog
+    private var imagePath: String? = null
 
     private val requestGallery =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
@@ -69,18 +71,18 @@ class RegisterPostActivity : AppCompatActivity() {
                     )
                     ImageDecoder.decodeBitmap(source)
                 }
-
-                binding.imagePreview.setImageBitmap(bitmap)
                 imagePreview = bitmap
 
-                binding.imageRemoveImage.visibility = View.VISIBLE
+                binding.imagePreview.setImageBitmap(bitmap)
 
+                binding.imageRemoveImage.visibility = View.VISIBLE
             }
         }
 
     companion object {
         private const val PERMISSION_GALLERY = Manifest.permission.READ_EXTERNAL_STORAGE
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +104,8 @@ class RegisterPostActivity : AppCompatActivity() {
         binding.buttonPost.setOnClickListener { handlePost() }
 
         binding.imageRemoveImage.setOnClickListener {
+            imagePath = null
+            imagePreview = null
             binding.imagePreview.setImageBitmap(null)
             binding.imageRemoveImage.visibility = View.GONE
         }
@@ -113,23 +117,11 @@ class RegisterPostActivity : AppCompatActivity() {
     }
 
     private fun handlePost() {
-        var imagePostPath: String? = null
-        if(imagePreview != null) {
-            imagePostPath = ImageUtils.saveImage(applicationContext, "imagepost_${UUID.randomUUID().toString()}", imagePreview!!)
-        }
+        imagePreview?.let { saveImage(it) }
 
         val post = PostModel().apply {
-            this.post = binding.editPost.text.toString().trim()
-            this.postImagePath = imagePostPath
-            this.createdAt = dateFormat.format(Date())
-
-            val index = binding.spinnerVisibility.selectedItemPosition
-            if(index == 0) {
-                this.visibility = 0
-
-            } else {
-                this.visibility = listCommunities[index - 1].id
-            }
+            this.description = binding.editPost.text.toString().trim()
+            this.imageUrl = imagePath
         }
 
         viewModel.save(post)
@@ -137,9 +129,10 @@ class RegisterPostActivity : AppCompatActivity() {
 
     private fun observe() {
         viewModel.postSave.observe(this) {
-            if(it.status()) {
+            if (it.status()) {
                 Toast.makeText(applicationContext, "salvo com sucesso", Toast.LENGTH_SHORT).show()
                 imagePreview = null
+                imagePath = null
                 finish()
             } else {
                 Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
@@ -152,7 +145,7 @@ class RegisterPostActivity : AppCompatActivity() {
             val list = mutableListOf<String>()
 
             list.add("publico")
-            for(c in it) {
+            for (c in it) {
                 list.add(c.name)
             }
 
@@ -162,7 +155,8 @@ class RegisterPostActivity : AppCompatActivity() {
     }
 
     private fun checkGalleryPermission() {
-        val galleryPermissionAccepted = checkPermission(PERMISSION_GALLERY)
+        val galleryPermissionAccepted =
+            checkPermission(PERMISSION_GALLERY)
 
         when {
             galleryPermissionAccepted -> {
@@ -203,4 +197,9 @@ class RegisterPostActivity : AppCompatActivity() {
     private fun checkPermission(permission: String) =
         ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
+    private fun saveImage(bitmap: Bitmap) {
+        val absolutePath = ImageUtils.saveImage(applicationContext, "post-image", bitmap)
+        imagePath = absolutePath
+    }
 }
+

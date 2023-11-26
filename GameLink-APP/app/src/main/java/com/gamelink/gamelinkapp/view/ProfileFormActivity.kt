@@ -13,11 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityProfileFormBinding
-import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.model.ProfileModel
-import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
-import com.gamelink.gamelinkapp.service.model.UserModel
-import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.viewmodel.ProfileFormViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -140,6 +136,8 @@ class ProfileFormActivity : AppCompatActivity() {
 
     private fun observe() {
         viewModel.profile.observe(this) {
+            profile = it
+
             binding.editNickname.setText(it.name)
             binding.editBio.setText(it.bio)
 
@@ -150,20 +148,6 @@ class ProfileFormActivity : AppCompatActivity() {
             Glide.with(this).load(it.icon.url).into(binding.imageProfilePicture)
             Glide.with(this).load(it.banner.url).into(binding.imageBannerPicture)
             binding.imageBannerPicture.scaleType = ImageView.ScaleType.CENTER_CROP
-
-            profile = it
-//            userProfile = it
-//            binding.editUsername.setText(it.user.username)
-//            binding.editNickname.setText(it.profile.name)
-//            binding.editBio.setText(it.profile.bio)
-//
-//            binding.buttonDate.text = it.profile.birthday
-//
-//            Glide.with(this).load(it.profile.profilePicPath).into(binding.imageProfilePicture)
-//            Glide.with(this).load(it.profile.bannerPicPath).into(binding.imageBannerPicture)
-//            binding.imageBannerPicture.scaleType = ImageView.ScaleType.CENTER_CROP
-//
-//            binding.switchShowDate.isChecked = it.profile.showBirthday
         }
 
         viewModel.update.observe(this) {
