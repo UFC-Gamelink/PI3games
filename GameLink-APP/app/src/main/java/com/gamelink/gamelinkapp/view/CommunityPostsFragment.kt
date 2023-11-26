@@ -38,6 +38,10 @@ class CommunityPostsFragment : Fragment() {
             override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
             }
+
+            override fun onLikeClick(id: String) {
+                TODO("Not yet implemented")
+            }
         }
 
         adapter.attachListener(listener)

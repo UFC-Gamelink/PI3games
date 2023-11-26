@@ -42,9 +42,12 @@ class PostsUserViewModel(application: Application) : AndroidViewModel(applicatio
                 }
 
             })
-
-
         }
+    }
 
+    fun like(postId: String) {
+        viewModelScope.launch {
+            postsRepository.like(postId)
+        }
     }
 }

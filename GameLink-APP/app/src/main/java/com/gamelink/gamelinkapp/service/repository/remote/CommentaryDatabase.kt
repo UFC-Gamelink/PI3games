@@ -15,7 +15,7 @@ class CommentaryDatabase {
                 remote.save(postId, commentary)
 
                 return@withContext true
-            }catch(error: Exception) {
+            } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommentaryDatabase save", error.message.toString())
                 throw Exception(error.message.toString())
@@ -28,17 +28,35 @@ class CommentaryDatabase {
             try {
                 val response = remote.get(postId)
 
-                if(response.code() != 200) {
+                if (response.code() != 200) {
                     throw Exception(response.errorBody().toString())
                 }
 
                 return@withContext response.body()!!
-            }catch(error: Exception) {
+            } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommentaryDatabase get", error.message.toString())
                 throw Exception(error.message.toString())
             }
 
+        }
+    }
+
+    suspend fun delete(commentaryId: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.delete(commentaryId)
+
+                if(response.code() != 202) {
+                    throw Exception(response.errorBody().toString())
+                }
+
+                return@withContext true
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("CommentaryDatabase get", error.message.toString())
+                throw Exception(error.message.toString())
+            }
         }
     }
 }

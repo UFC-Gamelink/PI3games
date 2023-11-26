@@ -62,8 +62,20 @@ class CommentsBottomSheetDialogViewModel(application: Application) : AndroidView
     }
 
     fun delete(commentaryId: String) {
-        commentaryRepository.delete(commentaryId)
+        viewModelScope.launch {
+            commentaryRepository.delete(commentaryId, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _deleteCommentary.value = ValidationModel()
+                }
 
-        _deleteCommentary.value = ValidationModel()
+                override fun onFailure(message: String) {
+                    _deleteCommentary.value = ValidationModel(message)
+                }
+
+            })
+
+
+        }
+
     }
 }
