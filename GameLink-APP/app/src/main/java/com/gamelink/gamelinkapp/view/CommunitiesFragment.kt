@@ -36,10 +36,10 @@ class CommunitiesFragment : Fragment() {
         binding.recyclerCommunities.adapter = communityAdapter
 
         val listener = object : CommunityListener {
-            override fun onCommunityClick(id: Int) {
+            override fun onCommunityClick(id: String) {
                 val intent = Intent(context, CommunityActivity::class.java)
                 val bundle = Bundle()
-                bundle.putInt("community_id", id)
+                bundle.putString("community_id", id)
                 intent.putExtras(bundle)
                 startActivity(intent)
             }

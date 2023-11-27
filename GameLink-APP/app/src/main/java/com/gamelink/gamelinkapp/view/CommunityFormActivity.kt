@@ -1,6 +1,5 @@
 package com.gamelink.gamelinkapp.view
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +19,7 @@ class CommunityFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommunityFormBinding
     private lateinit var viewModel: CommunityFormViewModel
     private var imageUri: Uri? = null
-    private var communityId = 0
+    private var communityId = ""
 
     private val getContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -63,7 +62,7 @@ class CommunityFormActivity : AppCompatActivity() {
         val bundle = intent.extras
 
         if (bundle != null) {
-            communityId = bundle.getInt("community_id")
+            communityId = bundle.getString("community_id").toString()
 
             viewModel.load(communityId)
         }
@@ -76,8 +75,8 @@ class CommunityFormActivity : AppCompatActivity() {
             this.id = communityId
             this.name = binding.edittextCommunityName.text.toString()
             this.description = binding.edittextCommunityDescription.text.toString()
-            this.private = binding.switchPrivateCommunity.isChecked
-            this.bannerUrl = communityBannerPath
+            //this.private = binding.switchPrivateCommunity.isChecked
+            //this.bannerUrl = communityBannerPath
         }
 
         viewModel.save(community)
@@ -95,7 +94,7 @@ class CommunityFormActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.communitySave.observe(this) {
             if (it.status()) {
-                if (communityId == 0) {
+                if (communityId == "") {
                     toast("salvo com sucesso")
                 } else {
                     toast("atualizado com sucesso")
@@ -116,7 +115,7 @@ class CommunityFormActivity : AppCompatActivity() {
                 binding.imageBannerCommunity.scaleType = ImageView.ScaleType.CENTER_CROP
                 imageUri = Uri.parse(it.bannerUrl)
             }
-            binding.switchPrivateCommunity.isChecked = it.private
+            //binding.switchPrivateCommunity.isChecked = it.private
         }
     }
 
