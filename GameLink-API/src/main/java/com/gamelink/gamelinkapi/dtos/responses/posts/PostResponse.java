@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.dtos.responses.posts;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import lombok.*;
 
 import java.time.LocalDateTime;
