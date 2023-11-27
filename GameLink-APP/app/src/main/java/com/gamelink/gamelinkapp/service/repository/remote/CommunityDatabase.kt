@@ -22,4 +22,18 @@ class CommunityDatabase {
             }
         }
     }
+
+    suspend fun listAll(): List<CommunityModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.getAll()
+
+                return@withContext response.body()!!
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("PostDatabase get", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
 }

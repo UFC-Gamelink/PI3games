@@ -24,8 +24,8 @@ class CommunityRepository(context: Context) {
 
     }
 
-    fun list(): List<CommunityModel> {
-        return listOf()
+    suspend fun list(): List<CommunityModel> {
+        return communityDatabase.listAll()
     }
 
     fun getById(id: String): CommunityModel? {
