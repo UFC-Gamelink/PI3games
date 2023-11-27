@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
+import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommunityRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
+import kotlinx.coroutines.launch
 
 class CommunityFormViewModel(application: Application) : AndroidViewModel(application) {
     private val communityRepository = CommunityRepository(application.applicationContext)
@@ -29,19 +32,26 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
         getErrorIfEmptyValue(community.description)
 
         if(isFormValid)  {
-            community.ownerId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+            viewModelScope.launch {
+                if(community.id == "") {
+                    communityRepository.create(community, object : APIListener<Boolean> {
+                        override fun onSuccess(result: Boolean) {
+                            _communitySave.value = ValidationModel()
+                        }
 
-            if(community.id == 0) {
-                communityRepository.create(community)
-            } else {
-                communityRepository.update(community)
+                        override fun onFailure(message: String) {
+                            _communitySave.value = ValidationModel(message)
+                        }
+
+                    })
+                } else {
+                    communityRepository.update(community)
+                }
             }
-
-            _communitySave.value = ValidationModel()
         }
     }
 
-    fun load(communityId: Int) {
+    fun load(communityId: String) {
         _community.value = communityRepository.getById(communityId)
     }
 

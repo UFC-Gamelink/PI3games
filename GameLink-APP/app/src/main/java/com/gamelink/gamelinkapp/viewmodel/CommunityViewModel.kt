@@ -31,14 +31,13 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
 
-    fun load(id: Int) {
+    fun load(id: String) {
         _community.value = communityRepository.getById(id)
     }
 
     fun isOwner() {
         val isOwner =
             _community.value?.ownerId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
-                .toInt()
 
         _userIsOwner.value = isOwner
 

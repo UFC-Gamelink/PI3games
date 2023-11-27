@@ -62,7 +62,7 @@ class CommunityActivity : AppCompatActivity() {
     }
 
     private fun loadDataFromActivity() {
-        val communityId = bundle.getInt("community_id")
+        val communityId = bundle.getString("community_id").toString()
 
         viewModel.load(communityId)
         viewModel.isOwner()
