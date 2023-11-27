@@ -1,8 +1,10 @@
 package com.gamelink.gamelinkapi.services.posts;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
+import com.gamelink.gamelinkapi.models.posts.EventPostModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeId;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeModel;
@@ -36,10 +38,9 @@ public class PostService {
     public UUID save(MultipartFile image, String description) {
         var userProfileFounded = userProfileService.findUserProfileByContext();
 
-        PostModel postToBeSaved = PostModel.builder()
-                .owner(userProfileFounded)
-                .description(description)
-                .build();
+        PostModel postToBeSaved = new PostModel();
+        postToBeSaved.setOwner(userProfileFounded);
+        postToBeSaved.setDescription(description);
 
         if (image != null) {
             ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(image);
@@ -52,10 +53,17 @@ public class PostService {
     public List<PostResponse> findAll() {
         var userProfileFound = userProfileService.findUserProfileByContext();
 
-        return postRepository.findAllByOwner(userProfileFound)
+        return postRepository.findAllByOwnerOrderByCreatedAtDesc(userProfileFound)
                 .stream()
                 .map(post -> {
-                    PostResponse postResponse = postMapper.modelToResponse(post);
+                    PostResponse postResponse;
+
+                    if (post instanceof EventPostModel) {
+                        postResponse = postMapper.modelToEventResponse((EventPostModel) post);
+                    } else {
+                        postResponse = postMapper.modelToResponse(post);
+                    }
+
                     postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
                     postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));
                     return postResponse;
@@ -70,7 +78,8 @@ public class PostService {
 
         if (postFounded.getOwner().getId() == user.getId()) {
             postRepository.deleteById(id);
-            if (postFounded.getImage() != null) imageCloudService.deleteImageOrThrowSaveThreatementException(postFounded.getImage());
+            if (postFounded.getImage() != null)
+                imageCloudService.deleteImageOrThrowSaveThreatementException(postFounded.getImage());
         } else {
             throw new BadCredentialsException("Invalid user");
         }
@@ -88,6 +97,14 @@ public class PostService {
         }
 
         return !postIsLiked;
+    }
+
+    public void saveEventPost(EventPostRequest eventPostRequest) {
+        var userProfileFounded = userProfileService.findUserProfileByContext();
+
+        var eventPostToBeSaved = postMapper.requestToEventModel(eventPostRequest);
+        eventPostToBeSaved.setOwner(userProfileFounded);
+        postRepository.save(eventPostToBeSaved);
     }
 
     private LikeId buildLikeId(UUID postId) {

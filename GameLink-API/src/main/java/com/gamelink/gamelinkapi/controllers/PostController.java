@@ -1,7 +1,9 @@
 package com.gamelink.gamelinkapi.controllers;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.posts.PostService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,14 @@ public class PostController {
             @RequestPart @NotBlank String description
     ) {
         postService.save(null, description);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PostMapping("/event")
+    public ResponseEntity<PostResponse> post(@RequestBody @Valid EventPostRequest eventPostRequest) {
+        postService.saveEventPost(eventPostRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
