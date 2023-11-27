@@ -4,6 +4,7 @@ import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -24,11 +25,11 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody @Valid CommunityRequest communityRequest) {
-        communityService.createCommunity(communityRequest);
+    public ResponseEntity<PostCommunityResponse> post(@RequestBody @Valid CommunityRequest communityRequest) {
+        PostCommunityResponse response = communityService.createCommunity(communityRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(response);
     }
 
     @PostMapping("/banner/{id}")

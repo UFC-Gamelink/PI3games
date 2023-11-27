@@ -4,6 +4,7 @@ import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
@@ -35,12 +36,13 @@ public class CommunityService {
     private final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
-    public void createCommunity(CommunityRequest communityRequest) {
+    public PostCommunityResponse createCommunity(CommunityRequest communityRequest) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityToBeSaved = communityMapper.requestToModel(communityRequest);
         communityToBeSaved.setOwner(user);
 
-        communityRepository.save(communityToBeSaved);
+        UUID communityId = communityRepository.save(communityToBeSaved).getId();
+        return new PostCommunityResponse(communityId);
     }
 
     public CommunityResponse createBanner(UUID id, MultipartFile banner) {
