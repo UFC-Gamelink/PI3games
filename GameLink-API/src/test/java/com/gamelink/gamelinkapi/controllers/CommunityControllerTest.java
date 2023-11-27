@@ -2,7 +2,7 @@ package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
-import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import com.gamelink.gamelinkapi.utils.creators.CommunityRequestCreator;
 import org.junit.jupiter.api.DisplayName;
@@ -53,10 +53,10 @@ public class CommunityControllerTest {
     @Test
     @DisplayName("get should execute getCommunities from CommunityService and return a valid CommunityResponse status when success")
     void getShouldExecuteFindUserProfileFromUserProfileServiceWhenSuccess() {
-        var postResponse = new CommunityResponse(UUID.randomUUID(), "community", "description", "url", "owner", UUID.randomUUID(), List.of());
+        var postResponse = new CommunitiesGeneralResponse(UUID.randomUUID(), "community", "description", "url", "owner", UUID.randomUUID());
         when(service.getCommunities()).thenReturn(List.of(postResponse));
 
-        ResponseEntity<List<CommunityResponse>> response = controller.getAll();
+        ResponseEntity<List<CommunitiesGeneralResponse>> response = controller.getAll();
 
         verify(service, times(1)).getCommunities();
         assertEquals(HttpStatus.OK, response.getStatusCode());

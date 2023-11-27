@@ -104,7 +104,17 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<RequestExceptionDetails> handleBadCredentialsException(BadCredentialsException exception) {
-        return ResponseEntity.noContent().build();
+        var exceptionDetails = RequestExceptionDetails.builder()
+                .message("Bad credentials Exception")
+                .details(exception.getMessage())
+                .timestamp(LocalDateTime.now())
+                .errors(List.of())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(exceptionDetails);
     }
 
     private String getDetailsDataIntegrityViolationExceptionMessage(DataIntegrityViolationException exception) {

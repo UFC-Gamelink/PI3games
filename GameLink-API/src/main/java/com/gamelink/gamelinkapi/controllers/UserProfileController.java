@@ -41,8 +41,8 @@ public class UserProfileController implements ICrudController<PostUserProfileReq
 
     @PutMapping("/images")
     public ResponseEntity<UserProfileResponse> putIconAndBanner(
-            @RequestPart @NotNull MultipartFile icon,
-            @RequestPart @NotNull MultipartFile banner
+            @RequestPart(required = false) MultipartFile icon,
+            @RequestPart(required = false) MultipartFile banner
     ) {
         UserProfileResponse response = service.updateImages(icon, banner);
         return ResponseEntity
