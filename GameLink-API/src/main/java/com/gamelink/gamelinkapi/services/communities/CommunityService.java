@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapi.services.communities;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
+import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
@@ -77,11 +78,23 @@ public class CommunityService {
         }
     }
 
-    public List<CommunityResponse> getCommunities() {
+    public List<CommunitiesGeneralResponse> getCommunities() {
         return communityRepository.findAll()
                 .stream()
-                .map(communityMapper::modelToResponse)
+                .map(communityMapper::modelToGeneralResponse)
                 .toList();
+    }
+
+    public CommunityResponse getCommunity(UUID communityId) {
+        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        CommunityModel communityModel = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Community not found"));
+
+        if (communityModel.getMembers().contains(userFound) || communityModel.getOwner().equals(userFound)) {
+            return communityMapper.modelToResponse(communityModel);
+        }
+
+        throw new BadCredentialsException("You are not on this community");
     }
 
     @Transactional
