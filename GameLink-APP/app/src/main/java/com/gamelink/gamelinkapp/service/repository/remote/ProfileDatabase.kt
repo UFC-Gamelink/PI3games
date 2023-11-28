@@ -7,6 +7,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
+import retrofit2.Response
 
 class ProfileDatabase {
     private val remote = RetrofitClient.getService(ProfileService::class.java)
@@ -20,6 +21,8 @@ class ProfileDatabase {
                     throw Exception(response.errorBody()!!.string())
                 }
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch(error: Exception) {
                 error.printStackTrace()
                 Log.d("ProfileDatabase save", error.message.toString())
@@ -38,9 +41,38 @@ class ProfileDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch(error: Exception) {
                 error.printStackTrace()
                 Log.d("ProfileDatabase update", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
+    suspend fun updateImages(icon: MultipartBody.Part?, banner: MultipartBody.Part?): ProfileModel {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val response = if(icon != null && banner == null){
+                    remote.updateOnlyIcon(icon)
+                } else if(icon == null && banner != null) {
+                    remote.updateOnlyBanner(banner)
+                } else {
+                    remote.updateImages(icon!!, banner!!)
+                }
+
+                if(response.code() != 202) {
+                    throw Exception(response.errorBody()!!.string())
+                }
+
+                return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error:Exception) {
+                error.printStackTrace()
+                Log.d("ProfileDatabase updateImages", error.message.toString())
                 throw Exception(error.message.toString())
             }
         }
@@ -57,6 +89,8 @@ class ProfileDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error:Exception) {
                 error.printStackTrace()
                 Log.d("ProfileDatabase saveImages", error.message.toString())

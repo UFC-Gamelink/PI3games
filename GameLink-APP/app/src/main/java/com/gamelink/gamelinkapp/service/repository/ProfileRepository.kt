@@ -44,12 +44,23 @@ class ProfileRepository(context: Context) {
             profileDatabase.update(profile)
 
             listener.onSuccess(true)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             listener.onFailure(e.message.toString())
         }
     }
 
-    fun getByUser(userId: Int): ProfileModel? {
-        return null
+    suspend fun updateImages(
+        icon: MultipartBody.Part?,
+        banner: MultipartBody.Part?,
+        listener: APIListener<ProfileModel>
+    ) {
+        try {
+            val profile = profileDatabase.updateImages(icon, banner)
+
+            listener.onSuccess(profile)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
+
 }

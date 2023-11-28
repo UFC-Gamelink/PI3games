@@ -26,4 +26,23 @@ interface ProfileService {
         @Part icon: MultipartBody.Part,
         @Part banner: MultipartBody.Part
     ): Response<ProfileModel>
+
+    @Multipart
+    @PUT("profile/images")
+    suspend fun updateOnlyIcon(
+        @Part icon: MultipartBody.Part
+    ): Response<ProfileModel>
+
+    @Multipart
+    @PUT("profile/images")
+    suspend fun updateOnlyBanner(
+        @Part banner: MultipartBody.Part
+    ): Response<ProfileModel>
+
+    @Multipart
+    @PUT("profile/images")
+    suspend fun updateImages(
+        @Part icon: MultipartBody.Part,
+        @Part banner: MultipartBody.Part
+    ): Response<ProfileModel>
 }
