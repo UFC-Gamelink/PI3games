@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,7 +73,7 @@ public class CommunityService {
 
         if (communityFounded.getBanner() != null) {
             communityFounded.setBanner(
-                    imageCloudService.updateImageOrThrowSaveThreatementException(communityFounded.getBanner())
+                    imageCloudService.updateImageOrThrowSaveThreatementException(communityFounded.getBanner(),  banner)
             );
             return communityMapper.modelToResponse(communityRepository.save(communityFounded));
         } else {
@@ -88,15 +89,18 @@ public class CommunityService {
     }
 
     public CommunityResponse getCommunity(UUID communityId) {
-        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityModel = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
-        if (communityModel.getMembers().contains(userFound) || communityModel.getOwner().equals(userFound)) {
-            return communityMapper.modelToResponse(communityModel);
-        }
+        return communityMapper.modelToResponse(communityModel);
+    }
 
-        throw new BadCredentialsException("You are not on this community");
+    public List<CommunitiesGeneralResponse> getMyCommunities() {
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        return communityRepository.findAllByMembersInOrOwner(List.of(Collections.singletonList(user)), user)
+                .stream()
+                .map(communityMapper::modelToGeneralResponse)
+                .toList();
     }
 
     @Transactional

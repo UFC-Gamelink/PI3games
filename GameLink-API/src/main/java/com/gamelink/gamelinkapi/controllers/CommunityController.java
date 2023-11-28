@@ -62,6 +62,13 @@ public class CommunityController {
                 .body(communityService.getCommunity(id));
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<List<CommunitiesGeneralResponse>> getMy() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(communityService.getMyCommunities());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<CommunityResponse> update(@PathVariable UUID id, @RequestBody @Valid CommunityRequest communityRequest) {
         CommunityResponse communityResponse = communityService.updateCommunity(id, communityRequest);

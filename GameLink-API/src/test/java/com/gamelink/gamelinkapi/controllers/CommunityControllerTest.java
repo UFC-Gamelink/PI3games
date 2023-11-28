@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapi.controllers;
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
+import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import com.gamelink.gamelinkapi.utils.creators.CommunityRequestCreator;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,7 @@ public class CommunityControllerTest {
     void postShouldReturnACreatedStatusWhenSuccess() {
         final var communityRequest = new CommunityRequest("name", "description");
 
-        ResponseEntity<Void> response = controller.post(communityRequest);
+        ResponseEntity<PostCommunityResponse> response = controller.post(communityRequest);
 
         verify(service, times(1)).createCommunity(communityRequest);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());

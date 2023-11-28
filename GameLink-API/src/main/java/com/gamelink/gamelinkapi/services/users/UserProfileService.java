@@ -76,17 +76,17 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     public UserProfileResponse updateImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
         UserProfile myUserProfile = findUserProfileByContext();
 
-        if (myUserProfile.getIcon() == null && myUserProfile.getBanner() == null) {
+        if (icon == null && banner == null) {
             throw new SaveThreatementException("There's no images defined");
         }
 
-        if (myUserProfile.getIcon() != null) {
-            ImageModel iconUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getIcon());
+        if (icon != null) {
+            ImageModel iconUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getIcon(), icon);
             myUserProfile.setIcon(iconUpdated);
         }
 
-        if (myUserProfile.getBanner() != null) {
-            ImageModel bannerUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getBanner());
+        if (banner != null) {
+            ImageModel bannerUpdated = imageCloudService.updateImageOrThrowSaveThreatementException(myUserProfile.getBanner(), banner);
             myUserProfile.setBanner(bannerUpdated);
         }
 

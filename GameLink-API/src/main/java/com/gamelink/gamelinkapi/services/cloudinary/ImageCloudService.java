@@ -36,11 +36,13 @@ public class ImageCloudService {
         }
     }
 
-    public ImageModel updateImageOrThrowSaveThreatementException(ImageModel imageModel) {
+    public ImageModel updateImageOrThrowSaveThreatementException(ImageModel imageModel, MultipartFile imageToBeSaved) {
         try {
+            ImageModel imageUpdated = cloudinaryRepository.saveImage(imageToBeSaved);
+
             cloudinaryRepository.deleteImage(imageModel.getPublicId());
             ImageModel imageToBeUpdated = imageRepository.findById(imageModel.getId()).orElseThrow();
-            Utils.copyNonNullProperties(imageModel, imageToBeUpdated);
+            Utils.copyNonNullProperties(imageUpdated, imageToBeUpdated);
             return imageRepository.save(imageToBeUpdated);
         } catch (Exception e) {
             throw new SaveThreatementException("Error during updating the images");
