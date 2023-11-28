@@ -5,6 +5,7 @@ import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import com.gamelink.gamelinkapi.utils.creators.CommunityRequestCreator;
 import org.junit.jupiter.api.DisplayName;
@@ -152,6 +153,20 @@ public class CommunityControllerTest {
     }
 
     @Test
+    @DisplayName("getPostsById should execute getPostsById in CommunityService and return a Ok status when success")
+    void getPostsByIdSuccess() {
+        var id = UUID.randomUUID();
+        when(service.getCommunityPosts(id)).thenReturn(List.of());
+
+        ResponseEntity<List<PostResponse>> response = controller.getPostsById(id);
+
+        verify(service, times(1)).getCommunityPosts(id);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(0, response.getBody().size());
+    }
+
+    @Test
     @DisplayName("GetMy should execute getMyCommunities in CommunityService and return a Ok status when success")
     void getMySuccess() {
         var validResponse = List.of(createCommunityGeneralResponse());
@@ -166,9 +181,44 @@ public class CommunityControllerTest {
         assertEquals(validResponse.get(0), response.getBody().get(0));
     }
 
+    @Test
+    @DisplayName("updateBanner should execute updateBanner in CommunityService and return a Ok status when success")
+    void updateBannerSuccess() {
+        var id = UUID.randomUUID();
+        MultipartFile multipartFile = Mockito.mock(MultipartFile.class);
+        var response = createCommunityResponse();
+
+        when(service.updateBanner(id, multipartFile)).thenReturn(response);
+
+        ResponseEntity<CommunityResponse> responseReceived = controller.updateBanner(id, multipartFile);
+
+        verify(service, times(1)).updateBanner(id, multipartFile);
+        assertEquals(HttpStatus.OK, responseReceived.getStatusCode());
+        assertNotNull(responseReceived);
+        assertEquals(response, responseReceived.getBody());
+    }
+
+    @Test
+    @DisplayName("update should execute updateCommunity in CommunityService and return a Ok status when success")
+    void updateSuccess() {
+        var id = UUID.randomUUID();
+        var response = createCommunityResponse();
+        var request = creator.createValid();
+
+        when(service.updateCommunity(id, request)).thenReturn(response);
+
+        ResponseEntity<CommunityResponse> responseReceived = controller.update(id, request);
+
+        verify(service, times(1)).updateCommunity(id, request);
+        assertEquals(HttpStatus.OK, responseReceived.getStatusCode());
+        assertNotNull(responseReceived);
+        assertEquals(response, responseReceived.getBody());
+    }
+
     private static CommunityResponse createCommunityResponse() {
         return new CommunityResponse(UUID.randomUUID(), "name", "description", "url", "owner", UUID.randomUUID(), List.of());
     }
+
 
     private static CommunitiesGeneralResponse createCommunityGeneralResponse() {
         return new CommunitiesGeneralResponse(UUID.randomUUID(), "name", "description", "url", "owner", UUID.randomUUID());
