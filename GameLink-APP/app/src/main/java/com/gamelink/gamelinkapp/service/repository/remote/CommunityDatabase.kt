@@ -50,9 +50,25 @@ class CommunityDatabase {
                 return@withContext response.body()!!
             } catch (error: Exception) {
                 error.printStackTrace()
-                Log.d("PostDatabase get", error.message.toString())
+                Log.d("PostDatabase listAll", error.message.toString())
                 throw Exception(error.message.toString())
             }
+        }
+    }
+
+    suspend fun get(id:String): CommunityModel {
+        try {
+            val response = remote.get(id)
+
+            if(response.code() != 200) {
+                throw Exception(response.errorBody().toString())
+            }
+
+            return response.body()!!
+        }catch (error: Exception) {
+            error.printStackTrace()
+            Log.d("PostDatabase get", error.message.toString())
+            throw Exception(error.message.toString())
         }
     }
 }

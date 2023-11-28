@@ -82,7 +82,10 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun load(communityId: String) {
-        _community.value = communityRepository.getById(communityId)
+        viewModelScope.launch {
+            _community.value = communityRepository.getById(communityId)
+        }
+
     }
 
     private fun getErrorIfEmptyValue(value: String) {

@@ -16,6 +16,9 @@ interface CommunityService {
     @GET("communities")
     suspend fun getAll(): Response<List<CommunityModel>>
 
+    @GET("communities/{id}")
+    suspend fun get(@Path("id") id: String): Response<CommunityModel>
+
     @POST("communities")
     suspend fun save(@Body community: CommunityModel): Response<CommunityModel>
 

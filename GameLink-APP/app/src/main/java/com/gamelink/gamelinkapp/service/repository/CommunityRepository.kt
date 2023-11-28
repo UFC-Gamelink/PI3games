@@ -43,8 +43,8 @@ class CommunityRepository(context: Context) {
         return communityDatabase.listAll()
     }
 
-    fun getById(id: String): CommunityModel? {
-        return null
+    suspend fun getById(id: String): CommunityModel? {
+        return communityDatabase.get(id)
     }
 
     fun getFollowed(userId: Int): List<CommunityModel> {

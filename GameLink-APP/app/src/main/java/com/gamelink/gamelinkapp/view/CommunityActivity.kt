@@ -36,13 +36,13 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         binding.buttonJoinCommunity.setOnClickListener {
-            val communityId = bundle.getInt("community_id")
+            val communityId = bundle.getString("community_id").toString()
 
             viewModel.join(communityId)
         }
 
         binding.buttonLeaveCommunity.setOnClickListener {
-            val communityId = bundle.getInt("community_id")
+            val communityId = bundle.getString("community_id").toString()
 
             viewModel.leave(communityId)
         }
@@ -81,7 +81,7 @@ class CommunityActivity : AppCompatActivity() {
                 binding.buttonLeaveCommunity.visibility = View.GONE
             } else {
                 binding.imageCommunityOptions.visibility = View.GONE
-                val communityId = bundle.getInt("community_id")
+                val communityId = bundle.getString("community_id").toString()
 
                 viewModel.joined(communityId)
             }
