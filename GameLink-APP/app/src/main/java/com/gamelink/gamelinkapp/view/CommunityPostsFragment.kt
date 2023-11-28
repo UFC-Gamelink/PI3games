@@ -40,7 +40,7 @@ class CommunityPostsFragment : Fragment() {
             }
 
             override fun onLikeClick(id: String) {
-                TODO("Not yet implemented")
+                viewModel.like(id)
             }
         }
 

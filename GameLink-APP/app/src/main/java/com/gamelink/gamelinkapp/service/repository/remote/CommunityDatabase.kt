@@ -93,6 +93,8 @@ class CommunityDatabase {
                 }
 
                 return@withContext response.body()!!
+            }catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommunityDatabase getPosts", error.message.toString())

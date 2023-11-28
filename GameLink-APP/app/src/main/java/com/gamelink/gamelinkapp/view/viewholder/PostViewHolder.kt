@@ -43,7 +43,7 @@ class PostViewHolder(
             itemBinding.icDotMenu.visibility = View.GONE
         }
 
-        var liked = false
+        var liked: Boolean
         liked = if(post.liked) {
             itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
             true

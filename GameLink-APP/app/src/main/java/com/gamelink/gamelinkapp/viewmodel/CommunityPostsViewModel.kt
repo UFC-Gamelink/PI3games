@@ -26,7 +26,6 @@ class CommunityPostsViewModel(application: Application) : AndroidViewModel(appli
         viewModelScope.launch {
             _posts.value = communityRepository.getPosts(communityId)
         }
-
     }
 
     fun delete(id: String) {
@@ -42,6 +41,12 @@ class CommunityPostsViewModel(application: Application) : AndroidViewModel(appli
 
                 }
             })
+        }
+    }
+
+    fun like(postId: String) {
+        viewModelScope.launch {
+            postsRepository.like(postId)
         }
     }
 }

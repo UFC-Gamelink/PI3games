@@ -12,8 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="320dp"
         android:contentDescription="@string/community_banner_image"
-        app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,8 @@
         android:id="@+id/button_leave_community"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"
         android:backgroundTint="@color/red"
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/exit_community"
@@ -80,6 +81,7 @@
         android:id="@+id/button_join_community"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/poppins_semibold"
