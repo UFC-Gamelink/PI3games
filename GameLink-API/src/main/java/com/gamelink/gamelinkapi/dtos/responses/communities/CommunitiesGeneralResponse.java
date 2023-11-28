@@ -8,6 +8,7 @@ public record CommunitiesGeneralResponse(
         String description,
         String bannerUrl,
         String owner,
-        UUID ownerId
+        UUID ownerId,
+        int qntMembers
 ) {
 }

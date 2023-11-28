@@ -159,19 +159,4 @@ public class CommunityService {
         communityFound.getMembers().remove(userFound);
         communityRepository.save(communityFound);
     }
-
-    @Transactional
-    public void addPost(UUID communityId, PostRequest postRequest) {
-        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
-        CommunityModel communityFound = findCommunityIfExistsOrElseThrowsEntityNotFoundException(communityId);
-        if (communityFound.getMembers().contains(userFound) || communityFound.getOwner().equals(userFound)) {
-            UUID idPostSaved = postService.save(postRequest.image(), postRequest.description());
-            var postToBeSaved = new PostModel();
-            postToBeSaved.setId(idPostSaved);
-            communityFound.getPosts().add(postToBeSaved);
-            communityRepository.save(communityFound);
-        } else {
-            throw new BadCredentialsException("You can't add posts to this community");
-        }
-    }
 }

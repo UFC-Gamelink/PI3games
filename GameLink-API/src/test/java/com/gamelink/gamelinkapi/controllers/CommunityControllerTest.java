@@ -87,30 +87,4 @@ public class CommunityControllerTest {
         verify(service, times(1)).exitCommunity(communityId);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
-    @Test
-    @DisplayName("addPost with only text post should execute addPost in CommunityService and return a success status when success")
-    void addPostWithOnlyTextSuccess(){
-        final UUID communityId = UUID.randomUUID();
-        final String postText = "post";
-
-        ResponseEntity<Void> response = controller.addPost(communityId, postText);
-
-        verify(service, times(1))
-                .addPost(communityId, new PostRequest(postText, null));
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    @DisplayName("addPost post should execute addPost in CommunityService and return a success status when success")
-    void addPostSuccess(){
-        final UUID communityId = UUID.randomUUID();
-        final String postText = "post";
-
-        ResponseEntity<Void> response = controller.addPost(communityId, postText, null);
-
-        verify(service, times(1))
-                .addPost(communityId, new PostRequest(postText, null));
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
 }
