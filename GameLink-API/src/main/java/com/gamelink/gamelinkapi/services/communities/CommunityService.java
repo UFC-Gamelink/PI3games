@@ -105,7 +105,7 @@ public class CommunityService {
 
     public List<CommunitiesGeneralResponse> getMyCommunities() {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
-        return communityRepository.findAllByMembersInOrOwner(List.of(Collections.singletonList(user)), user)
+        return communityRepository.findMyCommunities(user)
                 .stream()
                 .map(communityMapper::modelToGeneralResponse)
                 .toList();
