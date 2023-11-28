@@ -20,7 +20,7 @@ class PostDatabase {
                 return@withContext response.body()!!
             } catch (ex: CancellationException) {
                 throw ex
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase get", error.message.toString())
                 throw Exception(error.message.toString())
@@ -42,6 +42,8 @@ class PostDatabase {
                 }
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase save", error.message.toString())
@@ -60,6 +62,8 @@ class PostDatabase {
                 }
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase delete", error.message.toString())
@@ -78,6 +82,8 @@ class PostDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase delete", error.message.toString())

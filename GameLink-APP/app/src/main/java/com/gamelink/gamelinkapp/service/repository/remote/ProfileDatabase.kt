@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.ProfileModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.ProfileService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -70,6 +71,8 @@ class ProfileDatabase {
                 val profile = remote.get()
 
                 return@withContext profile.body()
+            } catch (ex: CancellationException) {
+                throw ex
             } catch(error: Exception) {
                 Log.d("ProfileDatabase get", error.message.toString())
                 throw Exception(error.message.toString())

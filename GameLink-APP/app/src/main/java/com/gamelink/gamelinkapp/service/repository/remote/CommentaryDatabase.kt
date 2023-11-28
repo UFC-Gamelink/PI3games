@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.CommentaryService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -15,6 +16,8 @@ class CommentaryDatabase {
                 remote.save(postId, commentary)
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommentaryDatabase save", error.message.toString())

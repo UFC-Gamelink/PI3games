@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.CommunityService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -16,6 +17,8 @@ class CommunityDatabase {
                 val response = remote.save(community)
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommunityDatabase save", error.message.toString())
@@ -34,6 +37,8 @@ class CommunityDatabase {
                 }
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommunityDatabase saveBanner", error.message.toString())
@@ -48,6 +53,8 @@ class CommunityDatabase {
                 val response = remote.getAll()
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase listAll", error.message.toString())
@@ -65,6 +72,8 @@ class CommunityDatabase {
             }
 
             return response.body()!!
+        } catch (ex: CancellationException) {
+            throw ex
         } catch (error: Exception) {
             error.printStackTrace()
             Log.d("PostDatabase get", error.message.toString())
@@ -75,6 +84,8 @@ class CommunityDatabase {
     suspend fun delete(id: String) {
         try {
             remote.delete(id)
+        } catch (ex: CancellationException) {
+            throw ex
         } catch (error: Exception) {
             error.printStackTrace()
             Log.d("PostDatabase delete", error.message.toString())
