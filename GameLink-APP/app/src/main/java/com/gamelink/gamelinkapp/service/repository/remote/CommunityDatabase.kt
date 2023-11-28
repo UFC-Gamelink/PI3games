@@ -157,4 +157,44 @@ class CommunityDatabase {
             throw Exception(error.message.toString())
         }
     }
+
+    suspend fun update(community: CommunityModel): CommunityModel {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.update(community.id, community)
+
+                if (response.code() != 200) {
+                    throw Exception(response.errorBody().toString())
+                }
+
+                return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("CommunityDatabase save", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
+    suspend fun updateBanner(communityId: String, banner: MultipartBody.Part): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.updateImage(communityId, banner)
+
+                if (response.code() != 200) {
+                    throw Exception(response.errorBody().toString())
+                }
+
+                return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("CommunityDatabase saveBanner", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
 }

@@ -121,7 +121,7 @@
     <string name="community_description_label">Descrição</string>
     <string name="community_description_placeholder">Descrição da comunidade</string>
     <string name="visibility_community_label">Privado</string>
-    <string name="create_community_button_text">Criar Comunidade</string>
+    <string name="create_community_button_text">Salvar</string>
     <string name="arrowback_icon">arrowback icon</string>
     <string name="user_name_profile_edit">Nome do Perfil</string>
     <string name="nome_do_perfil_placeholder">Nome do Perfil</string>

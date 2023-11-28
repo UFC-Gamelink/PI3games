@@ -32,14 +32,17 @@ interface CommunityService {
     ): Response<CommunityModel>
 
     @PUT("communities/{id}")
-    suspend fun update(@Path("id") id: String, @Body community: CommunityModel): Response<Unit>
+    suspend fun update(
+        @Path("id") id: String,
+        @Body community: CommunityModel
+    ): Response<CommunityModel>
 
     @Multipart
     @PUT("communities/banner/{id}")
     suspend fun updateImage(
         @Path("id") id: String,
         @Part banner: MultipartBody.Part
-    ): Response<Unit>
+    ): Response<CommunityModel>
 
     @PUT("communities/{id}/enter")
     suspend fun enter(@Path("id") id: String): Response<Unit>

@@ -36,8 +36,28 @@ class CommunityRepository(context: Context) {
         }
     }
 
-    fun update(community: CommunityModel) {
+    suspend fun update(community: CommunityModel, listener: APIListener<CommunityModel>) {
+        try {
+            val result = communityDatabase.update(community)
 
+            listener.onSuccess(result)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
+    suspend fun updateBanner(
+        idCommunity: String,
+        banner: MultipartBody.Part,
+        listener: APIListener<Boolean>
+    ) {
+        try {
+            val result = communityDatabase.updateBanner(idCommunity, banner)
+
+            listener.onSuccess(result)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 
     suspend fun list(): List<CommunityModel> {
