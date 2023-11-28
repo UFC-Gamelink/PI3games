@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.gamelink.gamelinkapp.view.CommunityPostsFragment
 
 class ViewPagerCommunityAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
-    private var communityId: Int = 0
+    private var communityId: String = ""
 
     override fun getItemCount(): Int = 1
 
@@ -18,13 +18,13 @@ class ViewPagerCommunityAdapter(fragment: FragmentActivity) : FragmentStateAdapt
         }
 
         val bundle = Bundle()
-        bundle.putInt("community_id", communityId)
+        bundle.putString("community_id", communityId)
         fragment.arguments = bundle
 
         return fragment
     }
 
-    fun setCommunityId(id: Int) {
+    fun setCommunityId(id: String) {
         communityId = id
     }
 }

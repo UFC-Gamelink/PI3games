@@ -61,7 +61,10 @@ interface CommunityService {
         @Part image: MultipartBody.Part
     ): Response<Unit>
 
-    @DELETE("/communities/{id}")
+    @DELETE("communities/{id}")
     suspend fun delete(@Path("id") id: String): Response<Unit>
+
+    @GET("communities/my")
+    suspend fun getMyCommunities(): Response<List<CommunityModel>>
 
 }

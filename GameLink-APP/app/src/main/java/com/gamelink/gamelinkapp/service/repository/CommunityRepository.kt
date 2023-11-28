@@ -47,16 +47,39 @@ class CommunityRepository(context: Context) {
         return communityDatabase.get(id)
     }
 
-    fun getFollowed(userId: Int): List<CommunityModel> {
+    suspend fun getMyCommunities(): List<CommunityModel> {
+        //return communityDatabase.getMyCommunities()
         return listOf()
     }
+
+
+    suspend fun joinCommunity(communityId: String, listener: APIListener<Boolean>) {
+        try {
+            communityDatabase.joinCommunity(communityId)
+
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
+    suspend fun leaveCommunity(communityId: String, listener: APIListener<Boolean>) {
+        try {
+            communityDatabase.leaveCommunity(communityId)
+
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
 
     suspend fun delete(id: String, listener: APIListener<Boolean>) {
         try {
             communityDatabase.delete(id)
 
             listener.onSuccess(true)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             listener.onFailure(e.message.toString())
         }
     }

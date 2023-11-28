@@ -57,7 +57,7 @@ class CommunityDatabase {
                 throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
-                Log.d("PostDatabase listAll", error.message.toString())
+                Log.d("CommunityDatabase listAll", error.message.toString())
                 throw Exception(error.message.toString())
             }
         }
@@ -76,7 +76,7 @@ class CommunityDatabase {
             throw ex
         } catch (error: Exception) {
             error.printStackTrace()
-            Log.d("PostDatabase get", error.message.toString())
+            Log.d("CommunityDatabase get", error.message.toString())
             throw Exception(error.message.toString())
         }
     }
@@ -88,7 +88,49 @@ class CommunityDatabase {
             throw ex
         } catch (error: Exception) {
             error.printStackTrace()
-            Log.d("PostDatabase delete", error.message.toString())
+            Log.d("CommunityDatabase delete", error.message.toString())
+            throw Exception(error.message.toString())
+        }
+    }
+
+    suspend fun getMyCommunities(): List<CommunityModel> {
+        try {
+            val response = remote.getMyCommunities()
+
+            if (response.code() != 200) {
+                throw Exception(response.errorBody().toString())
+            }
+
+            return response.body()!!
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (error: Exception) {
+            error.printStackTrace()
+            Log.d("CommunityDatabase getMyCommunities", error.message.toString())
+            throw Exception(error.message.toString())
+        }
+    }
+
+    suspend fun joinCommunity(communityId: String) {
+        try {
+            remote.enter(communityId)
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (error: Exception) {
+            error.printStackTrace()
+            Log.d("CommunityDatabase joinCommunity", error.message.toString())
+            throw Exception(error.message.toString())
+        }
+    }
+
+    suspend fun leaveCommunity(communityId: String) {
+        try {
+            remote.exit(communityId)
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (error: Exception) {
+            error.printStackTrace()
+            Log.d("CommunityDatabase joinCommunity", error.message.toString())
             throw Exception(error.message.toString())
         }
     }
