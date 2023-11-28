@@ -48,8 +48,7 @@ class CommunityRepository(context: Context) {
     }
 
     suspend fun getMyCommunities(): List<CommunityModel> {
-        //return communityDatabase.getMyCommunities()
-        return listOf()
+        return communityDatabase.getMyCommunities()
     }
 
 

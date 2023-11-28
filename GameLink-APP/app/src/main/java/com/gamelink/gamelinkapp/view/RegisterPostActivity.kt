@@ -124,13 +124,22 @@ class RegisterPostActivity : AppCompatActivity() {
             this.imageUrl = imagePath
         }
 
-        viewModel.save(post)
+        val index = binding.spinnerVisibility.selectedItemPosition
+        if(index == 0) {
+            viewModel.save(post)
+
+        } else {
+            val communityId = listCommunities[index - 1].id
+            viewModel.saveForCommunity(post, communityId)
+        }
+
+
     }
 
     private fun observe() {
         viewModel.postSave.observe(this) {
             if (it.status()) {
-                Toast.makeText(applicationContext, "salvo com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "sSlvo com sucesso", Toast.LENGTH_SHORT).show()
                 imagePreview = null
                 imagePath = null
                 finish()

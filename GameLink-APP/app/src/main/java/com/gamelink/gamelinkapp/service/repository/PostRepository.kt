@@ -25,6 +25,21 @@ class PostRepository(context: Context) {
         }
     }
 
+    suspend fun saveForCommunity(
+        communityId: String,
+        description: RequestBody,
+        image: MultipartBody.Part?,
+        listener: APIListener<Boolean>
+    ) {
+        try {
+            postDatabase.saveForCommunity(communityId, description, image)
+
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
     suspend fun list(): List<PostModel> {
         return postDatabase.get()
     }
