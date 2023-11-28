@@ -2,14 +2,8 @@ package com.gamelink.gamelinkapp.service.repository
 
 import android.content.Context
 import com.gamelink.gamelinkapp.service.listener.APIListener
-import com.gamelink.gamelinkapp.service.model.ProfileModel
-import com.gamelink.gamelinkapp.service.model.UserAndProfileModel
 import com.gamelink.gamelinkapp.service.model.UserModel
-import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
-import com.gamelink.gamelinkapp.service.repository.remote.RetrofitClient
 import com.gamelink.gamelinkapp.service.repository.remote.UserDatabase
-import com.gamelink.gamelinkapp.service.repository.remote.service.UserService
-import com.google.gson.Gson
 
 class UserRepository(val context: Context) {
     private val userDatabase = UserDatabase()
@@ -32,17 +26,5 @@ class UserRepository(val context: Context) {
         } catch(e: Exception) {
             listener.onFailure(e.message.toString())
         }
-    }
-
-    fun getUserAndProfile(userId: Int): UserAndProfileModel {
-        return UserAndProfileModel(UserModel(), ProfileModel())
-    }
-
-    fun update(user: UserModel) {
-
-    }
-
-    private fun failResponse(str: String): String {
-        return Gson().fromJson(str, String::class.java)
     }
 }

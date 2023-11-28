@@ -93,8 +93,8 @@ abstract class ImageUtils {
             return Uri.fromFile(File(absolutePath))
         }
 
-        fun deleteImage(path: String) {
-            val imageFile = File(path)
+        fun deleteImage(context: Context, path: String) {
+            val imageFile = File(context.cacheDir, path)
             if (imageFile.exists()) {
                 imageFile.delete()
             }

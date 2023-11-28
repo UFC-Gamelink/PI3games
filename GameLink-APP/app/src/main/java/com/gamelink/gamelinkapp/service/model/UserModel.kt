@@ -10,7 +10,7 @@ class UserModel {
     @SerializedName("token")
     lateinit var token: String
 
-    var id: String = ""
+    var userId: String = ""
 
     var username: String? = ""
 

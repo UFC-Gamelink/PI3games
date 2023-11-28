@@ -5,6 +5,7 @@ import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
@@ -93,6 +94,13 @@ public class CommunityService {
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
         return communityMapper.modelToResponse(communityModel);
+    }
+
+    public List<PostResponse> getCommunityPosts(UUID communityId) {
+        CommunityModel communityModel = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Community not found"));
+
+        return communityMapper.modelToResponse(communityModel).posts();
     }
 
     public List<CommunitiesGeneralResponse> getMyCommunities() {

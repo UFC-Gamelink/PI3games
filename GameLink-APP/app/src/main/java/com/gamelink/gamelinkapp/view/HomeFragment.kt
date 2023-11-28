@@ -33,8 +33,12 @@ class HomeFragment : Fragment() {
         observe()
 
         adapter.attachListener(object : PostListener {
-            override fun onDeleteClick(id: Int) {
+            override fun onDeleteClick(id: String) {
                 viewModel.delete(id)
+            }
+
+            override fun onLikeClick(id: String) {
+                TODO("Not yet implemented")
             }
         })
 

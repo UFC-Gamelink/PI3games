@@ -10,15 +10,15 @@ class UserCommunityRepository(context: Context) {
         //database.joinCommunity(userCommunity)
     }
 
-    fun leaveCommunity(userId: Int, communityId: Int) {
+    fun leaveCommunity(userId: String, communityId: String) {
         //database.leaveCommunity(userId, communityId)
     }
 
-    fun userIsJoin(userId: Int, communityId: Int):Boolean {
+    fun userIsJoin(userId: String, communityId: String):Boolean {
         return false
     }
 
-    fun deleteMembers(id: Int) {
+    fun deleteMembers(id: String) {
 
     }
 }

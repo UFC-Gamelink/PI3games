@@ -36,13 +36,13 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         binding.buttonJoinCommunity.setOnClickListener {
-            val communityId = bundle.getInt("community_id")
+            val communityId = bundle.getString("community_id").toString()
 
             viewModel.join(communityId)
         }
 
         binding.buttonLeaveCommunity.setOnClickListener {
-            val communityId = bundle.getInt("community_id")
+            val communityId = bundle.getString("community_id").toString()
 
             viewModel.leave(communityId)
         }
@@ -62,10 +62,10 @@ class CommunityActivity : AppCompatActivity() {
     }
 
     private fun loadDataFromActivity() {
-        val communityId = bundle.getInt("community_id")
+        val communityId = bundle.getString("community_id").toString()
 
         viewModel.load(communityId)
-        viewModel.isOwner()
+
     }
 
     private fun observe() {
@@ -73,6 +73,8 @@ class CommunityActivity : AppCompatActivity() {
             binding.textName.text = it.name
             binding.textDescription.text = it.description
             Glide.with(this).load(it.bannerUrl).into(binding.imageBanner)
+
+            viewModel.isOwner(it.ownerId)
         }
 
         viewModel.userIsOwner.observe(this) {
@@ -81,7 +83,7 @@ class CommunityActivity : AppCompatActivity() {
                 binding.buttonLeaveCommunity.visibility = View.GONE
             } else {
                 binding.imageCommunityOptions.visibility = View.GONE
-                val communityId = bundle.getInt("community_id")
+                val communityId = bundle.getString("community_id").toString()
 
                 viewModel.joined(communityId)
             }
@@ -150,7 +152,7 @@ class CommunityActivity : AppCompatActivity() {
                     true
                 }
                 R.id.item_delete_community -> {
-                    showAlertDialog(bundle.getInt("community_id"))
+                    showAlertDialog(bundle.getString("community_id")!!)
                     true
                 }
 
@@ -161,7 +163,7 @@ class CommunityActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
-    private fun showAlertDialog(id: Int) {
+    private fun showAlertDialog(id: String) {
         AlertDialog.Builder(this)
             .setTitle("Apagar Comunidade")
             .setMessage("Deseja apagar comunidade?")

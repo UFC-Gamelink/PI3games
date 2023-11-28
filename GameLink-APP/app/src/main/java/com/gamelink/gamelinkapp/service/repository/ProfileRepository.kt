@@ -39,11 +39,28 @@ class ProfileRepository(context: Context) {
         return profileDatabase.get()
     }
 
-    fun update(profile: ProfileModel) {
-        //database.update(profile)
+    suspend fun update(profile: ProfileModel, listener: APIListener<Boolean>) {
+        try {
+            profileDatabase.update(profile)
+
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 
-    fun getByUser(userId: Int): ProfileModel? {
-        return null
+    suspend fun updateImages(
+        icon: MultipartBody.Part?,
+        banner: MultipartBody.Part?,
+        listener: APIListener<ProfileModel>
+    ) {
+        try {
+            val profile = profileDatabase.updateImages(icon, banner)
+
+            listener.onSuccess(profile)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
+
 }

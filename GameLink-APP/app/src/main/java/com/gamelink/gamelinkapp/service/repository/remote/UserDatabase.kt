@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.UserModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.UserService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,6 +20,8 @@ class UserDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch(error: Exception) {
                 Log.d("UserDatabase", error.message.toString())
                 throw Exception(error.message.toString())
@@ -36,6 +39,8 @@ class UserDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 Log.d("UserDatabase", error.message.toString())
                 throw Exception(error.message.toString())

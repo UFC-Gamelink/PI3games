@@ -66,7 +66,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                     override fun onSuccess(result: UserModel) {
                         securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.token)
                         securityPreferences.store(GameLinkConstants.SHARED.USERNAME, username)
-                        securityPreferences.store(GameLinkConstants.SHARED.TOKEN_KEY, result.id)
+                        securityPreferences.store(GameLinkConstants.SHARED.USER_ID, result.userId)
 
                         RetrofitClient.addHeaders(result.token)
 
@@ -83,10 +83,17 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun verifyLoggedUser() {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
-
-        val logged = userId != ""
-        _loggedUser.value = logged
+        securityPreferences.remove(GameLinkConstants.SHARED.USER_ID)
+        securityPreferences.remove(GameLinkConstants.SHARED.USERNAME)
+        securityPreferences.remove(GameLinkConstants.SHARED.TOKEN_KEY)
+//        val token = securityPreferences.get(GameLinkConstants.SHARED.TOKEN_KEY)
+//
+//        val logged = token != ""
+//
+//        if(logged) {
+//            RetrofitClient.addHeaders(token)
+//        }
+        _loggedUser.value = false
     }
 
     fun verifyHasNotProfile() {

@@ -14,9 +14,8 @@ import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.RowPostsListBinding
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.PostListener
-import com.gamelink.gamelinkapp.service.model.PostProfileModel
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
-import com.gamelink.gamelinkapp.utils.ImageUtils
 import com.gamelink.gamelinkapp.view.CommentsBottomSheetDialogFragment
 
 class PostViewHolder(
@@ -25,28 +24,36 @@ class PostViewHolder(
     val layoutInflater: LayoutInflater
 ) : RecyclerView.ViewHolder(itemBinding.root) {
     private val securityPreferences = SecurityPreferences(itemBinding.root.context)
-    private val inflater: LayoutInflater = layoutInflater
 
-    fun bindData(post: PostProfileModel) {
-        var liked = false
-        itemBinding.textPost.text = post.post.post
+    fun bindData(post: PostModel) {
+        itemBinding.textPost.text = post.description
 
-        if (post.post.postImagePath != null) {
-            Glide.with(itemView).load(post.post.postImagePath).into(itemBinding.imageviewPost)
+        if (post.imageUrl != null) {
+            Glide.with(itemView).load(post.imageUrl).into(itemBinding.imageviewPost)
         }
 
-        itemBinding.textNameProfile.text = post.userProfile.name
+        itemBinding.textNameProfile.text = post.ownerName
         itemBinding.textUsernameProfile.text = "@${post.username}"
-        Glide.with(itemView).load(post.userProfile.profilePicPath)
+        Glide.with(itemView).load(post.userIconUrl)
             .into(itemBinding.imageviewProfilePost)
 
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
-        if (post.post.userId != userId) {
+        if (post.ownerId != userId) {
             itemBinding.icDotMenu.visibility = View.GONE
         }
 
+        var liked = false
+        liked = if(post.liked) {
+            itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
+            true
+        } else {
+            itemBinding.imageLike.setImageResource(R.drawable.ic_like)
+            false
+        }
+
         itemBinding.imageLike.setOnClickListener {
+            listener.onLikeClick(post.id)
             liked = if (!liked) {
                 itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
                 true
@@ -60,7 +67,7 @@ class PostViewHolder(
             val context = itemBinding.root.context
 
             val bundle = Bundle()
-            bundle.putInt("post_id", post.post.id)
+            bundle.putString("post_id", post.id)
 
             val commentsFragment = CommentsBottomSheetDialogFragment()
             commentsFragment.arguments = bundle
@@ -73,11 +80,9 @@ class PostViewHolder(
         itemBinding.icDotMenu.setOnClickListener {
             AlertDialog.Builder(itemView.context).setTitle("Remover Post")
                 .setMessage("Deseja apagar o post?").setPositiveButton("Sim") { _, _ ->
-                    if (post.post.postImagePath != null) {
-                        ImageUtils.deleteImage(post.post.postImagePath!!)
-                    }
-                    listener.onDeleteClick(post.post.id)
+                    listener.onDeleteClick(post.id)
                 }.setNeutralButton("Cancelar", null).show()
         }
+
     }
 }
