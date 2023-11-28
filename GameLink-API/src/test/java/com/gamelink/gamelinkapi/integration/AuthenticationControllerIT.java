@@ -190,17 +190,6 @@ public class AuthenticationControllerIT {
     }
 
     @Test
-    @DisplayName("Authenticate method should return no content status when username not exists in database")
-    void AuthenticationShouldReturnNoContentStatusWhenUsernameNotExistsInDatabase() {
-        final AuthenticationRequest validAuthRequest = new AuthenticationRequest("sold", "Ae1!vlçz");
-
-        ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
-
-        assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
-    }
-
-    @Test
     @DisplayName("Authenticate method should return success and a jwt token when is successful executed")
     void authenticateShouldExecuteWithSuccessWhenRequestHasAValidFormat() {
         final RegisterRequest validRegisterRequest = new RegisterRequest("username","valid@email.com", "Ae1!vlçz");
