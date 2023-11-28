@@ -65,7 +65,9 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun loadCommunities() {
-        //val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
-        _communityList.value = communityRepository.getFollowed(0)
+        viewModelScope.launch {
+            _communityList.value = communityRepository.getMyCommunities()
+        }
+
     }
 }

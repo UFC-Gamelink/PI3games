@@ -20,31 +20,32 @@ class CommunityActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommunityBinding
     private lateinit var viewModel: CommunityViewModel
     private lateinit var bundle: Bundle
+    private lateinit var communityId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCommunityBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(CommunityViewModel::class.java)
+        viewModel = ViewModelProvider(this)[CommunityViewModel::class.java]
 
         setContentView(binding.root)
 
         bundle = intent.extras!!
+
+        communityId = bundle.getString("community_id").toString()
 
         binding.imageBack.setOnClickListener {
             finish()
         }
 
         binding.buttonJoinCommunity.setOnClickListener {
-            val communityId = bundle.getString("community_id").toString()
-
             viewModel.join(communityId)
         }
 
         binding.buttonLeaveCommunity.setOnClickListener {
-            val communityId = bundle.getString("community_id").toString()
+            val communityId = communityId
 
-            viewModel.leave(communityId)
+                    viewModel.leave(communityId)
         }
 
         binding.imageCommunityOptions.setOnClickListener {
@@ -62,7 +63,7 @@ class CommunityActivity : AppCompatActivity() {
     }
 
     private fun loadDataFromActivity() {
-        val communityId = bundle.getString("community_id").toString()
+        val communityId = communityId
 
         viewModel.load(communityId)
 
@@ -83,7 +84,7 @@ class CommunityActivity : AppCompatActivity() {
                 binding.buttonLeaveCommunity.visibility = View.GONE
             } else {
                 binding.imageCommunityOptions.visibility = View.GONE
-                val communityId = bundle.getString("community_id").toString()
+                val communityId = communityId
 
                 viewModel.joined(communityId)
             }
@@ -112,7 +113,7 @@ class CommunityActivity : AppCompatActivity() {
         val viewPager = binding.viewPagerCommunity
 
         val viewPagerCommunityAdapter = ViewPagerCommunityAdapter(this)
-        viewPagerCommunityAdapter.setCommunityId(bundle.getInt("community_id"))
+        viewPagerCommunityAdapter.setCommunityId(communityId)
 
         viewPager.adapter = viewPagerCommunityAdapter
 
@@ -152,7 +153,7 @@ class CommunityActivity : AppCompatActivity() {
                     true
                 }
                 R.id.item_delete_community -> {
-                    showAlertDialog(bundle.getString("community_id")!!)
+                    showAlertDialog(communityId)
                     true
                 }
 
