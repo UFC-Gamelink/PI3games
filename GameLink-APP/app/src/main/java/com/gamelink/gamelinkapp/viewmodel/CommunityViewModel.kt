@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
+import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.UserCommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
@@ -76,10 +77,17 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun delete(id: String) {
-//        userCommunityRepository.deleteMembers(id)
-//        communityRepository.delete(id)
-//        postRepository.deleteFromCommunity(id)
+        viewModelScope.launch {
+            communityRepository.delete(id, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _delete.value = ValidationModel()
+                }
 
-        _delete.value = ValidationModel()
+                override fun onFailure(message: String) {
+                    _delete.value = ValidationModel()
+                }
+
+            })
+        }
     }
 }

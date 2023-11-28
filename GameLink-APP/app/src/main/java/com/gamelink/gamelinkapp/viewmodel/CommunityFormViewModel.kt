@@ -37,6 +37,7 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
 
         getErrorIfEmptyValue(community.name)
         getErrorIfEmptyValue(community.description)
+        getErrorIfIsNull(community.bannerUrl)
 
         if (isFormValid) {
             viewModelScope.launch {
@@ -92,6 +93,13 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
         if (value.isEmpty()) {
             isFormValid = false
             _communitySave.value = ValidationModel("Preencha todos os campos")
+        }
+    }
+
+    private fun getErrorIfIsNull(value: String?) {
+        if(value == null) {
+            isFormValid = false
+            _communitySave.value = ValidationModel("Adicione uma imagem")
         }
     }
 }

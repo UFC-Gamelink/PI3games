@@ -16,7 +16,7 @@ class CommunityDatabase {
                 val response = remote.save(community)
 
                 return@withContext response.body()!!
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommunityDatabase save", error.message.toString())
                 throw Exception(error.message.toString())
@@ -27,14 +27,14 @@ class CommunityDatabase {
     suspend fun saveBanner(communityId: String, banner: MultipartBody.Part): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val response =  remote.saveImage(banner, communityId)
+                val response = remote.saveImage(banner, communityId)
 
-                if(response.code() != 201) {
+                if (response.code() != 201) {
                     throw Exception(response.errorBody().toString())
                 }
 
                 return@withContext true
-            }catch (error: Exception) {
+            } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("CommunityDatabase saveBanner", error.message.toString())
                 throw Exception(error.message.toString())
@@ -56,18 +56,28 @@ class CommunityDatabase {
         }
     }
 
-    suspend fun get(id:String): CommunityModel {
+    suspend fun get(id: String): CommunityModel {
         try {
             val response = remote.get(id)
 
-            if(response.code() != 200) {
+            if (response.code() != 200) {
                 throw Exception(response.errorBody().toString())
             }
 
             return response.body()!!
-        }catch (error: Exception) {
+        } catch (error: Exception) {
             error.printStackTrace()
             Log.d("PostDatabase get", error.message.toString())
+            throw Exception(error.message.toString())
+        }
+    }
+
+    suspend fun delete(id: String) {
+        try {
+            remote.delete(id)
+        } catch (error: Exception) {
+            error.printStackTrace()
+            Log.d("PostDatabase delete", error.message.toString())
             throw Exception(error.message.toString())
         }
     }

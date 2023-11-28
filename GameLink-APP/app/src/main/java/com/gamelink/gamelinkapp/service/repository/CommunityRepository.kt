@@ -51,7 +51,13 @@ class CommunityRepository(context: Context) {
         return listOf()
     }
 
-    fun delete(id: String) {
+    suspend fun delete(id: String, listener: APIListener<Boolean>) {
+        try {
+            communityDatabase.delete(id)
 
+            listener.onSuccess(true)
+        }catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 }
