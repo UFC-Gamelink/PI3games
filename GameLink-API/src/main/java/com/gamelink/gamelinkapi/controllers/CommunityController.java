@@ -5,6 +5,7 @@ import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -60,6 +61,20 @@ public class CommunityController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(communityService.getCommunity(id));
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<PostResponse>> getPostsById(@PathVariable UUID id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(communityService.getCommunityPosts(id));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<CommunitiesGeneralResponse>> getMy() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(communityService.getMyCommunities());
     }
 
     @PutMapping("/{id}")

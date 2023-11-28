@@ -5,6 +5,7 @@ import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
+import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,7 +74,7 @@ public class CommunityService {
 
         if (communityFounded.getBanner() != null) {
             communityFounded.setBanner(
-                    imageCloudService.updateImageOrThrowSaveThreatementException(communityFounded.getBanner())
+                    imageCloudService.updateImageOrThrowSaveThreatementException(communityFounded.getBanner(),  banner)
             );
             return communityMapper.modelToResponse(communityRepository.save(communityFounded));
         } else {
@@ -88,15 +90,25 @@ public class CommunityService {
     }
 
     public CommunityResponse getCommunity(UUID communityId) {
-        User userFound = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
         CommunityModel communityModel = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
-        if (communityModel.getMembers().contains(userFound) || communityModel.getOwner().equals(userFound)) {
-            return communityMapper.modelToResponse(communityModel);
-        }
+        return communityMapper.modelToResponse(communityModel);
+    }
 
-        throw new BadCredentialsException("You are not on this community");
+    public List<PostResponse> getCommunityPosts(UUID communityId) {
+        CommunityModel communityModel = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Community not found"));
+
+        return communityMapper.modelToResponse(communityModel).posts();
+    }
+
+    public List<CommunitiesGeneralResponse> getMyCommunities() {
+        User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
+        return communityRepository.findAllByMembersInOrOwner(List.of(Collections.singletonList(user)), user)
+                .stream()
+                .map(communityMapper::modelToGeneralResponse)
+                .toList();
     }
 
     @Transactional
