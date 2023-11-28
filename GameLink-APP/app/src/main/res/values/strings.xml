@@ -132,4 +132,12 @@
     <string name="community_name_row">Comunidade</string>
     <string name="community_members_row">0 membros</string>
     <string name="image_community_icon">image community</string>
+    <string name="not_found_search_local">Não foi possivel encontrar o local informado</string>
+    <string name="edit_local">Informe o local do evento</string>
+    <string name="string_search">Buscar\n</string>
+    <string name="string_button_search">Buscar</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="button_search_string">Buscar</string>
+    <string name="local_not_found">O local não foi encontrado</string>
+    <string name="button_text_save">Salvar</string>
 </resources>

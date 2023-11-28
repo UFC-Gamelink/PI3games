@@ -27,6 +27,15 @@ interface PostService {
         @Part image: MultipartBody.Part
     ): Response<Unit>
 
+    @Multipart
+    @POST("posts/event")
+    suspend fun saveWithEvent(
+        @Part("description") description: RequestBody,
+        @Part("latitude") latitude : Double,
+        @Part("longitude") longitude : Double
+    ): Response<Unit>
+
+
     @GET("posts")
     suspend fun get(): Response<List<PostModel>>
 
