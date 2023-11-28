@@ -1,10 +1,13 @@
 package com.gamelink.gamelinkapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
+import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.UserCommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
@@ -12,11 +15,10 @@ import com.gamelink.gamelinkapp.service.repository.CommunityRepository
 import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.service.repository.UserCommunityRepository
+import kotlinx.coroutines.launch
 
 class CommunityViewModel(application: Application) : AndroidViewModel(application) {
     private val communityRepository = CommunityRepository(application.applicationContext)
-    private val userCommunityRepository = UserCommunityRepository(application.applicationContext)
-    private val postRepository = PostRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _community = MutableLiveData<CommunityModel>()
@@ -32,49 +34,60 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     val delete: LiveData<ValidationModel> = _delete
 
     fun load(id: String) {
-        _community.value = communityRepository.getById(id)
+        viewModelScope.launch {
+            _community.value = communityRepository.getById(id)
+        }
     }
 
-    fun isOwner() {
-        val isOwner =
-            _community.value?.ownerId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+    fun isOwner(communityId: String) {
+        Log.d("IDOWNER", communityId)
+        Log.d("IDLGOADO", securityPreferences.get(GameLinkConstants.SHARED.USER_ID))
+        val isOwner = communityId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
         _userIsOwner.value = isOwner
 
     }
 
-    fun joined(communityId: Int) {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
-
-        _joined.value = userCommunityRepository.userIsJoin(userId, communityId)
+    fun joined(communityId: String) {
+//        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toString()
+//
+//        _joined.value = userCommunityRepository.userIsJoin(userId, communityId)
+        _joined.value = false
     }
 
-    fun join(communityId: Int) {
+    fun join(communityId: String) {
         val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
-        val userCommunity = UserCommunityModel().apply {
-            this.userId = userId.toInt()
-            this.communityId = communityId
-        }
-
-        userCommunityRepository.joinCommunity(userCommunity)
+//        val userCommunity = UserCommunityModel().apply {
+//            this.userId = userId
+//            this.communityId = communityId
+//        }
+//
+//        userCommunityRepository.joinCommunity(userCommunity)
 
         _joined.value = true
     }
 
-    fun leave(communityId: Int) {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
+    fun leave(communityId: String) {
+        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toString()
 
-        userCommunityRepository.leaveCommunity(userId, communityId)
+        //userCommunityRepository.leaveCommunity(userId, communityId)
 
         _joined.value = false
     }
 
     fun delete(id: String) {
-        userCommunityRepository.deleteMembers(id)
-        communityRepository.delete(id)
-        postRepository.deleteFromCommunity(id)
+        viewModelScope.launch {
+            communityRepository.delete(id, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _delete.value = ValidationModel()
+                }
 
-        _delete.value = ValidationModel()
+                override fun onFailure(message: String) {
+                    _delete.value = ValidationModel()
+                }
+
+            })
+        }
     }
 }

@@ -6,15 +6,30 @@ import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 import com.gamelink.gamelinkapp.service.repository.remote.CommunityDatabase
+import okhttp3.MultipartBody
 
 class CommunityRepository(context: Context) {
     private val communityDatabase = CommunityDatabase()
-    suspend fun create(community: CommunityModel, listener: APIListener<Boolean>) {
+    suspend fun create(community: CommunityModel, listener: APIListener<CommunityModel>) {
         try {
-            communityDatabase.save(community)
+            val communityId = communityDatabase.save(community)
+
+            listener.onSuccess(communityId)
+
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
+    suspend fun saveBanner(
+        idCommunity: String,
+        banner: MultipartBody.Part,
+        listener: APIListener<Boolean>
+    ) {
+        try {
+            communityDatabase.saveBanner(idCommunity, banner)
 
             listener.onSuccess(true)
-
         } catch (e: Exception) {
             listener.onFailure(e.message.toString())
         }
@@ -28,15 +43,21 @@ class CommunityRepository(context: Context) {
         return communityDatabase.listAll()
     }
 
-    fun getById(id: String): CommunityModel? {
-        return null
+    suspend fun getById(id: String): CommunityModel? {
+        return communityDatabase.get(id)
     }
 
     fun getFollowed(userId: Int): List<CommunityModel> {
         return listOf()
     }
 
-    fun delete(id: String) {
+    suspend fun delete(id: String, listener: APIListener<Boolean>) {
+        try {
+            communityDatabase.delete(id)
 
+            listener.onSuccess(true)
+        }catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.PostService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -17,6 +18,8 @@ class PostDatabase {
                 val response = remote.get()
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase get", error.message.toString())
@@ -39,6 +42,8 @@ class PostDatabase {
                 }
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase save", error.message.toString())
@@ -57,6 +62,8 @@ class PostDatabase {
                 }
 
                 return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase delete", error.message.toString())
@@ -75,6 +82,8 @@ class PostDatabase {
                 }
 
                 return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase delete", error.message.toString())

@@ -32,6 +32,7 @@ class CommunityFormActivity : AppCompatActivity() {
     private lateinit var dialog: AlertDialog
     private var bannerPreview: Bitmap? = null
     private var bannerPath: String? = null
+    private lateinit var community: CommunityModel
 
     private val requestGallery =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
@@ -111,11 +112,10 @@ class CommunityFormActivity : AppCompatActivity() {
     private fun handleSave() {
         bannerPreview?.let { saveImage(it) }
 
-        val community = CommunityModel().apply {
+        community = CommunityModel().apply {
             this.id = communityId
             this.name = binding.edittextCommunityName.text.toString()
             this.description = binding.edittextCommunityDescription.text.toString()
-            //this.private = binding.switchPrivateCommunity.isChecked
             this.bannerUrl = bannerPath
         }
 
@@ -141,12 +141,17 @@ class CommunityFormActivity : AppCompatActivity() {
             binding.edittextCommunityName.setText(it.name)
             binding.edittextCommunityDescription.setText(it.description)
 
-            if(it.bannerUrl != null) {
+            if (it.bannerUrl != null) {
                 Glide.with(this).load(it.bannerUrl).into(binding.imageBannerCommunity)
                 binding.imageBannerCommunity.scaleType = ImageView.ScaleType.CENTER_CROP
                 imageUri = Uri.parse(it.bannerUrl)
             }
             //binding.switchPrivateCommunity.isChecked = it.private
+        }
+
+        viewModel.idCommunity.observe(this) {
+            community.id = it
+            viewModel.saveBanner(community)
         }
     }
 
