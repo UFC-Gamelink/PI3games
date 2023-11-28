@@ -49,9 +49,6 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun joined(communityId: String) {
-//        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toString()
-//
-//        _joined.value = userCommunityRepository.userIsJoin(userId, communityId)
         _joined.value = false
     }
 

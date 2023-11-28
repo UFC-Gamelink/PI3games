@@ -3,6 +3,7 @@ package com.gamelink.gamelinkapp.service.repository
 import android.content.Context
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 import com.gamelink.gamelinkapp.service.repository.remote.CommunityDatabase
@@ -41,6 +42,10 @@ class CommunityRepository(context: Context) {
 
     suspend fun list(): List<CommunityModel> {
         return communityDatabase.listAll()
+    }
+
+    suspend fun getPosts(communityId: String): List<PostModel> {
+        return communityDatabase.getPosts(communityId)
     }
 
     suspend fun getById(id: String): CommunityModel? {

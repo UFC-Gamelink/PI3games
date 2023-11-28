@@ -139,7 +139,7 @@ class RegisterPostActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.postSave.observe(this) {
             if (it.status()) {
-                Toast.makeText(applicationContext, "sSlvo com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
                 imagePreview = null
                 imagePath = null
                 finish()
@@ -153,7 +153,7 @@ class RegisterPostActivity : AppCompatActivity() {
 
             val list = mutableListOf<String>()
 
-            list.add("publico")
+            list.add("Público")
             for (c in it) {
                 list.add(c.name)
             }

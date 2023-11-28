@@ -1,7 +1,9 @@
 package com.gamelink.gamelinkapp.service.repository.remote
 
 import android.util.Log
+import com.gamelink.gamelinkapp.service.model.CommentaryModel
 import com.gamelink.gamelinkapp.service.model.CommunityModel
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.CommunityService
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +80,25 @@ class CommunityDatabase {
             error.printStackTrace()
             Log.d("CommunityDatabase get", error.message.toString())
             throw Exception(error.message.toString())
+        }
+    }
+
+    suspend fun getPosts(communityId: String): List<PostModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.getPostsFromCommunity(communityId)
+
+                if (response.code() != 200) {
+                    throw Exception(response.errorBody().toString())
+                }
+
+                return@withContext response.body()!!
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("CommunityDatabase getPosts", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+
         }
     }
 

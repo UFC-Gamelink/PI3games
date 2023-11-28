@@ -18,7 +18,7 @@ class CommunityPostsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: CommunityPostsViewModel
     private val adapter = PostAdapter()
-    private var communityId: Int = 0
+    private var communityId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class CommunityPostsFragment : Fragment() {
         binding.recyclerCommunityPosts.adapter = adapter
 
         arguments?.let {
-            communityId = it.getInt("community_id")
+            communityId = it.getString("community_id").toString()
         }
 
         val listener = object : PostListener {
