@@ -139,13 +139,22 @@ class RegisterPostActivity : AppCompatActivity() {
             this.longitude = longitude
         }
 
-        viewModel.save(post)
+        val index = binding.spinnerVisibility.selectedItemPosition
+        if(index == 0) {
+            viewModel.save(post)
+
+        } else {
+            val communityId = listCommunities[index - 1].id
+            viewModel.saveForCommunity(post, communityId)
+        }
+
+
     }
 
     private fun observe() {
         viewModel.postSave.observe(this) {
             if (it.status()) {
-                Toast.makeText(applicationContext, "salvo com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
                 imagePreview = null
                 imagePath = null
                 finish()
@@ -159,7 +168,7 @@ class RegisterPostActivity : AppCompatActivity() {
 
             val list = mutableListOf<String>()
 
-            list.add("publico")
+            list.add("Público")
             for (c in it) {
                 list.add(c.name)
             }

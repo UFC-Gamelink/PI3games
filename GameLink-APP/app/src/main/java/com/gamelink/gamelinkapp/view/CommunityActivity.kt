@@ -43,9 +43,7 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         binding.buttonLeaveCommunity.setOnClickListener {
-            val communityId = communityId
-
-                    viewModel.leave(communityId)
+            viewModel.leave(communityId)
         }
 
         binding.imageCommunityOptions.setOnClickListener {
@@ -101,7 +99,7 @@ class CommunityActivity : AppCompatActivity() {
         }
 
         viewModel.delete.observe(this) {
-            if(it.status()) {
+            if (it.status()) {
                 finish()
                 Toast.makeText(this, "Comunidade apagada com sucesso", Toast.LENGTH_SHORT).show()
             }
@@ -152,6 +150,7 @@ class CommunityActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.item_delete_community -> {
                     showAlertDialog(communityId)
                     true

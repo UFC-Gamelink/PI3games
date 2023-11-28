@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapp.service.repository.remote.service
 
 import com.gamelink.gamelinkapp.service.model.CommunityModel
+import com.gamelink.gamelinkapp.service.model.PostModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -31,14 +32,17 @@ interface CommunityService {
     ): Response<CommunityModel>
 
     @PUT("communities/{id}")
-    suspend fun update(@Path("id") id: String, @Body community: CommunityModel): Response<Unit>
+    suspend fun update(
+        @Path("id") id: String,
+        @Body community: CommunityModel
+    ): Response<CommunityModel>
 
     @Multipart
     @PUT("communities/banner/{id}")
     suspend fun updateImage(
         @Path("id") id: String,
         @Part banner: MultipartBody.Part
-    ): Response<Unit>
+    ): Response<CommunityModel>
 
     @PUT("communities/{id}/enter")
     suspend fun enter(@Path("id") id: String): Response<Unit>
@@ -66,5 +70,8 @@ interface CommunityService {
 
     @GET("communities/my")
     suspend fun getMyCommunities(): Response<List<CommunityModel>>
+
+    @GET("communities/{id}/posts")
+    suspend fun getPostsFromCommunity(@Path("id") id: String): Response<List<PostModel>>
 
 }

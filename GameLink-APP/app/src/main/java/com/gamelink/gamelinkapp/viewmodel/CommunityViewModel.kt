@@ -1,7 +1,6 @@
 package com.gamelink.gamelinkapp.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,12 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
-import com.gamelink.gamelinkapp.service.model.UserCommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommunityRepository
-import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
-import com.gamelink.gamelinkapp.service.repository.UserCommunityRepository
 import kotlinx.coroutines.launch
 
 class CommunityViewModel(application: Application) : AndroidViewModel(application) {
@@ -40,19 +36,17 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun isOwner(communityId: String) {
-        Log.d("IDOWNER", communityId)
-        Log.d("IDLGOADO", securityPreferences.get(GameLinkConstants.SHARED.USER_ID))
         val isOwner = communityId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
         _userIsOwner.value = isOwner
-
     }
 
     fun joined(communityId: String) {
-//        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toString()
-//
-//        _joined.value = userCommunityRepository.userIsJoin(userId, communityId)
-        _joined.value = false
+        viewModelScope.launch {
+            val communities = communityRepository.getMyCommunities()
+
+            _joined.value = communities.find { it.id == communityId } != null
+        }
     }
 
     fun join(communityId: String) {

@@ -37,7 +37,10 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
 
         getErrorIfEmptyValue(community.name)
         getErrorIfEmptyValue(community.description)
-        getErrorIfIsNull(community.bannerUrl)
+        if(community.id == "") {
+            getErrorIfIsNull(community.bannerUrl)
+        }
+
 
         if (isFormValid) {
             viewModelScope.launch {
@@ -57,7 +60,20 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
 
                     })
                 } else {
-                    communityRepository.update(community)
+                    communityRepository.update(community, object : APIListener<CommunityModel> {
+                        override fun onSuccess(result: CommunityModel) {
+                            if(community.bannerUrl == null) {
+                                _communitySave.value = ValidationModel()
+                            } else {
+                                updateBanner(community)
+                            }
+                        }
+
+                        override fun onFailure(message: String) {
+                            _communitySave.value = ValidationModel(message)
+                        }
+
+                    })
                 }
             }
         }
@@ -70,6 +86,25 @@ class CommunityFormViewModel(application: Application) : AndroidViewModel(applic
             val iconPart = MultipartBody.Part.createFormData("banner", bannerFile.name, requestBannerFile)
 
             communityRepository.saveBanner(community.id, iconPart, object :APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _communitySave.value = ValidationModel()
+                }
+
+                override fun onFailure(message: String) {
+                    _communitySave.value = ValidationModel(message)
+                }
+
+            })
+        }
+    }
+
+    fun updateBanner(community: CommunityModel) {
+        viewModelScope.launch {
+            val bannerFile = File(community.bannerUrl!!)
+            val requestBannerFile = RequestBody.create(MediaType.parse("image/*"), bannerFile)
+            val iconPart = MultipartBody.Part.createFormData("banner", bannerFile.name, requestBannerFile)
+
+            communityRepository.updateBanner(community.id, iconPart, object :APIListener<Boolean> {
                 override fun onSuccess(result: Boolean) {
                     _communitySave.value = ValidationModel()
                 }

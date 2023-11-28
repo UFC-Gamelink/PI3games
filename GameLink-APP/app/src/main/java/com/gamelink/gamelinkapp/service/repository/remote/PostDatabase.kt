@@ -2,6 +2,7 @@ package com.gamelink.gamelinkapp.service.repository.remote
 
 import android.util.Log
 import com.gamelink.gamelinkapp.service.model.PostModel
+import com.gamelink.gamelinkapp.service.repository.remote.service.CommunityService
 import com.gamelink.gamelinkapp.service.repository.remote.service.PostService
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ import okhttp3.RequestBody
 
 class PostDatabase {
     private val remote = RetrofitClient.getService(PostService::class.java)
+    private val communityRemote = RetrofitClient.getService(CommunityService::class.java)
 
     suspend fun get(): List<PostModel> {
         return withContext(Dispatchers.IO) {
@@ -41,6 +43,34 @@ class PostDatabase {
                     remote.saveWithImage(description, image)
 
                 if (response.code() != 201) {
+                    throw Exception(response.errorBody()!!.string())
+                }
+
+                return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("PostDatabase save", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
+    suspend fun saveForCommunity(
+        communityId: String,
+        description: RequestBody,
+        image: MultipartBody.Part?
+    ): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val response = if (image == null)
+                    communityRemote.makePost(communityId, description)
+                else
+                    communityRemote.makePostWithImage(communityId, description, image)
+
+                if (response.code() != 200) {
                     throw Exception(response.errorBody()!!.string())
                 }
 

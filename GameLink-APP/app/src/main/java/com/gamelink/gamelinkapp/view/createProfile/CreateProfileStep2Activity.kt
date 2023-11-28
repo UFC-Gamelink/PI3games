@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -25,6 +26,8 @@ class CreateProfileStep2Activity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dialog: AlertDialog
     private lateinit var imageView: ImageView
     private lateinit var bundle: Bundle
+    private var iconPath: String? = null
+    private var bannerPath: String? = null
 
     private val requestGallery =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
@@ -144,23 +147,29 @@ class CreateProfileStep2Activity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun handleNext() {
-        startActivity(
-            Intent(
-                applicationContext,
-                CreateProfileStep3Activity::class.java
-            ).putExtras(bundle)
-        )
+        if(bannerPath == null || iconPath == null) {
+            Toast.makeText(this, "Selecione as imagens", Toast.LENGTH_SHORT).show()
+        } else{
+            startActivity(
+                Intent(
+                    applicationContext,
+                    CreateProfileStep3Activity::class.java
+                ).putExtras(bundle)
+            )
+        }
+        
+
     }
 
     private fun saveImage(bitmap: Bitmap) {
         when(imageView.id) {
             R.id.imageview_profile_picture -> {
-                val absolutePath = ImageUtils.saveImage(applicationContext, "profile_picture", bitmap)
-                bundle.putString("profile_picture_path", absolutePath)
+                iconPath = ImageUtils.saveImage(applicationContext, "profile_picture", bitmap)
+                bundle.putString("profile_picture_path", iconPath)
             }
             R.id.imageview_banner_picture -> {
-                val absolutePath = ImageUtils.saveImage(applicationContext, "banner_picture", bitmap)
-                bundle.putString("profile_banner_path", absolutePath)
+                bannerPath = ImageUtils.saveImage(applicationContext, "banner_picture", bitmap)
+                bundle.putString("profile_banner_path", bannerPath)
             }
         }
     }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
+import android.widget.Toast
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityCreateProfileStep4Binding
 import com.gamelink.gamelinkapp.utils.ImageUtils
@@ -73,17 +74,22 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun handleNext() {
-        val date = SimpleDateFormat("dd/MM/yyyy").parse(binding.buttonDate.text.toString())
+        if(binding.buttonDate.text.toString().isEmpty()) {
+            Toast.makeText(this, "Selecione uma data", Toast.LENGTH_SHORT).show()
+        }else {
+            val date = SimpleDateFormat("dd/MM/yyyy").parse(binding.buttonDate.text.toString())
 
-        bundle.putString("birthday", SimpleDateFormat("yyyy-MM-dd").format(date))
-        bundle.putBoolean("show_birthday", binding.switchShowDate.isChecked)
+            bundle.putString("birthday", SimpleDateFormat("yyyy-MM-dd").format(date))
+            bundle.putBoolean("show_birthday", binding.switchShowDate.isChecked)
 
-        startActivity(
-            Intent(
-                applicationContext,
-                CreateProfileStep5Activity::class.java
-            ).putExtras(bundle)
-        )
+            startActivity(
+                Intent(
+                    applicationContext,
+                    CreateProfileStep5Activity::class.java
+                ).putExtras(bundle)
+            )
+        }
+
     }
 
     private fun getBitmap(absolutePath: String): Bitmap {

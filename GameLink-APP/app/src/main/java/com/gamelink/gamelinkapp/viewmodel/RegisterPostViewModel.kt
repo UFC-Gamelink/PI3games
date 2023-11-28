@@ -68,6 +68,38 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
+    fun saveForCommunity(post: PostModel, communityId: String) {
+        viewModelScope.launch {
+            if (post.description.isEmpty()) {
+                _postSave.value = ValidationModel("Campo descrição obrigatório")
+            } else {
+
+                val description = RequestBody.create(MultipartBody.FORM, post.description)
+
+                var imagePart: MultipartBody.Part? = null
+                if (post.imageUrl != null) {
+                    val imageFile = File(post.imageUrl!!)
+                    val requestImageFile = RequestBody.create(MediaType.parse("image/*"), imageFile)
+                    imagePart =
+                        MultipartBody.Part.createFormData("image", imageFile.name, requestImageFile)
+                }
+
+                postRepository.saveForCommunity(communityId, description, imagePart, object : APIListener<Boolean> {
+                    override fun onSuccess(result: Boolean) {
+                        _postSave.value = ValidationModel()
+                    }
+
+                    override fun onFailure(message: String) {
+                        _postSave.value = ValidationModel(message)
+                    }
+
+                })
+
+            }
+        }
+
+    }
+
     fun loadCommunities() {
         viewModelScope.launch {
             _communityList.value = communityRepository.getMyCommunities()

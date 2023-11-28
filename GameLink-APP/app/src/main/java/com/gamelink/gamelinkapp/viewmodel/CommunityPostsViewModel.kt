@@ -5,17 +5,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
+import com.gamelink.gamelinkapp.service.repository.CommunityRepository
 import com.gamelink.gamelinkapp.service.repository.PostRepository
-import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import kotlinx.coroutines.launch
 
 class CommunityPostsViewModel(application: Application) : AndroidViewModel(application) {
+    private val communityRepository = CommunityRepository(application.applicationContext)
     private val postsRepository = PostRepository(application.applicationContext)
-    private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _posts = MutableLiveData<List<PostModel>>()
     val posts: LiveData<List<PostModel>> = _posts
@@ -23,34 +22,31 @@ class CommunityPostsViewModel(application: Application) : AndroidViewModel(appli
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
 
-    fun list(communityId: Int) {
-        //_posts.value = postsRepository.listByCommunity(communityId)
-        _posts.value = listOf()
+    fun list(communityId: String) {
+        viewModelScope.launch {
+            _posts.value = communityRepository.getPosts(communityId)
+        }
     }
 
     fun delete(id: String) {
         viewModelScope.launch {
-            val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+            postsRepository.delete(id, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _delete.value = ValidationModel()
 
-            val post = postsRepository.findByIdAndUserId(id, userId)
+                }
 
-            if (post == null) {
-                _delete.value = ValidationModel("Operação não autorizada")
-            } else {
-                postsRepository.delete(post.id, object : APIListener<Boolean> {
-                    override fun onSuccess(result: Boolean) {
-                        TODO("Not yet implemented")
-                    }
+                override fun onFailure(message: String) {
+                    _delete.value = ValidationModel(message)
 
-                    override fun onFailure(message: String) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-
-                _delete.value = ValidationModel()
-            }
+                }
+            })
         }
+    }
 
+    fun like(postId: String) {
+        viewModelScope.launch {
+            postsRepository.like(postId)
+        }
     }
 }
