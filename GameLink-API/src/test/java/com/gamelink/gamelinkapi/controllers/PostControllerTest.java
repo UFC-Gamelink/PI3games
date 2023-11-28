@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.controllers;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
@@ -13,12 +14,14 @@ import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -86,5 +89,28 @@ public class PostControllerTest {
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertTrue(response.getBody());
+    }
+
+    @Test
+    @DisplayName("Post with image should  execute save in post Service and return a Created status when success")
+    void postImageSuccess() {
+        final var postText = "post text";
+        final var image = Mockito.mock(MultipartFile.class);
+
+        ResponseEntity<PostResponse> response = controller.post(image, postText);
+
+        verify(service, times(1)).save(image, postText);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Post event should  execute saveEventPost in post Service and return a Created status when success")
+    void postEventSuccess() {
+        final var postRequest = new EventPostRequest("text", 1.2, 1.2);
+
+        ResponseEntity<PostResponse> response = controller.post(postRequest);
+
+        verify(service, times(1)).saveEventPost(postRequest);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 }
