@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.gamelink.gamelinkapp.service.listener.APIListener
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
+import com.gamelink.gamelinkapp.service.model.TypePostModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.CommunityRepository
 import com.gamelink.gamelinkapp.service.repository.PostRepository
@@ -31,6 +32,10 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
 
     private val _communityList = MutableLiveData<List<CommunityModel>>()
     val communityList: LiveData<List<CommunityModel>> = _communityList
+    private val listTypePost: List<String> = listOf("Post","Evento")
+
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
     fun save(post: PostModel) {
         viewModelScope.launch {
@@ -39,7 +44,6 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
             } else {
 
                 val description = RequestBody.create(MultipartBody.FORM, post.description)
-
                 var imagePart: MultipartBody.Part? = null
                 if (post.imageUrl != null) {
                     val imageFile = File(post.imageUrl!!)
@@ -48,7 +52,7 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
                         MultipartBody.Part.createFormData("image", imageFile.name, requestImageFile)
                 }
 
-                postRepository.save(description, imagePart, object : APIListener<Boolean> {
+                postRepository.save(description, imagePart, latitude, longitude, object : APIListener<Boolean> {
                     override fun onSuccess(result: Boolean) {
                         _postSave.value = ValidationModel()
                     }
@@ -65,7 +69,21 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun loadCommunities() {
-        //val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toInt()
-        _communityList.value = communityRepository.getFollowed(0)
+        viewModelScope.launch {
+            _communityList.value = communityRepository.getMyCommunities()
+        }
+
     }
+
+    fun loadTypePostModel(): List<String> {
+        return listTypePost
+    }
+
+    fun setCoordenadas(lat: Double, lon: Double) {
+        latitude = lat
+        longitude = lon
+    }
+
+
 }
+

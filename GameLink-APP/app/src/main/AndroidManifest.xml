@@ -4,9 +4,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyDIHkUuXpLHCbMdPMNH-MZyygDp7g_ddZM" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +25,29 @@
         android:theme="@style/Theme.GameLinkAPP"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <activity
+            android:name=".view.MapsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".viewmodel.MapsViewModel"
+            android:exported="false" />
         <activity
             android:name=".view.ProfileFormActivity"
             android:exported="false" />
@@ -45,7 +74,7 @@
             android:exported="false" />
         <activity
             android:name=".view.RegisterPostActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_register_post"
             android:theme="@style/Theme.GameLinkAPP" />
         <activity

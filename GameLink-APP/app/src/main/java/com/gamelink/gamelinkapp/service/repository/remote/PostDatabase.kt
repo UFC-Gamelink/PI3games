@@ -28,12 +28,15 @@ class PostDatabase {
         }
     }
 
-    suspend fun save(description: RequestBody, image: MultipartBody.Part?): Boolean {
+    suspend fun save(description: RequestBody, image: MultipartBody.Part?, latitude: Double, longitude:Double ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
 
                 val response = if (image == null)
                     remote.save(description)
+                else if ( latitude != 0.0 ){
+                    remote.saveWithEvent(description,latitude,longitude)
+                }
                 else
                     remote.saveWithImage(description, image)
 

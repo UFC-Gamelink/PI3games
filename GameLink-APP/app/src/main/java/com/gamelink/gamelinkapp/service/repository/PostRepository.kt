@@ -14,10 +14,12 @@ class PostRepository(context: Context) {
     suspend fun save(
         description: RequestBody,
         image: MultipartBody.Part?,
-        listener: APIListener<Boolean>
+        latitude: Double,
+        longitude: Double,
+        listener: APIListener<Boolean>,
     ) {
         try {
-            postDatabase.save(description, image)
+            postDatabase.save(description, image, latitude, longitude)
 
             listener.onSuccess(true)
         } catch (e: Exception) {

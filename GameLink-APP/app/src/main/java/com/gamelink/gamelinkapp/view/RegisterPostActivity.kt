@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
@@ -40,6 +41,8 @@ class RegisterPostActivity : AppCompatActivity() {
     private var imagePreview: Bitmap? = null
     private lateinit var dialog: AlertDialog
     private var imagePath: String? = null
+
+
 
     private val requestGallery =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
@@ -87,6 +90,7 @@ class RegisterPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         viewModel = ViewModelProvider(this).get(RegisterPostViewModel::class.java)
 
         binding = ActivityRegisterPostBinding.inflate(layoutInflater)
@@ -114,6 +118,15 @@ class RegisterPostActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        spinnerType()
+
+        val latitude = intent.getDoubleExtra("EXTRA_LATITUDE", 0.0)
+        val longitude = intent.getDoubleExtra("EXTRA_LONGITUDE", 0.0)
+
+        viewModel.setCoordenadas(latitude,longitude)
+
+
+
     }
 
     private fun handlePost() {
@@ -122,6 +135,8 @@ class RegisterPostActivity : AppCompatActivity() {
         val post = PostModel().apply {
             this.description = binding.editPost.text.toString().trim()
             this.imageUrl = imagePath
+            this.latitude = latitude
+            this.longitude = longitude
         }
 
         viewModel.save(post)
@@ -152,7 +167,30 @@ class RegisterPostActivity : AppCompatActivity() {
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, list)
             binding.spinnerVisibility.adapter = adapter
         }
+
     }
+
+    private fun spinnerType(){
+
+        val spinner = binding.spinnerType
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, viewModel.loadTypePostModel() )
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+                if (selectedItem == "Evento") {
+                    startActivity(Intent(this@RegisterPostActivity,MapsActivity::class.java))
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+
+    }
+
+
+
 
     private fun checkGalleryPermission() {
         val galleryPermissionAccepted =

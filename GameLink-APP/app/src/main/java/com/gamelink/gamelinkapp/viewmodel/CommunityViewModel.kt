@@ -56,24 +56,33 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun join(communityId: String) {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+        viewModelScope.launch {
+            communityRepository.joinCommunity(communityId, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _joined.value = true
+                }
 
-//        val userCommunity = UserCommunityModel().apply {
-//            this.userId = userId
-//            this.communityId = communityId
-//        }
-//
-//        userCommunityRepository.joinCommunity(userCommunity)
-
-        _joined.value = true
+                override fun onFailure(message: String) {
+                    _joined.value = false
+                }
+            })
+        }
     }
 
     fun leave(communityId: String) {
-        val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID).toString()
+        viewModelScope.launch {
+            communityRepository.leaveCommunity(communityId, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _joined.value = false
+                }
 
-        //userCommunityRepository.leaveCommunity(userId, communityId)
+                override fun onFailure(message: String) {
+                    _joined.value = true
+                }
 
-        _joined.value = false
+            })
+
+        }
     }
 
     fun delete(id: String) {
