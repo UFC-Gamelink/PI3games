@@ -120,7 +120,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.10.1</version>
                 <configuration>
                     <source>20</source>
                     <target>20</target>
@@ -129,11 +129,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>1.18.28</version>
-                            <scope>provided</scope>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.1.0</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
