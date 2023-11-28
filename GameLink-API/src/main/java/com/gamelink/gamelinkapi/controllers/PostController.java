@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.posts.PostService;
 import jakarta.validation.Valid;
@@ -63,11 +64,43 @@ public class PostController {
                 .body(postService.findAll());
     }
 
+    @GetMapping("/recommended")
+    public ResponseEntity<List<PostResponse>> getRecommended() {
+        return ResponseEntity
+                .ok()
+                .body(postService.findRecommended());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         postService.delete(id);
         return ResponseEntity
                 .accepted()
+                .build();
+    }
+
+    @PostMapping("/community/{id}/image")
+    public ResponseEntity<Void> addPost(
+            @PathVariable UUID id,
+            @RequestPart @NotBlank String description,
+            @RequestPart MultipartFile image
+    ) {
+        PostRequest postRequest = new PostRequest(description, image);
+        postService.saveCommunityPost(id, postRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @PostMapping("/community/{id}")
+    public ResponseEntity<Void> addPost(
+            @PathVariable UUID id,
+            @RequestPart @NotBlank String description
+    ) {
+        PostRequest postRequest = new PostRequest(description, null);
+        postService.saveCommunityPost(id, postRequest);
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .build();
     }
 }

@@ -1,14 +1,17 @@
 package com.gamelink.gamelinkapi.services.posts;
 
 import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
+import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.posts.EventPostModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeId;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeModel;
 import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.repositories.posts.LikeRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
@@ -32,6 +35,7 @@ public class PostService {
     private final ImageCloudService imageCloudService;
     private final UserProfileService userProfileService;
     private final LikeRepository likeRepository;
+    private final CommunityRepository communityRepository;
     private final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
@@ -105,6 +109,36 @@ public class PostService {
         var eventPostToBeSaved = postMapper.requestToEventModel(eventPostRequest);
         eventPostToBeSaved.setOwner(userProfileFounded);
         postRepository.save(eventPostToBeSaved);
+    }
+
+    public void saveCommunityPost(UUID communityId, PostRequest postRequest) {
+        var userProfileFounded = userProfileService.findUserProfileByContext();
+        var postToBeSaved = postMapper.requestToModel(postRequest);
+
+        CommunityModel communityFound = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("This community not Exists"));
+
+        if (communityFound.getMembers().contains(userProfileFounded.getUser()) || communityFound.getOwner().equals(userProfileFounded.getUser())) {
+            postToBeSaved.setOwner(userProfileFounded);
+            postToBeSaved.setCommunity(communityFound);
+
+            if (postRequest.image() != null) {
+                ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(postRequest.image());
+                postToBeSaved.setImage(imageSaved);
+            }
+
+            postRepository.save(postToBeSaved);
+        } else {
+            throw new BadCredentialsException("You can't add posts to this community");
+        }
+
+    }
+
+    public List<PostResponse> findRecommended() {
+        return postRepository.findAllByCommunityNull()
+                .stream()
+                .map(postMapper::modelToResponse)
+                .toList();
     }
 
     private LikeId buildLikeId(UUID postId) {

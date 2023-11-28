@@ -1,14 +1,12 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
-import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.communities.CommunityService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -104,31 +102,6 @@ public class CommunityController {
     @PutMapping("/{id}/exit")
     public ResponseEntity<Void> exitCommunity(@PathVariable UUID id) {
         communityService.exitCommunity(id);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
-    }
-
-    @PutMapping("/{id}/post/image")
-    public ResponseEntity<Void> addPost(
-            @PathVariable UUID id,
-            @RequestPart @NotBlank String description,
-            @RequestPart MultipartFile image
-    ) {
-        PostRequest postRequest = new PostRequest(description, image);
-        communityService.addPost(id, postRequest);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
-    }
-
-    @PutMapping("/{id}/post")
-    public ResponseEntity<Void> addPost(
-            @PathVariable UUID id,
-            @RequestPart @NotBlank String description
-    ) {
-        PostRequest postRequest = new PostRequest(description, null);
-        communityService.addPost(id, postRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();

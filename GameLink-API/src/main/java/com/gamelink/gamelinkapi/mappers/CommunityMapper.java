@@ -21,5 +21,6 @@ public interface CommunityMapper {
     @Mapping(target = "owner", source = "owner.username")
     @Mapping(target = "ownerId", source = "owner.id")
     @Mapping(target = "bannerUrl", source = "banner.url")
+    @Mapping(target = "qntMembers", expression = "java(communityModel.getMembers()!= null ? communityModel.getMembers().size():0)")
     CommunitiesGeneralResponse modelToGeneralResponse(CommunityModel communityModel);
 }

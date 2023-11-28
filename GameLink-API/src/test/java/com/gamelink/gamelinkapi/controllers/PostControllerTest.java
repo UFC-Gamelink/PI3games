@@ -91,7 +91,30 @@ public class PostControllerTest {
         assertTrue(response.getBody());
     }
 
+    @DisplayName("addPost with only text post should execute saveCommunityPost in PostService and return a success status when success")
+    void addPostWithOnlyTextSuccess(){
+        final UUID communityId = UUID.randomUUID();
+        final String postText = "post";
+
+        ResponseEntity<Void> response = controller.addPost(communityId, postText);
+
+        verify(service, times(1))
+                .saveCommunityPost(communityId, new PostRequest(postText, null));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
     @Test
+    @DisplayName("addPost post should execute addPost in CommunityService and return a success status when success")
+    void addPostSuccess(){
+        final UUID communityId = UUID.randomUUID();
+        final String postText = "post";
+
+        ResponseEntity<Void> response = controller.addPost(communityId, postText, null);
+
+        verify(service, times(1))
+                .saveCommunityPost(communityId, new PostRequest(postText, null));
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
     @DisplayName("Post with image should  execute save in post Service and return a Created status when success")
     void postImageSuccess() {
         final var postText = "post text";
