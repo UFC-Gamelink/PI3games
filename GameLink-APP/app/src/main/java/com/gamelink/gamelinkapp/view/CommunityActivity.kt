@@ -65,7 +65,7 @@ class CommunityActivity : AppCompatActivity() {
         val communityId = bundle.getString("community_id").toString()
 
         viewModel.load(communityId)
-        viewModel.isOwner()
+
     }
 
     private fun observe() {
@@ -73,6 +73,8 @@ class CommunityActivity : AppCompatActivity() {
             binding.textName.text = it.name
             binding.textDescription.text = it.description
             Glide.with(this).load(it.bannerUrl).into(binding.imageBanner)
+
+            viewModel.isOwner(it.ownerId)
         }
 
         viewModel.userIsOwner.observe(this) {

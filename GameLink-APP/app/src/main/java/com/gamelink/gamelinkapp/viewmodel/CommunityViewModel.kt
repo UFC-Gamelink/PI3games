@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +18,6 @@ import kotlinx.coroutines.launch
 
 class CommunityViewModel(application: Application) : AndroidViewModel(application) {
     private val communityRepository = CommunityRepository(application.applicationContext)
-    private val userCommunityRepository = UserCommunityRepository(application.applicationContext)
-    private val postRepository = PostRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _community = MutableLiveData<CommunityModel>()
@@ -39,9 +38,10 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun isOwner() {
-        val isOwner =
-            _community.value?.ownerId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+    fun isOwner(communityId: String) {
+        Log.d("IDOWNER", communityId)
+        Log.d("IDLGOADO", securityPreferences.get(GameLinkConstants.SHARED.USER_ID))
+        val isOwner = communityId == securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
 
         _userIsOwner.value = isOwner
 
