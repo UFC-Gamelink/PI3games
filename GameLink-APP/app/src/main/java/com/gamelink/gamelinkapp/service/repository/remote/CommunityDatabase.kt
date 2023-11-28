@@ -5,19 +5,38 @@ import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.repository.remote.service.CommunityService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
 
 class CommunityDatabase {
     private val remote = RetrofitClient.getService(CommunityService::class.java)
 
-    suspend fun save(community: CommunityModel): Boolean {
+    suspend fun save(community: CommunityModel): CommunityModel {
         return withContext(Dispatchers.IO) {
             try {
-                remote.save(community)
+                val response = remote.save(community)
+
+                return@withContext response.body()!!
+            }catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("CommunityDatabase save", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
+    suspend fun saveBanner(communityId: String, banner: MultipartBody.Part): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response =  remote.saveImage(banner, communityId)
+
+                if(response.code() != 201) {
+                    throw Exception(response.errorBody().toString())
+                }
 
                 return@withContext true
             }catch (error: Exception) {
                 error.printStackTrace()
-                Log.d("CommunityDatabase save", error.message.toString())
+                Log.d("CommunityDatabase saveBanner", error.message.toString())
                 throw Exception(error.message.toString())
             }
         }

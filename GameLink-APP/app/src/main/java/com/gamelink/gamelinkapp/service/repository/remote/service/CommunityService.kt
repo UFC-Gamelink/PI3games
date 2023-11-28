@@ -17,14 +17,19 @@ interface CommunityService {
     suspend fun getAll(): Response<List<CommunityModel>>
 
     @POST("communities")
-    suspend fun save(@Body community: CommunityModel): Response<Unit>
+    suspend fun save(@Body community: CommunityModel): Response<CommunityModel>
 
+    @Multipart
     @POST("communities/banner/{id}")
-    suspend fun saveImage(@Path("id") id: String, @Part banner: MultipartBody.Part): Response<Unit>
+    suspend fun saveImage(
+        @Part banner: MultipartBody.Part,
+        @Path("id") id: String
+    ): Response<CommunityModel>
 
     @PUT("communities/{id}")
     suspend fun update(@Path("id") id: String, @Body community: CommunityModel): Response<Unit>
 
+    @Multipart
     @PUT("communities/banner/{id}")
     suspend fun updateImage(
         @Path("id") id: String,

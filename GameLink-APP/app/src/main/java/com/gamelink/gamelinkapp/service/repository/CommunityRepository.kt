@@ -6,15 +6,30 @@ import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.ValidationModel
 import com.gamelink.gamelinkapp.service.repository.local.LocalDatabase
 import com.gamelink.gamelinkapp.service.repository.remote.CommunityDatabase
+import okhttp3.MultipartBody
 
 class CommunityRepository(context: Context) {
     private val communityDatabase = CommunityDatabase()
-    suspend fun create(community: CommunityModel, listener: APIListener<Boolean>) {
+    suspend fun create(community: CommunityModel, listener: APIListener<CommunityModel>) {
         try {
-            communityDatabase.save(community)
+            val communityId = communityDatabase.save(community)
+
+            listener.onSuccess(communityId)
+
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
+    suspend fun saveBanner(
+        idCommunity: String,
+        banner: MultipartBody.Part,
+        listener: APIListener<Boolean>
+    ) {
+        try {
+            communityDatabase.saveBanner(idCommunity, banner)
 
             listener.onSuccess(true)
-
         } catch (e: Exception) {
             listener.onFailure(e.message.toString())
         }

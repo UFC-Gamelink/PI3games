@@ -83,13 +83,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun verifyLoggedUser() {
-        val token = securityPreferences.get(GameLinkConstants.SHARED.TOKEN_KEY)
-
-        val logged = token != ""
-
-        if(logged) {
-            RetrofitClient.addHeaders(token)
-        }
+        securityPreferences.remove(GameLinkConstants.SHARED.USER_ID)
+        securityPreferences.remove(GameLinkConstants.SHARED.USERNAME)
+        securityPreferences.remove(GameLinkConstants.SHARED.TOKEN_KEY)
+//        val token = securityPreferences.get(GameLinkConstants.SHARED.TOKEN_KEY)
+//
+//        val logged = token != ""
+//
+//        if(logged) {
+//            RetrofitClient.addHeaders(token)
+//        }
         _loggedUser.value = false
     }
 
