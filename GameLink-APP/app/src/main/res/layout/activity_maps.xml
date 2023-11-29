@@ -42,6 +42,8 @@
         android:layout_marginTop="16dp"
         android:hint="@string/placeholder_post"
         android:textColor="@color/white"
+        android:inputType="text|textMultiLine"
+        android:maxLines="4"
         android:textColorHint="@color/gray" />
 
     <EditText
