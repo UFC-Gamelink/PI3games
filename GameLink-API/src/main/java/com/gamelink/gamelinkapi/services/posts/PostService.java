@@ -59,19 +59,7 @@ public class PostService {
 
         return postRepository.findAllByOwnerOrderByCreatedAtDesc(userProfileFound)
                 .stream()
-                .map(post -> {
-                    PostResponse postResponse;
-
-                    if (post instanceof EventPostModel) {
-                        postResponse = postMapper.modelToEventResponse((EventPostModel) post);
-                    } else {
-                        postResponse = postMapper.modelToResponse(post);
-                    }
-
-                    postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
-                    postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));
-                    return postResponse;
-                })
+                .map(this::prepareResponse)
                 .toList();
     }
 
@@ -137,7 +125,7 @@ public class PostService {
     public List<PostResponse> findRecommended() {
         return postRepository.findAllByCommunityNull()
                 .stream()
-                .map(postMapper::modelToResponse)
+                .map(this::prepareResponse)
                 .toList();
     }
 
@@ -155,5 +143,19 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("this post doesn't exists")
         );
+    }
+
+    public PostResponse prepareResponse(PostModel post) {
+        PostResponse postResponse;
+
+        if (post instanceof EventPostModel) {
+            postResponse = postMapper.modelToEventResponse((EventPostModel) post);
+        } else {
+            postResponse = postMapper.modelToResponse(post);
+        }
+
+        postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
+        postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));
+        return postResponse;
     }
 }

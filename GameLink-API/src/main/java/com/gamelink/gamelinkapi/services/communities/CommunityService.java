@@ -1,16 +1,13 @@
 package com.gamelink.gamelinkapi.services.communities;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
-import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
-import com.gamelink.gamelinkapi.mappers.PostMapper;
 import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
-import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
@@ -24,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +32,6 @@ public class CommunityService {
     private final ImageCloudService imageCloudService;
     private final PostService postService;
     private final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
-    private final PostMapper postMapper = PostMapper.INSTANCE;
 
     public PostCommunityResponse createCommunity(CommunityRequest communityRequest) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
@@ -100,7 +95,9 @@ public class CommunityService {
         CommunityModel communityModel = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
-        return communityMapper.modelToResponse(communityModel).posts();
+        return communityModel.getPosts().stream()
+                .map(postService::prepareResponse)
+                .toList();
     }
 
     public List<CommunitiesGeneralResponse> getMyCommunities() {
