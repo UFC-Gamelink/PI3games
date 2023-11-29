@@ -88,6 +88,7 @@
     <string name="level_05">Level 05</string>
     <string name="favorite_games_title">Jogos favoritos</string>
     <string name="new_post">Novo Post</string>
+    <string name="new_event_post">Novo Post de Evento</string>
     <string name="post">Postar</string>
     <string name="placeholder_post">Escreva algo novo</string>
     <string name="public_post">Público</string>

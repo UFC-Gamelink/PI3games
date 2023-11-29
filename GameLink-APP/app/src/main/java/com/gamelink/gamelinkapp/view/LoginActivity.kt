@@ -26,6 +26,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         setContentView(binding.root)
 
+//        startActivity(Intent(applicationContext, MapsActivity::class.java))
         binding.textRegister.setOnClickListener(this)
         binding.buttonLogin.setOnClickListener(this)
 

@@ -14,12 +14,10 @@ class PostRepository(context: Context) {
     suspend fun save(
         description: RequestBody,
         image: MultipartBody.Part?,
-        latitude: Double,
-        longitude: Double,
         listener: APIListener<Boolean>,
     ) {
         try {
-            postDatabase.save(description, image, latitude, longitude)
+            postDatabase.save(description, image)
 
             listener.onSuccess(true)
         } catch (e: Exception) {
@@ -35,6 +33,16 @@ class PostRepository(context: Context) {
     ) {
         try {
             postDatabase.saveForCommunity(communityId, description, image)
+
+            listener.onSuccess(true)
+        } catch (e: Exception) {
+            listener.onFailure(e.message.toString())
+        }
+    }
+
+    suspend fun saveEvent(post: PostModel, listener: APIListener<Boolean>) {
+        try {
+            postDatabase.saveEvent(post)
 
             listener.onSuccess(true)
         } catch (e: Exception) {

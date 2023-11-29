@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.gamelink.gamelinkapp.R
 import androidx.lifecycle.ViewModelProvider
+import com.gamelink.gamelinkapp.service.model.PostModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.SupportMapFragment
@@ -60,7 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         getClientLocation()
     }
 
-    private fun getClientLocation(){
+    private fun getClientLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -70,13 +71,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationClient.lastLocation
@@ -95,6 +89,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         viewModel.address.observe(this) { address ->
             // Atualizar a UI com o endereço, se necessário
         }
+
+        viewModel.postSave.observe(this) {
+            if (it.status()) {
+                Toast.makeText(applicationContext, "Salvo com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -109,41 +112,51 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
             }
 
             R.id.button_save -> {
-                saveMap()
+                handleSave()
             }
 
-        } else when(v.id){
+        } else when (v.id) {
             R.id.button_search -> {
-                Toast.makeText(this, getString(R.string.local_not_found),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.local_not_found), Toast.LENGTH_SHORT).show()
             }
 
             R.id.button_save -> {
-                Toast.makeText(this, "Por favor informe o local",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor informe o local", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
 
-    private fun saveMap(){
-        val intent = Intent(this, RegisterPostActivity::class.java).apply {
-            viewModel.searchAddress(binding.editLocal.text.toString())
+    private fun handleSave() {
+        val post = PostModel().apply {
+            this.description = binding.editPost.text.toString().trim()
+
             val local = viewModel.getLocation()
-            setupObservers()
-            local?.let { putExtra("EXTRA_LATITUDE", it.latitude) }
-            local?.let { putExtra("EXTRA_LONGITUDE", it.longitude) }
 
+            local?.let { this.latitude = it.latitude }
+            local?.let { this.longitude = it.longitude }
         }
-        startActivity(intent)
+
+        viewModel.save(post)
+//        val intent = Intent(this, RegisterPostActivity::class.java).apply {
+//            viewModel.searchAddress(binding.editLocal.text.toString())
+//            val local = viewModel.getLocation()
+//            setupObservers()
+//            local?.let { putExtra("EXTRA_LATITUDE", it.latitude) }
+//            local?.let { putExtra("EXTRA_LONGITUDE", it.longitude) }
+//
+//        }
+//        startActivity(intent)
     }
 
 
-        private fun addMarkerAtLocation(location: Location) {
-            val latLng = LatLng(location.latitude, location.longitude)
-            map.addMarker(MarkerOptions().position(latLng).title("Local do evento"))
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-        }
-
+    private fun addMarkerAtLocation(location: Location) {
+        val latLng = LatLng(location.latitude, location.longitude)
+        map.addMarker(MarkerOptions().position(latLng).title("Local do evento"))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
     }
+
+}
 
 

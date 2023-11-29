@@ -7,9 +7,37 @@
     android:background="@color/primary_blue_1"
     tools:context=".view.ProfileFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:contentDescription="Fazer Post com Evento"
+        android:id="@+id/fab_new_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_event"
+        app:tint="@color/white"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintBottom_toTopOf="@id/fab_new_post"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:contentDescription="Fazer Post Normal"
+        android:id="@+id/fab_new_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_post"
+        app:tint="@color/white"
+        app:backgroundTint="@color/blue"
+        app:layout_constraintBottom_toTopOf="@id/fab_select_post_Type"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:contentDescription="Selecionar Tipo de postagem"
+        android:id="@+id/fab_select_post_Type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

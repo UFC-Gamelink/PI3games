@@ -32,10 +32,6 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
 
     private val _communityList = MutableLiveData<List<CommunityModel>>()
     val communityList: LiveData<List<CommunityModel>> = _communityList
-    private val listTypePost: List<String> = listOf("Post","Evento")
-
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
 
     fun save(post: PostModel) {
         viewModelScope.launch {
@@ -52,7 +48,7 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
                         MultipartBody.Part.createFormData("image", imageFile.name, requestImageFile)
                 }
 
-                postRepository.save(description, imagePart, latitude, longitude, object : APIListener<Boolean> {
+                postRepository.save(description, imagePart, object : APIListener<Boolean> {
                     override fun onSuccess(result: Boolean) {
                         _postSave.value = ValidationModel()
                     }
@@ -106,16 +102,5 @@ class RegisterPostViewModel(application: Application) : AndroidViewModel(applica
         }
 
     }
-
-    fun loadTypePostModel(): List<String> {
-        return listTypePost
-    }
-
-    fun setCoordenadas(lat: Double, lon: Double) {
-        latitude = lat
-        longitude = lon
-    }
-
-
 }
 
