@@ -87,7 +87,10 @@ class ProfileFragment : Fragment() {
             binding.textName.text = it.name
             binding.textUsername.text = it.username
             binding.textBioValue.text = it.bio
-            binding.textCountPosts.text = it.numPosts.toString()
+            binding.textCountPosts.text = it.qntPosts.toString()
+            binding.textCountFollowers.text = it.qntFollowers.toString()
+            binding.textCountFollowing.text = it.qntFollowing.toString()
+
 
             Glide.with(this).load(it.icon.url).into(binding.imageviewProfilePicture)
             Glide.with(this).load(it.banner.url).into(binding.imageviewBannerPicture)

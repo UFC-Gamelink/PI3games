@@ -2,6 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.GameLinkAPP" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="android:fontFamily">@font/baloo_bhai_2</item>
+
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
