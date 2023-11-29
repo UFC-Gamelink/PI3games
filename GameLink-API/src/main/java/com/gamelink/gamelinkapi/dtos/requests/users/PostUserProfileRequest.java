@@ -14,12 +14,13 @@ import java.util.List;
 @Builder
 public record PostUserProfileRequest(
         @NotBlank String name,
-        @NotBlank @Size(max = 160) String bio,
+        String bio,
         @NotNull LocalDate birthdayDate,
         List<GameTime> gameTimes,
         @NotNull Gender gender
 ) {
     public PostUserProfileRequest {
         if (gameTimes == null) gameTimes = Collections.emptyList();
+        if (bio == null) bio = "";
     }
 }
