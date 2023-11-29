@@ -83,7 +83,7 @@ class RegisterPostActivity : AppCompatActivity() {
         }
 
     companion object {
-        private const val PERMISSION_GALLERY = Manifest.permission.READ_EXTERNAL_STORAGE
+        private const val PERMISSION_GALLERY = Manifest.permission.READ_MEDIA_IMAGES
     }
 
 
