@@ -2,20 +2,12 @@ package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
-import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
-import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
-import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.services.posts.PostService;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.PostCreator;
-import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
-import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,7 +96,7 @@ public class PostControllerTest {
 
     @Test
     @DisplayName("addPost post should execute addPost in CommunityService and return a success status when success")
-    void addPostSuccess(){
+    void addPostSuccess() {
         final UUID communityId = UUID.randomUUID();
         final String postText = "post";
 
@@ -114,7 +105,9 @@ public class PostControllerTest {
         verify(service, times(1))
                 .saveCommunityPost(communityId, new PostRequest(postText, null));
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
+    @Test
     @DisplayName("Post with image should  execute save in post Service and return a Created status when success")
     void postImageSuccess() {
         final var postText = "post text";

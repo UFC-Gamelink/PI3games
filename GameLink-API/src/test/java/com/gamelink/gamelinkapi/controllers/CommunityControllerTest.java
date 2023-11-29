@@ -1,7 +1,6 @@
 package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
-import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
@@ -16,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -59,7 +57,7 @@ public class CommunityControllerTest {
     @Test
     @DisplayName("get should execute getCommunities from CommunityService and return a valid CommunityResponse status when success")
     void getShouldExecuteFindUserProfileFromUserProfileServiceWhenSuccess() {
-        var postResponse = new CommunitiesGeneralResponse(UUID.randomUUID(), "community", "description", "url", "owner", UUID.randomUUID());
+        var postResponse = new CommunitiesGeneralResponse(UUID.randomUUID(), "community", "description", "url", "owner", UUID.randomUUID(), 0);
         when(service.getCommunities()).thenReturn(List.of(postResponse));
 
         ResponseEntity<List<CommunitiesGeneralResponse>> response = controller.getAll();
@@ -90,32 +88,6 @@ public class CommunityControllerTest {
         ResponseEntity<Void> response = controller.exitCommunity(communityId);
 
         verify(service, times(1)).exitCommunity(communityId);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    @DisplayName("addPost with only text post should execute addPost in CommunityService and return a success status when success")
-    void addPostWithOnlyTextSuccess(){
-        final UUID communityId = UUID.randomUUID();
-        final String postText = "post";
-
-        ResponseEntity<Void> response = controller.addPost(communityId, postText);
-
-        verify(service, times(1))
-                .addPost(communityId, new PostRequest(postText, null));
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    @DisplayName("addPost post should execute addPost in CommunityService and return a success status when success")
-    void addPostSuccess(){
-        final UUID communityId = UUID.randomUUID();
-        final String postText = "post";
-
-        ResponseEntity<Void> response = controller.addPost(communityId, postText, null);
-
-        verify(service, times(1))
-                .addPost(communityId, new PostRequest(postText, null));
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -221,6 +193,6 @@ public class CommunityControllerTest {
 
 
     private static CommunitiesGeneralResponse createCommunityGeneralResponse() {
-        return new CommunitiesGeneralResponse(UUID.randomUUID(), "name", "description", "url", "owner", UUID.randomUUID());
+        return new CommunitiesGeneralResponse(UUID.randomUUID(), "name", "description", "url", "owner", UUID.randomUUID(), 0);
     }
 }
