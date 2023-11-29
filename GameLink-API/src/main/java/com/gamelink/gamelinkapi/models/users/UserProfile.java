@@ -35,9 +35,7 @@ public class UserProfile extends BaseModel {
     @OneToOne
     private ImageModel icon;
 
-    @NotBlank
-    @Column(length = 160)
-    private String bio;
+    private String bio = "";
 
     private LocalDate birthdayDate;
 
