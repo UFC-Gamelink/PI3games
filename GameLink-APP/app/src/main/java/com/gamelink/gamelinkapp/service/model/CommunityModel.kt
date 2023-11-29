@@ -7,4 +7,5 @@ class CommunityModel {
     var bannerUrl: String? = ""
     var owner: String = ""
     var ownerId: String = ""
+    var qntMembers: Int = 0
 }

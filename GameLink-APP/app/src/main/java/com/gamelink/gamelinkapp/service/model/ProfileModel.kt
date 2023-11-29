@@ -14,9 +14,12 @@ class ProfileModel {
     var birthday = ""
     var showBirthday = false
     var username = ""
-    var numPosts: Int = 0
+    var qntPosts: Int = 0
+    var qntFollowers: Int = 0
+    var qntFollowing: Int = 0
     var gender: String = "MALE"
     var gameTimes: List<String> = listOf()
     var icon: ImageModel = ImageModel("", "")
     var banner: ImageModel = ImageModel("", "")
+
 }

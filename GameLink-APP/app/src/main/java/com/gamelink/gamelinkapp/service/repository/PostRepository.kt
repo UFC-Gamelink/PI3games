@@ -46,16 +46,8 @@ class PostRepository(context: Context) {
         return postDatabase.get()
     }
 
-    fun listByUser(userId: Int): List<PostModel> {
-        return listOf()
-    }
-
-    fun listByRecommended(): List<PostModel> {
-        return MockPosts().getRecommendedPosts()
-    }
-
-    fun listByCommunity(communityId: Int): List<PostModel> {
-        return listOf()
+    suspend fun listByRecommended(): List<PostModel> {
+        return postDatabase.getRecommended()
     }
 
     suspend fun delete(postId: String, listener: APIListener<Boolean>) {
@@ -70,13 +62,5 @@ class PostRepository(context: Context) {
 
     suspend fun like(postID: String): Boolean {
         return postDatabase.like(postID)
-    }
-
-    fun deleteFromCommunity(id: String) {
-
-    }
-
-    fun findByIdAndUserId(id: String, userId: String): PostModel? {
-        return null
     }
 }

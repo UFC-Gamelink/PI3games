@@ -30,6 +30,22 @@ class PostDatabase {
         }
     }
 
+    suspend fun getRecommended(): List<PostModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.getRecommended()
+
+                return@withContext response.body()!!
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("PostDatabase getRecommended", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
     suspend fun save(description: RequestBody, image: MultipartBody.Part?, latitude: Double, longitude:Double ): Boolean {
         return withContext(Dispatchers.IO) {
             try {

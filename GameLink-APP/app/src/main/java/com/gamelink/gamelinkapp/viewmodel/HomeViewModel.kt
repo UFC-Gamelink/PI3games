@@ -13,9 +13,8 @@ import com.gamelink.gamelinkapp.service.repository.PostRepository
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import kotlinx.coroutines.launch
 
-class HomeViewModel(application: Application): AndroidViewModel(application) {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val postsRepository = PostRepository(application.applicationContext)
-    private val securityPreferences = SecurityPreferences(application.applicationContext)
 
     private val _posts = MutableLiveData<List<PostModel>>()
     val posts: LiveData<List<PostModel>> = _posts
@@ -24,31 +23,30 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     val delete: LiveData<ValidationModel> = _delete
 
     fun getRecommendedPosts() {
-        _posts.value = postsRepository.listByRecommended()
+        viewModelScope.launch {
+            _posts.value = postsRepository.listByRecommended()
+        }
+
     }
 
     fun delete(id: String) {
         viewModelScope.launch {
-            val userId = securityPreferences.get(GameLinkConstants.SHARED.USER_ID)
+            postsRepository.delete(id, object : APIListener<Boolean> {
+                override fun onSuccess(result: Boolean) {
+                    _delete.value = ValidationModel()
+                }
 
-            val post = postsRepository.findByIdAndUserId(id, userId)
+                override fun onFailure(message: String) {
+                    _delete.value = ValidationModel(message)
+                }
 
-            if(post == null) {
-                _delete.value = ValidationModel("Operação não autorizada")
-            } else {
-                postsRepository.delete(post.id, object : APIListener<Boolean> {
-                    override fun onSuccess(result: Boolean) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun onFailure(message: String) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-                _delete.value = ValidationModel()
-            }
+            })
         }
+    }
 
+    fun like(postId: String) {
+        viewModelScope.launch {
+            postsRepository.like(postId)
+        }
     }
 }

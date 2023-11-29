@@ -51,14 +51,14 @@ interface CommunityService {
     suspend fun exit(@Path("id") id: String): Response<Unit>
 
     @Multipart
-    @PUT("communities/{id}/post")
+    @POST("posts/community/{id}")
     suspend fun makePost(
         @Path("id") id: String,
         @Part("description") description: RequestBody
     ): Response<Unit>
 
     @Multipart
-    @PUT("communities/{id}/post/image")
+    @POST("posts/community/{id}/image")
     suspend fun makePostWithImage(
         @Path("id") id: String,
         @Part("description") description: RequestBody,

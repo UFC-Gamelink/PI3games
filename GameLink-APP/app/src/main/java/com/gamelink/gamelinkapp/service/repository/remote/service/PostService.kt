@@ -45,4 +45,7 @@ interface PostService {
     @PUT("posts/{id}/like")
     suspend fun like(@Path("id") id: String): Response<Boolean>
 
+    @GET("posts/recommended")
+    suspend fun getRecommended(): Response<List<PostModel>>
+
 }
