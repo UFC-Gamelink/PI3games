@@ -28,7 +28,7 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
     val postSave: LiveData<ValidationModel> = _postSave
 
     // Atualizar a localização
-    fun updateLocation(location: Location) {
+    private fun updateLocation(location: Location) {
         _location.value = location
     }
 

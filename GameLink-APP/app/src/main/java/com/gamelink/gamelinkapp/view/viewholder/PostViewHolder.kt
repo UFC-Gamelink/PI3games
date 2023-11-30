@@ -1,12 +1,12 @@
 package com.gamelink.gamelinkapp.view.viewholder
 
 import android.app.AlertDialog
+import android.location.Address
+import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,6 +17,7 @@ import com.gamelink.gamelinkapp.service.listener.PostListener
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.service.repository.SecurityPreferences
 import com.gamelink.gamelinkapp.view.CommentsBottomSheetDialogFragment
+import java.util.Locale
 
 class PostViewHolder(
     private val itemBinding: RowPostsListBinding,
@@ -63,6 +64,11 @@ class PostViewHolder(
             }
         }
 
+        if(post.latitude != 0.0 && post.longitude != 0.0) {
+            val location = getInfoLocation(post.latitude, post.longitude)
+            itemBinding.textLocation.text = location
+        }
+
         itemBinding.imageComment.setOnClickListener {
             val context = itemBinding.root.context
 
@@ -84,5 +90,26 @@ class PostViewHolder(
                 }.setNeutralButton("Cancelar", null).show()
         }
 
+    }
+
+    private fun getInfoLocation(latitude: Double, longitude: Double): String {
+        val geocoder = Geocoder(itemBinding.root.context, Locale.getDefault())
+        var addressList = mutableListOf<Address>()
+        if (Build.VERSION.SDK_INT < 33) {
+            addressList = geocoder.getFromLocation(latitude, longitude, 1)!!
+        } else {
+            geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
+                addressList = addresses
+            }
+        }
+
+
+        if (addressList.size != 0) {
+            val location: Address = addressList[0]
+
+            return location.getAddressLine(0)
+        }
+
+        return ""
     }
 }

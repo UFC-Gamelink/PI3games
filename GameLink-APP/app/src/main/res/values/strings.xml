@@ -141,4 +141,5 @@
     <string name="button_search_string">Buscar</string>
     <string name="local_not_found">O local não foi encontrado</string>
     <string name="button_text_save">Salvar</string>
+    <string name="location_info">Localização</string>
 </resources>
