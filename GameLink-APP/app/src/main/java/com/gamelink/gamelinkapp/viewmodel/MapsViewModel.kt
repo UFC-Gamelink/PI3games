@@ -39,15 +39,8 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
     // Buscar por um endereço
     fun searchAddress(addressString: String) {
         val geocoder = Geocoder(getApplication(), Locale.getDefault())
-        var addressList = mutableListOf<Address>()
-        if (Build.VERSION.SDK_INT < 33) {
-            addressList = geocoder.getFromLocationName(addressString, 1)!!
-        } else {
-            geocoder.getFromLocationName(addressString, 1) { addresses ->
-                addressList = addresses
-            }
-        }
 
+        var addressList: MutableList<Address> = geocoder.getFromLocationName(addressString, 1)!!
 
         if (addressList.size != 0) {
             val location = addressList[0]
@@ -58,6 +51,8 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
                 longitude = location.longitude
 
             })
+        } else {
+            updateLocation(Location(""))
         }
     }
 

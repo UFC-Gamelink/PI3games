@@ -45,7 +45,7 @@ class PostViewHolder(
         }
 
         var liked: Boolean
-        liked = if(post.liked) {
+        liked = if (post.liked) {
             itemBinding.imageLike.setImageResource(R.drawable.ic_liked)
             true
         } else {
@@ -64,7 +64,7 @@ class PostViewHolder(
             }
         }
 
-        if(post.latitude != 0.0 && post.longitude != 0.0) {
+        if (post.latitude != 0.0 && post.longitude != 0.0) {
             val location = getInfoLocation(post.latitude, post.longitude)
             itemBinding.textLocation.text = location
         }
@@ -94,15 +94,8 @@ class PostViewHolder(
 
     private fun getInfoLocation(latitude: Double, longitude: Double): String {
         val geocoder = Geocoder(itemBinding.root.context, Locale.getDefault())
-        var addressList = mutableListOf<Address>()
-        if (Build.VERSION.SDK_INT < 33) {
-            addressList = geocoder.getFromLocation(latitude, longitude, 1)!!
-        } else {
-            geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
-                addressList = addresses
-            }
-        }
 
+        var addressList: MutableList<Address> = geocoder.getFromLocation(latitude, longitude, 1)!!
 
         if (addressList.size != 0) {
             val location: Address = addressList[0]

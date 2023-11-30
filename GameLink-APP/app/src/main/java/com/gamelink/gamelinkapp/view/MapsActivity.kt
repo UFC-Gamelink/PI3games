@@ -139,15 +139,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListen
         }
 
         viewModel.save(post)
-//        val intent = Intent(this, RegisterPostActivity::class.java).apply {
-//            viewModel.searchAddress(binding.editLocal.text.toString())
-//            val local = viewModel.getLocation()
-//            setupObservers()
-//            local?.let { putExtra("EXTRA_LATITUDE", it.latitude) }
-//            local?.let { putExtra("EXTRA_LONGITUDE", it.longitude) }
-//
-//        }
-//        startActivity(intent)
     }
 
 
