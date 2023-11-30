@@ -71,7 +71,11 @@ class CommunityFormActivity : AppCompatActivity() {
         }
 
     companion object {
-        private const val PERMISSION_GALLERY = Manifest.permission.READ_MEDIA_IMAGES
+        private val PERMISSION_GALLERY = if (Build.VERSION.SDK_INT < 33) {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        } else {
+            Manifest.permission.READ_MEDIA_IMAGES
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
