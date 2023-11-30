@@ -4,6 +4,7 @@ import com.gamelink.gamelinkapp.service.model.PostModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -27,13 +28,8 @@ interface PostService {
         @Part image: MultipartBody.Part
     ): Response<Unit>
 
-    @Multipart
     @POST("posts/event")
-    suspend fun saveWithEvent(
-        @Part("description") description: RequestBody,
-        @Part("latitude") latitude : Double,
-        @Part("longitude") longitude : Double
-    ): Response<Unit>
+    suspend fun saveWithEvent(@Body post: PostModel): Response<Unit>
 
 
     @GET("posts")

@@ -117,16 +117,6 @@ class RegisterPostActivity : AppCompatActivity() {
         viewModel.loadCommunities()
 
         setContentView(binding.root)
-
-        spinnerType()
-
-        val latitude = intent.getDoubleExtra("EXTRA_LATITUDE", 0.0)
-        val longitude = intent.getDoubleExtra("EXTRA_LONGITUDE", 0.0)
-
-        viewModel.setCoordenadas(latitude,longitude)
-
-
-
     }
 
     private fun handlePost() {
@@ -135,8 +125,6 @@ class RegisterPostActivity : AppCompatActivity() {
         val post = PostModel().apply {
             this.description = binding.editPost.text.toString().trim()
             this.imageUrl = imagePath
-            this.latitude = latitude
-            this.longitude = longitude
         }
 
         val index = binding.spinnerVisibility.selectedItemPosition
@@ -178,28 +166,6 @@ class RegisterPostActivity : AppCompatActivity() {
         }
 
     }
-
-    private fun spinnerType(){
-
-        val spinner = binding.spinnerType
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, viewModel.loadTypePostModel() )
-        spinner.adapter = adapter
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                if (selectedItem == "Evento") {
-                    startActivity(Intent(this@RegisterPostActivity,MapsActivity::class.java))
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        }
-
-    }
-
-
-
 
     private fun checkGalleryPermission() {
         val galleryPermissionAccepted =

@@ -88,6 +88,7 @@
     <string name="level_05">Level 05</string>
     <string name="favorite_games_title">Jogos favoritos</string>
     <string name="new_post">Novo Post</string>
+    <string name="new_event_post">Novo Post de Evento</string>
     <string name="post">Postar</string>
     <string name="placeholder_post">Escreva algo novo</string>
     <string name="public_post">Público</string>
@@ -140,4 +141,5 @@
     <string name="button_search_string">Buscar</string>
     <string name="local_not_found">O local não foi encontrado</string>
     <string name="button_text_save">Salvar</string>
+    <string name="location_info">Localização</string>
 </resources>

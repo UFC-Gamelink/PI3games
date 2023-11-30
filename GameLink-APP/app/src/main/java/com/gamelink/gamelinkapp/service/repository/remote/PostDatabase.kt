@@ -46,15 +46,12 @@ class PostDatabase {
         }
     }
 
-    suspend fun save(description: RequestBody, image: MultipartBody.Part?, latitude: Double, longitude:Double ): Boolean {
+    suspend fun save(description: RequestBody, image: MultipartBody.Part?): Boolean {
         return withContext(Dispatchers.IO) {
             try {
 
                 val response = if (image == null)
                     remote.save(description)
-                else if ( latitude != 0.0 ){
-                    remote.saveWithEvent(description,latitude,longitude)
-                }
                 else
                     remote.saveWithImage(description, image)
 
@@ -68,6 +65,26 @@ class PostDatabase {
             } catch (error: Exception) {
                 error.printStackTrace()
                 Log.d("PostDatabase save", error.message.toString())
+                throw Exception(error.message.toString())
+            }
+        }
+    }
+
+    suspend fun saveEvent(post: PostModel): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = remote.saveWithEvent(post)
+
+                if (response.code() != 201) {
+                    throw Exception(response.errorBody()!!.string())
+                }
+
+                return@withContext true
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (error: Exception) {
+                error.printStackTrace()
+                Log.d("PostDatabase saveEvent", error.message.toString())
                 throw Exception(error.message.toString())
             }
         }

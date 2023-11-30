@@ -25,6 +25,7 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: ProfileViewModel
     private val bundle = Bundle()
+    private var optionsActive = false
 
 
     override fun onCreateView(
@@ -62,9 +63,20 @@ class ProfileFragment : Fragment() {
             }
         })
 
-        binding.floatingActionButton.setOnClickListener {
-            startActivity(Intent(context, RegisterPostActivity::class.java))
+        binding.fabSelectPostType.setOnClickListener {
+            handleSelectTypePostButton()
         }
+
+        binding.fabNewPost.setOnClickListener {
+            startActivity(Intent(context, RegisterPostActivity::class.java))
+            handleSelectTypePostButton()
+        }
+
+        binding.fabNewEvent.setOnClickListener {
+            startActivity(Intent(context, MapsActivity::class.java))
+            handleSelectTypePostButton()
+        }
+
 
         binding.imageProfileOptions.setOnClickListener {
             showPopupMenu(it)
@@ -122,6 +134,20 @@ class ProfileFragment : Fragment() {
         }
 
         popupMenu.show()
+    }
+
+    private fun handleSelectTypePostButton() {
+        optionsActive = if(!optionsActive) {
+            binding.fabNewPost.show()
+            binding.fabNewEvent.show()
+            binding.fabSelectPostType.setImageResource(R.drawable.ic_close)
+            true
+        } else {
+            binding.fabNewPost.hide()
+            binding.fabNewEvent.hide()
+            binding.fabSelectPostType.setImageResource(R.drawable.ic_add)
+            false
+        }
     }
 
     private fun showAlertDialog() {

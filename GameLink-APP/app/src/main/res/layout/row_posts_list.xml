@@ -44,22 +44,22 @@
         android:id="@+id/card_image"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        app:cardCornerRadius="56dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_post_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="20dp"
-        app:cardCornerRadius="56dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageview_profile_post"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:background="@drawable/circle"
+            android:contentDescription="@string/image_perfil"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@+id/view_post_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/image_perfil" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
 
 
@@ -102,28 +102,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="@string/default_mock"
             android:paddingVertical="8dp"
+            android:text="@string/default_mock"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageview_post" />
+
+        <TextView
+            android:textSize="11sp"
+            android:text=""
+            android:textColor="@color/blue"
+            android:id="@+id/text_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_post" />
 
         <ImageView
             android:id="@+id/image_like"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:src="@drawable/ic_like"
-            app:layout_constraintTop_toBottomOf="@id/text_post"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_location" />
 
         <ImageView
             android:id="@+id/image_comment"
             android:layout_width="26dp"
             android:layout_height="26dp"
+            android:layout_marginStart="26dp"
             android:src="@drawable/ic_comment"
-            app:layout_constraintTop_toBottomOf="@id/text_post"
             app:layout_constraintStart_toEndOf="@id/image_like"
-            android:layout_marginStart="26dp" />
+            app:layout_constraintTop_toBottomOf="@id/text_location" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
