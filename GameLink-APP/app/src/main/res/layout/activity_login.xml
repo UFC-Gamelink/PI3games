@@ -36,7 +36,7 @@
         android:layout_below="@id/text_press_play"
         android:layout_marginHorizontal="30dp"
         android:fontFamily="@font/baloo_bhai_2"
-        android:text="Encontre Duos, comunidades, jogos\n em promoção e muito mais"
+        android:text="Encontre Duos, comunidades, jogos\nem promoção e muito mais"
         android:textColor="#97A5D5"
         android:textSize="13sp" />
 
