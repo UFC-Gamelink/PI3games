@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,7 +123,7 @@ public class PostControllerTest {
     @Test
     @DisplayName("Post event should  execute saveEventPost in post Service and return a Created status when success")
     void postEventSuccess() {
-        final var postRequest = new EventPostRequest("text", 1.2, 1.2);
+        final var postRequest = new EventPostRequest("text", 1.2, 1.2, LocalDateTime.now());
 
         ResponseEntity<PostResponse> response = controller.post(postRequest);
 
