@@ -44,4 +44,8 @@ public class UserProfile extends BaseModel {
     private List<GameTime> gameTimes = List.of();
     @NotNull
     private Gender gender;
+    private double latitude;
+    private double longitude;
+    private boolean showBirthday;
+    private boolean showLocation;
 }

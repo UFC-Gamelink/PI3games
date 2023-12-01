@@ -5,6 +5,7 @@ import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,6 +45,8 @@ public class UserProfileServiceTest {
     private UserService userService;
     @MockBean
     private ImageCloudService imageCloudService;
+    @MockBean
+    private PostRepository postRepository;
 
     @BeforeEach
     private void setup() {
@@ -129,11 +133,15 @@ public class UserProfileServiceTest {
                 .thenReturn(validUser);
         when(userProfileRepository.findUserProfileByUser(validUser))
                 .thenReturn(Optional.of(userProfile));
+        when(postRepository.countAllByOwner(userProfile))
+                .thenReturn(0);
 
         service.findUserProfile();
+
         verify(userProfileRepository, times(1)).findUserProfileByUser(validUser);
         verify(userService, times(1))
                 .findUserAuthenticationContextOrThrowsBadCredentialException();
+        verify(postRepository, times(1)).countAllByOwner(userProfile);
     }
 
     @Test

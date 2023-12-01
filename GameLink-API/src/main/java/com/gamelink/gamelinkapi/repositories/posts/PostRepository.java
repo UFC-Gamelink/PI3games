@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<PostModel, UUID> {
     List<PostModel> findAllByOwnerOrderByCreatedAtDesc(UserProfile owner);
     List<PostModel> findAllByCommunityNull();
+    int countAllByOwner(UserProfile owner);
 }

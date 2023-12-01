@@ -19,7 +19,11 @@ public record PutUserProfileRequest(
         @NotBlank @Size(max = 160) String bio,
         @NotNull LocalDate birthdayDate,
         List<GameTime> gameTimes,
-        @NotNull Gender gender
+        @NotNull Gender gender,
+        double latitude,
+        double longitude,
+        boolean showBirthday,
+        boolean showLocation
 )  {
     public PutUserProfileRequest {
         if (gameTimes == null) gameTimes = Collections.emptyList();
