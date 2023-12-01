@@ -8,6 +8,7 @@ import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.ICrudService;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
@@ -27,6 +28,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     private final UserProfileRepository userProfileRepository;
     private final UserService userService;
     private final ImageCloudService imageCloudService;
+    private final PostRepository postRepository;
     private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
     public void save(PostUserProfileRequest postUserProfileRequest) {
@@ -53,7 +55,10 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
 
     public UserProfileResponse findUserProfile() {
         UserProfile userProfile = findUserProfileByContext();
-        return mapper.modelToResponseDto(userProfile);
+        return mapper.modelToResponseDto(
+                userProfile,
+                postRepository.countAllByOwner(userProfile)
+        );
     }
 
     public UserProfileResponse updateProfile(PutUserProfileRequest userProfile) {
@@ -69,7 +74,10 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
         Utils.copyNonNullProperties(mapper.putRequestToModel(userProfile), oldUserProfile);
 
         UserProfile userProfileUpdate = userProfileRepository.save(oldUserProfile);
-        return mapper.modelToResponseDto(userProfileUpdate);
+        return mapper.modelToResponseDto(
+                userProfileUpdate,
+                postRepository.countAllByOwner(userProfileUpdate)
+        );
     }
 
     @Transactional
@@ -90,15 +98,22 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
             myUserProfile.setBanner(bannerUpdated);
         }
 
-        return mapper.modelToResponseDto(userProfileRepository.save(myUserProfile));
+        UserProfile userUpdated = userProfileRepository.save(myUserProfile);
+
+        return mapper.modelToResponseDto(
+                userUpdated,
+                postRepository.countAllByOwner(userUpdated)
+        );
     }
 
     @Transactional
     public UserProfileResponse saveImages(MultipartFile icon, MultipartFile banner) throws SaveThreatementException {
         UserProfile myUserProfile = findUserProfileByContext();
         if (myUserProfile.getIcon() == null || myUserProfile.getBanner() == null) {
+            UserProfile userUpdated = saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner);
             return mapper.modelToResponseDto(
-                    saveIconAndBannerOrThrowsSaveImageException(myUserProfile, icon, banner)
+                    userUpdated,
+                    postRepository.countAllByOwner(userUpdated)
             );
         } else {
             throw new SaveThreatementException("Images are already saved");

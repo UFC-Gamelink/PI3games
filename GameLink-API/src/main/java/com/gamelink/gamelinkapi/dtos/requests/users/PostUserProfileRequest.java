@@ -17,7 +17,11 @@ public record PostUserProfileRequest(
         String bio,
         @NotNull LocalDate birthdayDate,
         List<GameTime> gameTimes,
-        @NotNull Gender gender
+        @NotNull Gender gender,
+        double latitude,
+        double longitude,
+        boolean showBirthday,
+        boolean showLocation
 ) {
     public PostUserProfileRequest {
         if (gameTimes == null) gameTimes = Collections.emptyList();
