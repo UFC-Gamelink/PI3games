@@ -82,9 +82,11 @@
     <string name="bio_title">Conte a sua lore, fale um pouco sobre você na sua bio.</string>
     <string name="bio_placeholder">Escreva um pouco sobre você. Ex: gosto de gatos, presentes surpresas</string>
     <string name="level_04">Level 04</string>
-    <string name="birthday_date">Data Nascimento</string>
-    <string name="date_select">Clique para selecionar a data de anivesário</string>
-    <string name="show_age">Exibir idade no Perfil</string>
+    <string name="birthday_date_and_location">Data de Nascimento e Localização</string>
+    <string name="date_select">Selecionar a data de aniversário</string>
+    <string name="location_select">Selecionar a Localização</string>
+    <string name="show_age">Exibir data no perfil</string>
+    <string name="show_location">Exibir localização no perfil</string>
     <string name="level_05">Level 05</string>
     <string name="favorite_games_title">Jogos favoritos</string>
     <string name="new_post">Novo Post</string>
