@@ -7,6 +7,7 @@ import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
+import com.gamelink.gamelinkapi.models.BaseModel;
 import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -96,6 +98,7 @@ public class CommunityService {
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
         return communityModel.getPosts().stream()
+                .sorted(Comparator.comparing(BaseModel::getCreatedAt))
                 .map(postService::prepareResponse)
                 .toList();
     }

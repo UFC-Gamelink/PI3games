@@ -11,6 +11,7 @@ import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeId;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeModel;
 import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.repositories.posts.LikeRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
@@ -123,10 +124,35 @@ public class PostService {
     }
 
     public List<PostResponse> findRecommended() {
-        return postRepository.findAllByCommunityNull()
+        return postRepository.findAllByCommunityNullOrderByCreatedAtDesc()
                 .stream()
                 .map(this::prepareResponse)
                 .toList();
+    }
+
+
+    public PostResponse prepareResponse(PostModel post) {
+        PostResponse postResponse;
+
+        if (post instanceof EventPostModel) {
+            postResponse = postMapper.modelToEventResponse((EventPostModel) post);
+        } else {
+            postResponse = postMapper.modelToResponse(post);
+        }
+
+        postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
+        postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));
+        return postResponse;
+    }
+
+    public List<PostResponse> findCommunitiesPosts() {
+        UserProfile owner = userProfileService.findUserProfileByContext();
+
+        return postRepository.findAllByCommunityNotNullAndOwnerOrderByCreatedAtDesc(owner)
+                .stream()
+                .map(this::prepareResponse)
+                .toList();
+
     }
 
     private LikeId buildLikeId(UUID postId) {
@@ -143,19 +169,5 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("this post doesn't exists")
         );
-    }
-
-    public PostResponse prepareResponse(PostModel post) {
-        PostResponse postResponse;
-
-        if (post instanceof EventPostModel) {
-            postResponse = postMapper.modelToEventResponse((EventPostModel) post);
-        } else {
-            postResponse = postMapper.modelToResponse(post);
-        }
-
-        postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
-        postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));
-        return postResponse;
     }
 }
