@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo_bhai_2"
-        android:text="@string/birthday_date"
+        android:text="@string/birthday_date_and_location"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/text_title"
@@ -104,15 +104,17 @@
         app:layout_constraintEnd_toEndOf="@id/view_header_profile"
         app:layout_constraintStart_toStartOf="@id/view_header_profile" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/rounded_button_info"
         android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
         android:hint="@string/date_select"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +129,31 @@
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_date" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/rounded_button_info"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/white"
+        android:hint="@string/location_select"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switch_show_date" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_show_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:text="@string/show_location"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_location" />
 
     <Button
         android:id="@+id/button_next"
