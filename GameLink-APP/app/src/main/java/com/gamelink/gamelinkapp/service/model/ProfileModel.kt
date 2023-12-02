@@ -21,5 +21,7 @@ class ProfileModel {
     var gameTimes: List<String> = listOf()
     var icon: ImageModel = ImageModel("", "")
     var banner: ImageModel = ImageModel("", "")
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
 
 }

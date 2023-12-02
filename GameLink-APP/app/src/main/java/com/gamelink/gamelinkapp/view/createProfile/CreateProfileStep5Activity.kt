@@ -83,6 +83,8 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
         val bio: String = bundle.getString("bio_profile") ?: ""
         val birthday: String = bundle.getString("birthday") ?: ""
         val showBirthday: Boolean = bundle.getBoolean("show_birthday")
+        val latitude: Double = bundle.getDouble("latitude") ?: 0.0
+        val longitude: Double = bundle.getDouble("longitude") ?: 0.0
 
         profile = ProfileModel().apply {
             this.name = name
@@ -91,6 +93,8 @@ class CreateProfileStep5Activity : AppCompatActivity(), View.OnClickListener, Se
             this.bio = bio
             this.birthday = birthday
             this.showBirthday = showBirthday
+            this.latitude = latitude
+            this.longitude = longitude
         }
 
         viewModel.save(profile)
