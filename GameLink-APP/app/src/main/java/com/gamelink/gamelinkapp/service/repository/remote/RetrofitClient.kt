@@ -1,12 +1,11 @@
 package com.gamelink.gamelinkapp.service.repository.remote
 
-import com.gamelink.gamelinkapp.service.constants.GameLinkConstants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RetrofitClient private constructor() {
+class  RetrofitClient private constructor() {
     companion object {
         private lateinit var INSTANCE: Retrofit
 
@@ -28,7 +27,7 @@ class RetrofitClient private constructor() {
             if(!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("https://gamelink-app-production.onrender.com")
+                        .baseUrl("https://gamelink-app-mobile.onrender.com")
                         .client(httpClient.build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()

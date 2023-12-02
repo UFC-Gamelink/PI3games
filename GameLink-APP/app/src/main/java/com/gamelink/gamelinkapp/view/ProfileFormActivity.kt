@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -16,6 +15,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -177,6 +177,7 @@ class ProfileFormActivity : AppCompatActivity() {
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(it.birthday)
             binding.buttonDate.text =
                 SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date!!)
+            it.showBirthday = binding.switchShowDate.isChecked
 
             Glide.with(this).load(it.icon.url).into(binding.imageProfilePicture)
             Glide.with(this).load(it.banner.url).into(binding.imageBannerPicture)
