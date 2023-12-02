@@ -71,6 +71,15 @@ public class PostController {
                 .body(postService.findRecommended());
     }
 
+    @GetMapping("/communities")
+    public ResponseEntity<List<PostResponse>> getAllCommunitiesPosts() {
+        List<PostResponse> communitiesPosts = postService.findCommunitiesPosts();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(communitiesPosts);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         postService.delete(id);
