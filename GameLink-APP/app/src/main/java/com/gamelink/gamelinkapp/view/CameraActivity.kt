@@ -27,6 +27,8 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
+    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private lateinit var cameraProvider: ProcessCameraProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,15 @@ class CameraActivity : AppCompatActivity() {
         binding.buttonTakePhoto.setOnClickListener {
             takePhoto()
         }
+
+        binding.buttonFlip.setOnClickListener {
+            lensFacing = if (lensFacing == CameraSelector.LENS_FACING_FRONT) {
+                CameraSelector.LENS_FACING_BACK
+            } else {
+                CameraSelector.LENS_FACING_FRONT
+            }
+            bindCameraUserCases()
+        }
     }
 
     private fun getOutputDirectory(): File {
@@ -65,68 +76,75 @@ class CameraActivity : AppCompatActivity() {
 
         val photoFile = File(
             applicationContext.cacheDir,
-            SimpleDateFormat(GameLinkConstants.CAMERA.FILE_NAME_FORMAT,
-                Locale.getDefault()).format(System.currentTimeMillis()) + ".jpg")
+            SimpleDateFormat(
+                GameLinkConstants.CAMERA.FILE_NAME_FORMAT,
+                Locale.getDefault()
+            ).format(System.currentTimeMillis()) + ".jpg"
+        )
 
-            val outputOption = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val outputOption = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
 
-            imageCapture.takePicture(
-                outputOption, ContextCompat.getMainExecutor(this),
-                object : ImageCapture.OnImageSavedCallback {
-                    override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                        val savedUri = Uri.fromFile(photoFile)
-                        //val msg = "Photo Saved"
-                        val intent = Intent()
-                        val bundle = Bundle()
+        imageCapture.takePicture(
+            outputOption, ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val savedUri = Uri.fromFile(photoFile)
+                    //val msg = "Photo Saved"
+                    val intent = Intent()
+                    val bundle = Bundle()
 
-                        bundle.putString("photo_uri", savedUri.toString())
-                        intent.putExtras(bundle)
+                    bundle.putString("photo_uri", savedUri.toString())
+                    intent.putExtras(bundle)
 
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
-                    }
-
-                    override fun onError(exception: ImageCaptureException) {
-                        Log.e(TAG, "onError: ${exception.message}", exception)
-                    }
-
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
-            )
+
+                override fun onError(exception: ImageCaptureException) {
+                    Log.e(TAG, "onError: ${exception.message}", exception)
+                }
+
+            }
+        )
 
     }
-
 
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder()
-                .build()
-                .also { mPreview ->
-                    mPreview.setSurfaceProvider(
-                        binding.previewCamera.surfaceProvider
-                    )
-                }
-
-            imageCapture = ImageCapture.Builder()
-                .build()
-
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-            } catch (e: Exception) {
-                Log.d(TAG, "startCamera FAil", e)
-            }
+            cameraProvider = cameraProviderFuture.get()
+            bindCameraUserCases()
         }, ContextCompat.getMainExecutor(this))
     }
 
+    private fun bindCameraUserCases() {
+        val preview = Preview.Builder()
+            .build()
+            .also { mPreview ->
+                mPreview.setSurfaceProvider(
+                    binding.previewCamera.surfaceProvider
+                )
+            }
+
+        imageCapture = ImageCapture.Builder()
+            .build()
+
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(lensFacing)
+            .build()
+
+        try {
+            cameraProvider.unbindAll()
+            cameraProvider.bindToLifecycle(
+                this, cameraSelector, preview, imageCapture
+            )
+        } catch (e: Exception) {
+            Log.d(TAG, "startCamera FAil", e)
+        }
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
