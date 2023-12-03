@@ -14,12 +14,14 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterPostBinding
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
@@ -125,9 +127,7 @@ class RegisterPostActivity : AppCompatActivity() {
         }
 
         binding.imageAddImage.setOnClickListener {
-//            checkGalleryPermission()
-            val intent =  Intent(this, CameraActivity::class.java)
-            activityResultLauncher.launch(intent)
+            showPopupMenu(it)
         }
 
         observe()
@@ -162,8 +162,6 @@ class RegisterPostActivity : AppCompatActivity() {
             val communityId = listCommunities[index - 1].id
             viewModel.saveForCommunity(post, communityId)
         }
-
-
     }
 
     private fun observe() {
@@ -192,6 +190,29 @@ class RegisterPostActivity : AppCompatActivity() {
             binding.spinnerVisibility.adapter = adapter
         }
 
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(applicationContext, view).apply {
+            menuInflater.inflate(R.menu.options_images, this.menu)
+        }
+
+        popupMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_camera_select -> {
+                    val intent =  Intent(this, CameraActivity::class.java)
+                    activityResultLauncher.launch(intent)
+                    true
+                }
+                R.id.item_gallery_select -> {
+                    checkGalleryPermission()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
     }
 
     private fun checkGalleryPermission() {
