@@ -156,6 +156,7 @@ class ProfileFormActivity : AppCompatActivity() {
 
             this.birthday = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date!!)
             this.showBirthday = binding.switchShowDate.isChecked
+            this.showLocation = binding.switchShowLocal.isChecked
 
             iconPreview?.let { saveImage("icon", it) }
             bannerPreview?.let { saveImage("banner", it) }

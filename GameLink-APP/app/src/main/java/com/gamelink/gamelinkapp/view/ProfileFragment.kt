@@ -3,6 +3,8 @@ package com.gamelink.gamelinkapp.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.icu.util.Calendar
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +29,6 @@ class ProfileFragment : Fragment() {
     private lateinit var viewModel: ProfileViewModel
     private val bundle = Bundle()
     private var optionsActive = false
-
 
 
     override fun onCreateView(
@@ -120,6 +121,15 @@ class ProfileFragment : Fragment() {
                 binding.textAge.visibility = View.INVISIBLE
             }
 
+            if ( it.showLocation ) {
+                binding.textLocal.visibility = View.VISIBLE
+                binding.textLocalLabel.visibility = View.VISIBLE
+                binding.textLocalLabel.text = getInfoLocation(it.latitude,it.longitude)
+            } else {
+                binding.textLocal.visibility = View.INVISIBLE
+                binding.textLocalLabel.visibility = View.INVISIBLE
+            }
+
 
 
             Glide.with(this).load(it.icon.url).into(binding.imageviewProfilePicture)
@@ -187,4 +197,25 @@ class ProfileFragment : Fragment() {
         val idade  =  currentYear - yearClient
         return idade.toString()
     }
+
+
+    private fun getInfoLocation(latitude: Double, longitude: Double): String {
+        try {
+            val geocoder = Geocoder(requireContext())
+            val addressList: MutableList<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
+
+            if (addressList != null) {
+                val location: Address = addressList[0]
+                return "${location.subAdminArea} - ${location.adminArea}"
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return ""
+    }
+
+
+
+
 }
