@@ -13,12 +13,12 @@ import java.util.UUID
 
 abstract class ImageUtils {
     companion object {
-        fun saveImage(context: Context, filename: String, bitmap: Bitmap): String? {
+        fun saveImage(context: Context, filename: String, bitmap: Bitmap, quality: Int = 100): String? {
             val file = File(context.cacheDir, "${UUID.randomUUID()}-$filename.jpg")
 
             return try {
                 val stream = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
                 stream.flush()
                 stream.close()
 

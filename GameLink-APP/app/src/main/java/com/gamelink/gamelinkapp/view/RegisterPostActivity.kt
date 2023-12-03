@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapp.view
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,27 +13,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityRegisterPostBinding
 import com.gamelink.gamelinkapp.service.model.CommunityModel
 import com.gamelink.gamelinkapp.service.model.PostModel
 import com.gamelink.gamelinkapp.utils.ImageUtils
-import com.gamelink.gamelinkapp.view.adapter.ItemAdapter
-import com.gamelink.gamelinkapp.view.createProfile.CreateProfileStep2Activity
 import com.gamelink.gamelinkapp.viewmodel.RegisterPostViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.UUID
 
 class RegisterPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterPostBinding
@@ -55,6 +47,35 @@ class RegisterPostActivity : AppCompatActivity() {
                 )
             } else {
                 showDialogPermission()
+            }
+        }
+
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                data?.let {
+                    val bundle = it.extras!!
+
+                    val uriString = bundle.getString("photo_uri")
+
+                    if(uriString != null) {
+                        val uri = Uri.parse(uriString)
+
+                        val bitmap: Bitmap = if (Build.VERSION.SDK_INT < 28) {
+                            MediaStore.Images.Media.getBitmap(baseContext.contentResolver, uri)
+                        } else {
+                            val source = ImageDecoder.createSource(this.contentResolver, uri)
+                            ImageDecoder.decodeBitmap(source)
+                        }
+
+                        imagePreview = bitmap
+
+                        binding.imagePreview.setImageBitmap(bitmap)
+
+                        binding.imageRemoveImage.visibility = View.VISIBLE
+                    }
+                }
             }
         }
 
@@ -104,7 +125,9 @@ class RegisterPostActivity : AppCompatActivity() {
         }
 
         binding.imageAddImage.setOnClickListener {
-            checkGalleryPermission()
+//            checkGalleryPermission()
+            val intent =  Intent(this, CameraActivity::class.java)
+            activityResultLauncher.launch(intent)
         }
 
         observe()
@@ -214,8 +237,8 @@ class RegisterPostActivity : AppCompatActivity() {
     private fun checkPermission(permission: String) =
         ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
-    private fun saveImage(bitmap: Bitmap) {
-        val absolutePath = ImageUtils.saveImage(applicationContext, "post-image", bitmap)
+    private fun saveImage(bitmap: Bitmap, quality: Int = 60) {
+        val absolutePath = ImageUtils.saveImage(applicationContext, "post-image", bitmap, quality)
         imagePath = absolutePath
     }
 }
