@@ -7,6 +7,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.OrientationEventListener
+import android.view.Surface
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -25,10 +27,12 @@ import java.util.Locale
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
-    private var imageCapture: ImageCapture? = null
+    private lateinit var imageCapture: ImageCapture
     private lateinit var outputDirectory: File
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var cameraSelector: CameraSelector
+    private var orientationEventListener: OrientationEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,16 @@ class CameraActivity : AppCompatActivity() {
             }
             bindCameraUserCases()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        orientationEventListener?.enable()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        orientationEventListener?.disable()
     }
 
     private fun getOutputDirectory(): File {
@@ -121,7 +135,10 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun bindCameraUserCases() {
+        val rotation = binding.previewCamera.display.rotation
+
         val preview = Preview.Builder()
+            .setTargetRotation(rotation)
             .build()
             .also { mPreview ->
                 mPreview.setSurfaceProvider(
@@ -130,11 +147,25 @@ class CameraActivity : AppCompatActivity() {
             }
 
         imageCapture = ImageCapture.Builder()
+            .setTargetRotation(rotation)
             .build()
 
-        val cameraSelector = CameraSelector.Builder()
+        cameraSelector = CameraSelector.Builder()
             .requireLensFacing(lensFacing)
             .build()
+
+        orientationEventListener = object : OrientationEventListener(this) {
+            override fun onOrientationChanged(orientation: Int) {
+                imageCapture.targetRotation = when(orientation) {
+                    in 45..134 -> Surface.ROTATION_270
+                    in 135..224 -> Surface.ROTATION_180
+                    in 225..314 -> Surface.ROTATION_90
+                    else -> Surface.ROTATION_0
+                }
+            }
+        }
+
+        orientationEventListener?.enable()
 
         try {
             cameraProvider.unbindAll()
@@ -145,6 +176,7 @@ class CameraActivity : AppCompatActivity() {
             Log.d(TAG, "startCamera FAil", e)
         }
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
