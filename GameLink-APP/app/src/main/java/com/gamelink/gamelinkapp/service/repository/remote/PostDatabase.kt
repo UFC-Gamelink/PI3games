@@ -55,6 +55,7 @@ class PostDatabase {
                 else
                     remote.saveWithImage(description, image)
 
+                val s = ""
                 if (response.code() != 201) {
                     throw Exception(response.errorBody()!!.string())
                 }
