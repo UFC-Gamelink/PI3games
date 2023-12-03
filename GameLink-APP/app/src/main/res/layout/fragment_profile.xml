@@ -229,15 +229,39 @@
 
     <TextView
         android:id="@+id/text_bio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="16dp"
+        android:layout_height="13dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/label_bio"
         android:textColor="@color/blue"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/text_username"
+        app:layout_constraintTop_toBottomOf="@+id/text_local_label" />
+
+    <TextView
+        android:id="@+id/text_local"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/label_local"
+        android:textColor="@color/blue"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/text_username"
         app:layout_constraintTop_toBottomOf="@+id/text_count_posts" />
+
+    <TextView
+    android:id="@+id/text_local_label"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:fontFamily="@font/poppins_semibold"
+    android:text="@string/local_label"
+    android:textColor="@color/white"
+    android:textSize="14sp"
+    app:layout_constraintStart_toStartOf="@id/text_username"
+    app:layout_constraintTop_toBottomOf="@id/text_local" />
 
     <TextView
         android:id="@+id/text_bio_value"

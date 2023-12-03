@@ -5,13 +5,13 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivityCreateProfileStep4Binding
 import com.gamelink.gamelinkapp.utils.ImageUtils
@@ -124,6 +124,7 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
 
     }
     private fun getInfoLocation(latitude: Double, longitude: Double): String {
+
         val geocoder = Geocoder(this, Locale.getDefault())
 
         var addressList: MutableList<Address> = geocoder.getFromLocation(latitude, longitude, 1)!!
@@ -136,5 +137,7 @@ class CreateProfileStep4Activity : AppCompatActivity(), View.OnClickListener,
 
         return ""
     }
+
+
 
 }
