@@ -208,11 +208,17 @@ class ProfileFormActivity : AppCompatActivity() {
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(it.birthday)
             binding.buttonDate.text =
                 SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date!!)
-            it.showBirthday = binding.switchShowDate.isChecked
+            binding.switchShowDate.isChecked = it.showBirthday
+            binding.switchShowLocal.isChecked = it.showLocation
 
             Glide.with(this).load(it.icon.url).into(binding.imageProfilePicture)
             Glide.with(this).load(it.banner.url).into(binding.imageBannerPicture)
             binding.imageBannerPicture.scaleType = ImageView.ScaleType.CENTER_CROP
+
+            bundle.putDouble("latitude", it.latitude)
+            bundle.putDouble("longitude", it.longitude)
+
+            binding.buttonLocation.text = getInfoLocation(it.latitude, it.longitude)
         }
 
         viewModel.update.observe(this) {
