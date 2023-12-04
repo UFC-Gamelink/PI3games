@@ -9,6 +9,6 @@ public record EventPostRequest(
         @NotBlank String description,
         @NotNull double latitude,
         @NotNull double longitude,
-        @NotNull LocalDateTime eventDate
+        LocalDateTime eventDate
 ) {
 }
