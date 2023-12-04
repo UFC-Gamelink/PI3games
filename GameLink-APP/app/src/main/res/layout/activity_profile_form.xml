@@ -144,7 +144,20 @@
         android:text="@string/show_local"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_show_date" />
+        app:layout_constraintTop_toBottomOf="@+id/button_location" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_location"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button_info"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/white"
+        android:hint="@string/location_select"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/switch_show_date"
+        tools:ignore="MissingConstraints" />
 
 
     <Button
@@ -155,5 +168,7 @@
         android:text="Salvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

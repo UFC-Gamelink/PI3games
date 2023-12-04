@@ -27,7 +27,7 @@ class  RetrofitClient private constructor() {
             if(!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("https://gamelink-app-mobile.onrender.com")
+                        .baseUrl("https://gamelink-app-mobile.onrender.com/")
                         .client(httpClient.build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
