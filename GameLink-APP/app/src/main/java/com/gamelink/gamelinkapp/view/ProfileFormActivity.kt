@@ -1,11 +1,14 @@
 package com.gamelink.gamelinkapp.view
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +16,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +43,22 @@ class ProfileFormActivity : AppCompatActivity() {
     private var bannerPreview: Bitmap? = null
     private var iconPath: String? = null
     private var bannerPath: String? = null
+    private val activityResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if(result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                data?.let {
+                    val bundleMap = it.extras!!
+                    val latitude = bundleMap.getDouble("latitude")
+                    val longitude = bundleMap.getDouble("longitude")
+
+                    bundle.putDouble("latitude", latitude)
+                    bundle.putDouble("longitude", longitude)
+
+                    binding.buttonLocation.text = getInfoLocation(latitude, longitude)
+                }
+            }
+        }
 
 
     private val requestGallery =
@@ -111,6 +131,12 @@ class ProfileFormActivity : AppCompatActivity() {
             handleSave()
         }
 
+        binding.buttonLocation.setOnClickListener {
+            val intent = Intent(this, SelectLocationActivity::class.java)
+            activityResultLauncher.launch(intent)
+
+        }
+
         binding.imageProfilePicture.setOnClickListener {
             imageView = binding.imageProfilePicture
             checkGalleryPermission()
@@ -157,6 +183,10 @@ class ProfileFormActivity : AppCompatActivity() {
             this.birthday = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date!!)
             this.showBirthday = binding.switchShowDate.isChecked
             this.showLocation = binding.switchShowLocal.isChecked
+            this.latitude =  bundle.getDouble("latitude")
+            this.longitude =  bundle.getDouble("longitude")
+
+
 
             iconPreview?.let { saveImage("icon", it) }
             bannerPreview?.let { saveImage("banner", it) }
@@ -247,5 +277,20 @@ class ProfileFormActivity : AppCompatActivity() {
             bannerPath = absolutePath
         }
 
+    }
+
+    private fun getInfoLocation(latitude: Double, longitude: Double): String {
+
+        val geocoder = Geocoder(this, Locale.getDefault())
+
+        var addressList: MutableList<Address> = geocoder.getFromLocation(latitude, longitude, 1)!!
+
+        if (addressList.size != 0) {
+            val location: Address = addressList[0]
+
+            return "${location.subAdminArea} - ${location.adminArea}"
+        }
+
+        return ""
     }
 }

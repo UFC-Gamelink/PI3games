@@ -3,10 +3,8 @@ package com.gamelink.gamelinkapp.view
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.gamelink.gamelinkapp.R
 import com.gamelink.gamelinkapp.databinding.ActivitySelectLocationBinding
@@ -18,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class SelectLocationActivity : AppCompatActivity() {
+class  SelectLocationActivity : AppCompatActivity() {
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var binding: ActivitySelectLocationBinding
