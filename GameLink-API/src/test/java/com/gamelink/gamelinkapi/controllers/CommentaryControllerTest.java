@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class CommentaryControllerTest {
+class CommentaryControllerTest {
     @Autowired
     private CommentaryController controller;
     @MockBean

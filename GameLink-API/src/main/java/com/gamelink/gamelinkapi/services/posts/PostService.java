@@ -37,7 +37,7 @@ public class PostService {
     private final UserProfileService userProfileService;
     private final LikeRepository likeRepository;
     private final CommunityRepository communityRepository;
-    private final PostMapper postMapper = PostMapper.INSTANCE;
+    private static final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
     public UUID save(MultipartFile image, String description) {
@@ -134,8 +134,8 @@ public class PostService {
     public PostResponse prepareResponse(PostModel post) {
         PostResponse postResponse;
 
-        if (post instanceof EventPostModel) {
-            postResponse = postMapper.modelToEventResponse((EventPostModel) post);
+        if (post instanceof EventPostModel eventPostModel) {
+            postResponse = postMapper.modelToEventResponse(eventPostModel);
         } else {
             postResponse = postMapper.modelToResponse(post);
         }

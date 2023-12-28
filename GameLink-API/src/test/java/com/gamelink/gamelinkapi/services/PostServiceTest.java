@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class PostServiceTest {
+class PostServiceTest {
     @Autowired
     private PostService service;
     @MockBean

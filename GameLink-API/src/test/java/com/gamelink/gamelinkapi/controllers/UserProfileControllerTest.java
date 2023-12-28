@@ -2,7 +2,6 @@ package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
-import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
@@ -20,14 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class UserProfileControllerTest {
+class UserProfileControllerTest {
     @Autowired
     private UserProfileController controller;
     @MockBean
     private UserProfileService service;
     private final UserProfileRequestCreator requestCreator = UserProfileRequestCreator.getInstance();
     private final UserProfileResponseCreator responseCreator = UserProfileResponseCreator.getInstance();
-    private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
 
     @Test
     @DisplayName("post should execute save from UserProfileService and return a created status when success")

@@ -9,7 +9,6 @@ import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.commentaries.CommentaryRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.services.users.UserProfileService;
-import com.gamelink.gamelinkapi.services.users.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,8 +23,7 @@ public class CommentaryService {
     private final CommentaryRepository commentaryRepository;
     private final PostRepository postRepository;
     private final UserProfileService userProfileService;
-    private final UserService userService;
-    private final CommentaryMapper commentaryMapper = CommentaryMapper.INSTANCE;
+    private static final CommentaryMapper commentaryMapper = CommentaryMapper.INSTANCE;
 
     public void save(CommentaryRequest commentaryRequest, UUID postId) {
         UserProfile userProfileFounded = userProfileService.findUserProfileByContext();

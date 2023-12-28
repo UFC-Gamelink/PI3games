@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class AuthenticationServiceTest {
+class AuthenticationServiceTest {
     @Autowired
     private AuthenticationService authenticationService;
     @MockBean
@@ -39,7 +39,7 @@ public class AuthenticationServiceTest {
 
         assertNotNull(register);
         assertNotNull(register.token());
-        assertTrue(register.token().length() > 0);
+        assertFalse(register.token().isEmpty());
 
         verify(userRepository, times(1)).save(userCaptor.capture());
         assertEquals(userRequest.username(), userCaptor.getValue().getUsername());
@@ -59,7 +59,7 @@ public class AuthenticationServiceTest {
 
         assertNotNull(register);
         assertNotNull(register.token());
-        assertTrue(register.token().length() > 0);
+        assertFalse(register.token().isEmpty());
         verify(userRepository, times(1)).findUserByUsername("username");
         verify(authenticationManager, times(1)).authenticate(ArgumentMatchers.any());
     }

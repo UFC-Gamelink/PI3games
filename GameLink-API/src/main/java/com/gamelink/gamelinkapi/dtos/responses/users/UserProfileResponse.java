@@ -4,8 +4,6 @@ import com.gamelink.gamelinkapi.dtos.responses.images.ImageResponseDto;
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.util.List;

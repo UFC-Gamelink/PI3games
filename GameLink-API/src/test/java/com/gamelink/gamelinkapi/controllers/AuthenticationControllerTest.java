@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
     @Autowired
     private AuthenticationController authenticationController;
     @MockBean

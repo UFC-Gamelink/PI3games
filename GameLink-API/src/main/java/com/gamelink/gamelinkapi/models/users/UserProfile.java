@@ -4,8 +4,6 @@ import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 import com.gamelink.gamelinkapi.models.BaseModel;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;

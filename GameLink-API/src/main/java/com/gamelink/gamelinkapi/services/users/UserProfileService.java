@@ -29,7 +29,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
     private final UserService userService;
     private final ImageCloudService imageCloudService;
     private final PostRepository postRepository;
-    private final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
+    private static final UserProfileMapper mapper = UserProfileMapper.INSTANCE;
     @Override
     public void save(PostUserProfileRequest postUserProfileRequest) {
         UserProfile userProfileToBeSaved = mapper.postRequestToModel(postUserProfileRequest);

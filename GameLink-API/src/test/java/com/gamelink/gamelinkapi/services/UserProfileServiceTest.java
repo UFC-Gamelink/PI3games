@@ -1,7 +1,6 @@
 package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
-import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
 import com.gamelink.gamelinkapi.models.users.User;
 import com.gamelink.gamelinkapi.models.users.UserProfile;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class UserProfileServiceTest {
+class UserProfileServiceTest {
     @Autowired
     private UserProfileService service;
     private final UserProfileRequestCreator userProfileRequestCreator = UserProfileRequestCreator.getInstance();
@@ -49,7 +47,7 @@ public class UserProfileServiceTest {
     private PostRepository postRepository;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         when(userProfileRepository.save(any(UserProfile.class)))
                 .thenAnswer(invocation -> {
                     UserProfile argument = (UserProfile) invocation.getArguments()[0];

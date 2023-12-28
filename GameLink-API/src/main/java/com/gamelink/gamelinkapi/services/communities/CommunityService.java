@@ -33,7 +33,7 @@ public class CommunityService {
     private final UserService userService;
     private final ImageCloudService imageCloudService;
     private final PostService postService;
-    private final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
+    private static final CommunityMapper communityMapper = CommunityMapper.INSTANCE;
 
     public PostCommunityResponse createCommunity(CommunityRequest communityRequest) {
         User user = userService.findUserAuthenticationContextOrThrowsBadCredentialException();
