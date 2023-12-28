@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -61,7 +60,7 @@ public class RestExceptionHandler {
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream()
                 .map(value -> value.getField() + " " + value.getDefaultMessage())
-                .collect(Collectors.toList());
+                .toList();
 
         var exceptionDetails = RequestExceptionDetails.builder()
                 .message("Invalid Arguments Exception")
@@ -118,7 +117,7 @@ public class RestExceptionHandler {
     }
 
     private String getDetailsDataIntegrityViolationExceptionMessage(DataIntegrityViolationException exception) {
-        String message = exception.getRootCause().getLocalizedMessage();
+        String message = exception.getMessage();
         return message.substring(message.indexOf('\n') + 3);
     }
 }
