@@ -48,7 +48,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -63,7 +63,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -78,7 +78,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -93,7 +93,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -115,7 +115,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -137,7 +137,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -152,7 +152,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/register", validRegisterRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -167,7 +167,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
@@ -182,7 +182,7 @@ class AuthenticationControllerITest {
         ResponseEntity<RequestExceptionDetails> response = testRestTemplate.postForEntity("/auth/authenticate", validAuthRequest, RequestExceptionDetails.class);
 
         assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().getErrors().size());
         assertEquals("Invalid Arguments Exception", response.getBody().getMessage());
