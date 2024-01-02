@@ -8,8 +8,8 @@ import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class Utils {
-    private Utils(){}
+public final class PropertiesCopierUtils {
+    private PropertiesCopierUtils(){}
     public static void copyNonNullProperties(Object source, Object target) {
         BeanUtils.copyProperties(source, target, getNullPropertyNames(source));
     }

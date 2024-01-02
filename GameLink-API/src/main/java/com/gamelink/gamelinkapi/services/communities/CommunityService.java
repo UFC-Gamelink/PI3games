@@ -14,7 +14,7 @@ import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.services.posts.PostService;
 import com.gamelink.gamelinkapi.services.users.UserService;
-import com.gamelink.gamelinkapi.utils.Utils;
+import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -58,7 +58,7 @@ public class CommunityService {
     @Transactional
     public CommunityResponse updateCommunity(UUID id, CommunityRequest communityRequest) {
         CommunityModel communityToBeUpdated = findCommunityById(id);
-        Utils.copyNonNullProperties(communityMapper.requestToModel(communityRequest), communityToBeUpdated);
+        PropertiesCopierUtils.copyNonNullProperties(communityMapper.requestToModel(communityRequest), communityToBeUpdated);
 
         return communityMapper.modelToResponse(
                 communityRepository.save(communityToBeUpdated)

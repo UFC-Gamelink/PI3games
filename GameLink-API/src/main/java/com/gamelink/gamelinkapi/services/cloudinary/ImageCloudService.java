@@ -4,7 +4,7 @@ import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.repositories.images.CloudinaryRepository;
 import com.gamelink.gamelinkapi.repositories.images.ImageRepository;
-import com.gamelink.gamelinkapi.utils.Utils;
+import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +42,7 @@ public class ImageCloudService {
 
             cloudinaryRepository.deleteImage(imageModel.getPublicId());
             ImageModel imageToBeUpdated = imageRepository.findById(imageModel.getId()).orElseThrow();
-            Utils.copyNonNullProperties(imageUpdated, imageToBeUpdated);
+            PropertiesCopierUtils.copyNonNullProperties(imageUpdated, imageToBeUpdated);
             return imageRepository.save(imageToBeUpdated);
         } catch (Exception e) {
             throw new SaveThreatementException("Error during updating the images");

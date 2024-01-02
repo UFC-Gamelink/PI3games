@@ -12,7 +12,7 @@ import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
 import com.gamelink.gamelinkapi.services.ICrudService;
 import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
-import com.gamelink.gamelinkapi.utils.Utils;
+import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -71,7 +71,7 @@ public class UserProfileService implements ICrudService<UserProfile, PostUserPro
             throw new BadCredentialsException("Invalid user");
         }
 
-        Utils.copyNonNullProperties(mapper.putRequestToModel(userProfile), oldUserProfile);
+        PropertiesCopierUtils.copyNonNullProperties(mapper.putRequestToModel(userProfile), oldUserProfile);
 
         UserProfile userProfileUpdate = userProfileRepository.save(oldUserProfile);
         return mapper.modelToResponseDto(
