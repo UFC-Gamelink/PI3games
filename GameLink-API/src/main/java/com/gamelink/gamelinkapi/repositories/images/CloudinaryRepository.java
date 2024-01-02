@@ -41,14 +41,20 @@ public class CloudinaryRepository {
     }
 
     private File convert(MultipartFile file) {
-        File convFile = new File(file.getOriginalFilename());
         try {
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
+            return writeFile(file);
         } catch (IOException e) {
-            convFile = null;
+            return null;
+        }
+    }
+
+    private File writeFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        convFile.createNewFile();
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            fos.write(file.getBytes());
+        } catch (IOException e) {
+            throw new IOException();
         }
 
         return convFile;
