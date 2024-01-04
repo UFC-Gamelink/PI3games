@@ -3,7 +3,7 @@ package com.gamelink.gamelinkapi.mappers;
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
-import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
+import com.gamelink.gamelinkapi.models.CommunityModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

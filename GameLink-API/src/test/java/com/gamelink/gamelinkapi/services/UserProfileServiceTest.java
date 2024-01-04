@@ -2,13 +2,10 @@ package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
-import com.gamelink.gamelinkapi.models.users.User;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.user.User;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
-import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
-import com.gamelink.gamelinkapi.services.users.UserService;
 import com.gamelink.gamelinkapi.utils.creators.UserCreator;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
 import jakarta.persistence.EntityNotFoundException;

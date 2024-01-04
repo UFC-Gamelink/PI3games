@@ -2,7 +2,7 @@ package com.gamelink.gamelinkapi.mappers;
 
 import com.gamelink.gamelinkapi.dtos.requests.commentaries.CommentaryRequest;
 import com.gamelink.gamelinkapi.dtos.responses.commentaries.CommentaryResponse;
-import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
+import com.gamelink.gamelinkapi.models.CommentaryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

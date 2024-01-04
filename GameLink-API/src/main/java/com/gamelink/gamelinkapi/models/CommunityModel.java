@@ -1,9 +1,7 @@
-package com.gamelink.gamelinkapi.models.comunities;
+package com.gamelink.gamelinkapi.models;
 
-import com.gamelink.gamelinkapi.models.BaseModel;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

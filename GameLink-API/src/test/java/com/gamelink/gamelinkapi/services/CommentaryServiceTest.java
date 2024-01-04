@@ -1,31 +1,14 @@
 package com.gamelink.gamelinkapi.services;
 
-import com.gamelink.gamelinkapi.dtos.requests.commentaries.CommentaryRequest;
-import com.gamelink.gamelinkapi.dtos.responses.commentaries.CommentaryResponse;
 import com.gamelink.gamelinkapi.mappers.CommentaryMapper;
-import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
-import com.gamelink.gamelinkapi.models.posts.PostModel;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
 import com.gamelink.gamelinkapi.repositories.commentaries.CommentaryRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
-import com.gamelink.gamelinkapi.services.commentaries.CommentaryService;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CommentaryServiceTest {

@@ -5,7 +5,7 @@ import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralRes
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.communities.PostCommunityResponse;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
-import com.gamelink.gamelinkapi.services.communities.CommunityService;
+import com.gamelink.gamelinkapi.services.CommunityService;
 import com.gamelink.gamelinkapi.utils.creators.CommunityRequestCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

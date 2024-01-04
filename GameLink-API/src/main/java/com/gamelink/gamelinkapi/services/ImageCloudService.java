@@ -1,7 +1,7 @@
-package com.gamelink.gamelinkapi.services.cloudinary;
+package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
+import com.gamelink.gamelinkapi.models.ImageModel;
 import com.gamelink.gamelinkapi.repositories.images.CloudinaryRepository;
 import com.gamelink.gamelinkapi.repositories.images.ImageRepository;
 import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;

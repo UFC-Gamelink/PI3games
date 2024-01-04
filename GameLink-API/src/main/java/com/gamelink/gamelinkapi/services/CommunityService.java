@@ -1,4 +1,4 @@
-package com.gamelink.gamelinkapi.services.communities;
+package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.communities.CommunityRequest;
 import com.gamelink.gamelinkapi.dtos.responses.communities.CommunitiesGeneralResponse;
@@ -8,12 +8,9 @@ import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.CommunityMapper;
 import com.gamelink.gamelinkapi.models.BaseModel;
-import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.CommunityModel;
+import com.gamelink.gamelinkapi.models.user.User;
 import com.gamelink.gamelinkapi.repositories.communities.CommunityRepository;
-import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
-import com.gamelink.gamelinkapi.services.posts.PostService;
-import com.gamelink.gamelinkapi.services.users.UserService;
 import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

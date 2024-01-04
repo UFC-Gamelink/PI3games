@@ -2,7 +2,7 @@ package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.commentaries.CommentaryRequest;
 import com.gamelink.gamelinkapi.dtos.responses.commentaries.CommentaryResponse;
-import com.gamelink.gamelinkapi.services.commentaries.CommentaryService;
+import com.gamelink.gamelinkapi.services.CommentaryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,14 +1,13 @@
-package com.gamelink.gamelinkapi.services.commentaries;
+package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.commentaries.CommentaryRequest;
 import com.gamelink.gamelinkapi.dtos.responses.commentaries.CommentaryResponse;
 import com.gamelink.gamelinkapi.mappers.CommentaryMapper;
-import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
+import com.gamelink.gamelinkapi.models.CommentaryModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import com.gamelink.gamelinkapi.repositories.commentaries.CommentaryRepository;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -1,11 +1,12 @@
-package com.gamelink.gamelinkapi.models.users;
+package com.gamelink.gamelinkapi.models.user;
 
 import com.gamelink.gamelinkapi.enums.GameTime;
 import com.gamelink.gamelinkapi.enums.Gender;
 import com.gamelink.gamelinkapi.models.BaseModel;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
+import com.gamelink.gamelinkapi.models.ImageModel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user_profile_table")
 @EqualsAndHashCode(callSuper = true)
 public class UserProfile extends BaseModel {
     @NotBlank

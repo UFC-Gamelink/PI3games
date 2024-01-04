@@ -1,17 +1,15 @@
-package com.gamelink.gamelinkapi.services.users;
+package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
 import com.gamelink.gamelinkapi.exceptions.SaveThreatementException;
 import com.gamelink.gamelinkapi.mappers.UserProfileMapper;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
-import com.gamelink.gamelinkapi.models.users.User;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.ImageModel;
+import com.gamelink.gamelinkapi.models.user.User;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
 import com.gamelink.gamelinkapi.repositories.users.UserProfileRepository;
-import com.gamelink.gamelinkapi.services.ICrudService;
-import com.gamelink.gamelinkapi.services.cloudinary.ImageCloudService;
 import com.gamelink.gamelinkapi.utils.PropertiesCopierUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

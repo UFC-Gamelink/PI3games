@@ -2,7 +2,7 @@ package com.gamelink.gamelinkapi.controllers;
 
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
+import com.gamelink.gamelinkapi.services.UserProfileService;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileRequestCreator;
 import com.gamelink.gamelinkapi.utils.creators.UserProfileResponseCreator;
 import org.junit.jupiter.api.DisplayName;

@@ -3,7 +3,7 @@ package com.gamelink.gamelinkapi.controllers;
 import com.gamelink.gamelinkapi.dtos.requests.users.PostUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.requests.users.PutUserProfileRequest;
 import com.gamelink.gamelinkapi.dtos.responses.users.UserProfileResponse;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
+import com.gamelink.gamelinkapi.services.UserProfileService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

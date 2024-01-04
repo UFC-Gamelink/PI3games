@@ -1,6 +1,7 @@
 package com.gamelink.gamelinkapi.models.posts;
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class EventPostModel extends PostModel {
+    @NotNull
     private double latitude;
+    @NotNull
     private double longitude;
     private LocalDateTime eventDate;
 }

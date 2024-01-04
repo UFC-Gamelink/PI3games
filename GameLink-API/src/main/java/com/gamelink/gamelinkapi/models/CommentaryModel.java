@@ -1,8 +1,7 @@
-package com.gamelink.gamelinkapi.models.commentaries;
+package com.gamelink.gamelinkapi.models;
 
-import com.gamelink.gamelinkapi.models.BaseModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;

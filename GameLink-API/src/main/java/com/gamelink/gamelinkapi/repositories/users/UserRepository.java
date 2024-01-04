@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.repositories.users;
 
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.user.User;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

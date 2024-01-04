@@ -4,7 +4,7 @@ import com.gamelink.gamelinkapi.dtos.requests.authentication.AuthenticationReque
 import com.gamelink.gamelinkapi.dtos.requests.authentication.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.authentication.AuthenticationResponse;
 import com.gamelink.gamelinkapi.exceptions.RequestExceptionDetails;
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.user.User;
 import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
 package com.gamelink.gamelinkapi.models.posts;
 
 import com.gamelink.gamelinkapi.models.BaseModel;
-import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
-import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.CommentaryModel;
+import com.gamelink.gamelinkapi.models.CommunityModel;
+import com.gamelink.gamelinkapi.models.ImageModel;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

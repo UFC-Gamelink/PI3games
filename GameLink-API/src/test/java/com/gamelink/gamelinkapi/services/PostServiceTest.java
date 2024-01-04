@@ -2,10 +2,8 @@ package com.gamelink.gamelinkapi.services;
 
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
-import com.gamelink.gamelinkapi.models.users.UserProfile;
+import com.gamelink.gamelinkapi.models.user.UserProfile;
 import com.gamelink.gamelinkapi.repositories.posts.PostRepository;
-import com.gamelink.gamelinkapi.services.posts.PostService;
-import com.gamelink.gamelinkapi.services.users.UserProfileService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

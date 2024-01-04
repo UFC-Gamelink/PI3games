@@ -2,7 +2,7 @@ package com.gamelink.gamelinkapi.repositories.images;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.gamelink.gamelinkapi.models.images.ImageModel;
+import com.gamelink.gamelinkapi.models.ImageModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;

@@ -3,7 +3,7 @@ package com.gamelink.gamelinkapi.controllers;
 import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
-import com.gamelink.gamelinkapi.services.posts.PostService;
+import com.gamelink.gamelinkapi.services.PostService;
 import com.gamelink.gamelinkapi.utils.creators.PostCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

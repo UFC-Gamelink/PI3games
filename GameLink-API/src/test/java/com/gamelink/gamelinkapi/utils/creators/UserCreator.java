@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.utils.creators;
 
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.user.User;
 
 import java.util.UUID;
 

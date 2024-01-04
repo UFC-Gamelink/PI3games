@@ -3,7 +3,7 @@ package com.gamelink.gamelinkapi.controllers;
 import com.gamelink.gamelinkapi.dtos.requests.authentication.AuthenticationRequest;
 import com.gamelink.gamelinkapi.dtos.requests.authentication.RegisterRequest;
 import com.gamelink.gamelinkapi.dtos.responses.authentication.AuthenticationResponse;
-import com.gamelink.gamelinkapi.services.users.AuthenticationService;
+import com.gamelink.gamelinkapi.services.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

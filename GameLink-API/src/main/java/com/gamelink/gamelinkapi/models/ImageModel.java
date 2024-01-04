@@ -1,7 +1,7 @@
-package com.gamelink.gamelinkapi.models.images;
+package com.gamelink.gamelinkapi.models;
 
-import com.gamelink.gamelinkapi.models.BaseModel;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "image_table")
 @EqualsAndHashCode(callSuper = true)
 public class ImageModel extends BaseModel {
     @NotBlank

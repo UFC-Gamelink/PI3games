@@ -1,7 +1,7 @@
 package com.gamelink.gamelinkapi.repositories.communities;
 
-import com.gamelink.gamelinkapi.models.comunities.CommunityModel;
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.CommunityModel;
+import com.gamelink.gamelinkapi.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

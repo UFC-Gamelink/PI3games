@@ -1,6 +1,6 @@
-package com.gamelink.gamelinkapi.services.users;
+package com.gamelink.gamelinkapi.services;
 
-import com.gamelink.gamelinkapi.models.users.User;
+import com.gamelink.gamelinkapi.models.user.User;
 import com.gamelink.gamelinkapi.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

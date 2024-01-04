@@ -1,6 +1,6 @@
 package com.gamelink.gamelinkapi.repositories.commentaries;
 
-import com.gamelink.gamelinkapi.models.commentaries.CommentaryModel;
+import com.gamelink.gamelinkapi.models.CommentaryModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
