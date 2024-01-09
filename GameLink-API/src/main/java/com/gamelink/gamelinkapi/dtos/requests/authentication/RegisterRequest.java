@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 public record RegisterRequest(
         @NotBlank String username,
         @Email @NotBlank String email,
+        @NotBlank
         @Pattern(regexp = "(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$") String password
 ) {
 }
