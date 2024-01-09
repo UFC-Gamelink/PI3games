@@ -1,12 +1,10 @@
 package com.gamelink.gamelinkapi.services;
 
-import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.mappers.PostMapper;
 import com.gamelink.gamelinkapi.models.CommunityModel;
 import com.gamelink.gamelinkapi.models.ImageModel;
-import com.gamelink.gamelinkapi.models.posts.EventPostModel;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeId;
 import com.gamelink.gamelinkapi.models.posts.likes.LikeModel;
@@ -20,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,19 +34,18 @@ public class PostService {
     private static final PostMapper postMapper = PostMapper.INSTANCE;
 
     @Transactional
-    public UUID save(MultipartFile image, String description) {
+    public void save(PostRequest postRequest) {
         var userProfileFounded = userProfileService.findUserProfileByContext();
 
-        PostModel postToBeSaved = new PostModel();
+        PostModel postToBeSaved = postMapper.requestToModel(postRequest);
         postToBeSaved.setOwner(userProfileFounded);
-        postToBeSaved.setDescription(description);
 
-        if (image != null) {
-            ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(image);
+        if (postRequest.image() != null) {
+            ImageModel imageSaved = imageCloudService.saveImageOrThrowSaveThreatementException(postRequest.image());
             postToBeSaved.setImage(imageSaved);
         }
 
-        return postRepository.save(postToBeSaved).getId();
+        postRepository.save(postToBeSaved);
     }
 
     public List<PostResponse> findAll() {
@@ -89,14 +85,6 @@ public class PostService {
         return !postIsLiked;
     }
 
-    public void saveEventPost(EventPostRequest eventPostRequest) {
-        var userProfileFounded = userProfileService.findUserProfileByContext();
-
-        var eventPostToBeSaved = postMapper.requestToEventModel(eventPostRequest);
-        eventPostToBeSaved.setOwner(userProfileFounded);
-        postRepository.save(eventPostToBeSaved);
-    }
-
     public void saveCommunityPost(UUID communityId, PostRequest postRequest) {
         var userProfileFounded = userProfileService.findUserProfileByContext();
         var postToBeSaved = postMapper.requestToModel(postRequest);
@@ -117,7 +105,6 @@ public class PostService {
         } else {
             throw new BadCredentialsException("You can't add posts to this community");
         }
-
     }
 
     public List<PostResponse> findRecommended() {
@@ -127,15 +114,8 @@ public class PostService {
                 .toList();
     }
 
-
     public PostResponse prepareResponse(PostModel post) {
-        PostResponse postResponse;
-
-        if (post instanceof EventPostModel eventPostModel) {
-            postResponse = postMapper.modelToEventResponse(eventPostModel);
-        } else {
-            postResponse = postMapper.modelToResponse(post);
-        }
+        PostResponse postResponse = postMapper.modelToResponse(post);
 
         postResponse.setLiked(postIsLikedByThisUser(buildLikeId(post.getId())));
         postResponse.setLikeQuantity(likeRepository.countById_Post_Id(post.getId()));

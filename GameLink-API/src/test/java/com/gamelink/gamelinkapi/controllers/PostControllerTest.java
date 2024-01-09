@@ -1,6 +1,5 @@
 package com.gamelink.gamelinkapi.controllers;
 
-import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.PostService;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,9 +34,9 @@ class PostControllerTest {
     void postShouldReturnACreatedStatusWhenSuccess() {
         final var postText = "post text";
 
-        ResponseEntity<PostResponse> response = controller.post(postText);
+        ResponseEntity<Void> response = controller.post(postText);
 
-        verify(service, times(1)).save(null, postText);
+        verify(service, times(1)).save(any());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
@@ -114,20 +112,9 @@ class PostControllerTest {
         final var postText = "post text";
         final var image = Mockito.mock(MultipartFile.class);
 
-        ResponseEntity<PostResponse> response = controller.post(image, postText);
+        ResponseEntity<Void> response = controller.post(image, postText);
 
-        verify(service, times(1)).save(image, postText);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    @DisplayName("Post event should  execute saveEventPost in post Service and return a Created status when success")
-    void postEventSuccess() {
-        final var postRequest = new EventPostRequest("text", 1.2, 1.2, LocalDateTime.now());
-
-        ResponseEntity<PostResponse> response = controller.post(postRequest);
-
-        verify(service, times(1)).saveEventPost(postRequest);
+        verify(service, times(1)).save(any());
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 }

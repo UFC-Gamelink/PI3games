@@ -1,11 +1,10 @@
 package com.gamelink.gamelinkapi.controllers;
 
-import com.gamelink.gamelinkapi.dtos.requests.posts.EventPostRequest;
 import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.services.PostService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,29 +21,23 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/image")
-    public ResponseEntity<PostResponse> post(
-            @RequestPart MultipartFile image,
-            @RequestPart @NotBlank String description
+    public ResponseEntity<Void> post(
+            @RequestPart @NotNull MultipartFile image,
+            @RequestPart String description
     ) {
-        postService.save(image, description);
+        PostRequest postRequest = new PostRequest(description, image);
+        postService.save(postRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
     }
 
     @PostMapping
-    public ResponseEntity<PostResponse> post(
+    public ResponseEntity<Void> post(
             @RequestPart @NotBlank String description
     ) {
-        postService.save(null, description);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
-    }
-
-    @PostMapping("/event")
-    public ResponseEntity<PostResponse> post(@RequestBody @Valid EventPostRequest eventPostRequest) {
-        postService.saveEventPost(eventPostRequest);
+        PostRequest postRequest = new PostRequest(description, null);
+        postService.save(postRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();

@@ -1,5 +1,6 @@
 package com.gamelink.gamelinkapi.services;
 
+import com.gamelink.gamelinkapi.dtos.requests.posts.PostRequest;
 import com.gamelink.gamelinkapi.dtos.responses.posts.PostResponse;
 import com.gamelink.gamelinkapi.models.posts.PostModel;
 import com.gamelink.gamelinkapi.models.user.UserProfile;
@@ -42,13 +43,10 @@ class PostServiceTest {
                 }
         );
 
-        var postIdSaved = service.save(null, text);
+        service.save(new PostRequest(text,null));
 
         verify(userProfileService, times(1)).findUserProfileByContext();
         verify(repository, times(1)).save(any());
-
-        assertNotNull(postIdSaved);
-        assertEquals(postId, postIdSaved);
     }
 
     @Test
